@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="level_array">
+        <item>Difficoltà</item>
+        <item>Facile</item>
+        <item>Normale</item>
+        <item>Difficile</item>
+    </string-array>
+    <string-array name="category_array">
+        <item>Tipo di Piatto</item>
+        <item>Antipasto</item>
+        <item>Primo</item>
+        <item>Secondo</item>
+        <item>Contorno</item>
+        <item>Dessert</item>
+    </string-array>
+</resources>

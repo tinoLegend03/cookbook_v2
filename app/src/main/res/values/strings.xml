@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">CookBook</string>
+    <string name="navigation_drawer_open">Apri menu</string>
+    <string name="navigation_drawer_close">Chiudi menu</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="step_message">%1$s %2$s\n</string>
+    <string name="minuti">minuti</string>
+    <string name="secondi">secondi</string>
+    <string name="start_button">start</string>
+    <string name="stop_button">stop</string>
+    <string name="timer_value">timer_value</string>
+    <string name="channel_description">descrizione_canale</string>
+    <string name="done">Done</string>
+    <string name="nome_ricetta">Nome Ricetta</string>
+    <string name="descrizione">Descrizione</string>
+    <string name="livello">Livello</string>
+    <string name="categoria">Categoria</string>
+    <string name="durata">Durata</string>
+    <string name="ingredienti">Ingredienti</string>
+    <string name="aggiungi_ingrediente">Aggiungi Ingrediente</string>
+    <string name="steps">Steps</string>
+    <string name="aggiungi_step">Aggiungi Step</string>
+    <string name="seleziona_allergeni">Seleziona allergeni</string>
+    <string name="aggiungi">Aggiungi</string>
+    <string name="quantita_ingrediente">Quantita</string>
+    <string name="nome_ingrediente">Nome</string>
+    <string name="delete_button">delete_button</string>
+    <string name="number_step">0</string>
+    <string name="descrizione_step">Descrizione</string>
+    <string name="difficolta">Categoria</string>
+    <string name="time_timer">00:00</string>
+
+</resources>

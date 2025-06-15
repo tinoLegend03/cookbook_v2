@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/number_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/number_step"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@id/description_step"
+        />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:id="@+id/description_step"
+        android:hint="@string/descrizione_step"
+        android:autofillHints="username"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toEndOf="@id/number_step"
+        app:layout_constraintEnd_toStartOf="@id/trash_button_steps"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="10dp"
+        />
+
+    <ImageButton
+        android:id="@+id/trash_button_steps"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/delete_button"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBaseline_toBaselineOf="@id/description_step"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/description_step" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

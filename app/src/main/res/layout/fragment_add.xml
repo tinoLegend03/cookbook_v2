@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/formContainer"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="5dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="3dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="3dp" />
+
+        <EditText
+            android:id="@+id/addRecipeName_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nome_ricetta"
+            android:inputType="text"
+            android:autofillHints="username"
+            app:layout_constraintTop_toBottomOf="@id/guideline_start_horizontal"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
+            />
+
+        <EditText
+            android:id="@+id/addRecipeDescription_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/descrizione"
+            android:inputType="text"
+            android:autofillHints="username"
+            app:layout_constraintTop_toBottomOf="@id/addRecipeName_et"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_vertical" />
+
+        <Spinner
+            android:id="@+id/addRecipeLevel_et"
+            android:layout_marginTop="10dp"
+            android:layout_width="171dp"
+            android:layout_height="48dp"
+            android:text="@string/difficolta"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
+            app:layout_constraintTop_toBottomOf="@id/addRecipeDescription_et" />
+
+        <Spinner
+            android:id="@+id/addRecipeCategory_et"
+            android:layout_marginTop="10dp"
+            android:layout_width="171dp"
+            android:layout_height="48dp"
+            android:text="@string/categoria"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical"
+            app:layout_constraintTop_toBottomOf="@id/addRecipeDescription_et" />
+
+        <EditText
+            android:id="@+id/addDuration_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/durata"
+            android:inputType="number"
+            android:autofillHints="username"
+            app:layout_constraintTop_toBottomOf="@id/addRecipeCategory_et"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_vertical" />
+
+        <TextView
+            android:id="@+id/textIngredienti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ingredienti"
+            app:layout_constraintTop_toBottomOf="@id/addDuration_et"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
+            app:layout_constraintBaseline_toBaselineOf="@id/addIngredientBtn"/>
+
+        <Button
+            android:id="@+id/addIngredientBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/aggiungi_ingrediente"
+            app:layout_constraintTop_toBottomOf="@id/addDuration_et"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ingredientContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addIngredientBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"/>
+
+
+        <TextView
+            android:id="@+id/textSteps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/steps"
+            app:layout_constraintTop_toBottomOf="@id/ingredientContainer"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_vertical" />
+
+        <Button
+            android:id="@+id/addStepBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/aggiungi_step"
+            app:layout_constraintTop_toBottomOf="@id/ingredientContainer"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stepContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline_end_vertical"
+            app:layout_constraintTop_toBottomOf="@id/addStepBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"/>
+
+        <TextView
+            android:id="@+id/addAllergeni_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seleziona_allergeni"
+            app:layout_constraintTop_toBottomOf="@id/stepContainer"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
+            android:layout_marginStart="5dp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupAllergeni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="false"
+            app:selectionRequired="false"
+            app:layout_constraintTop_toBottomOf="@id/addAllergeni_et"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
+            />
+
+        <Button
+            android:id="@+id/add_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/aggiungi"
+            app:layout_constraintTop_toBottomOf="@id/chipGroupAllergeni"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

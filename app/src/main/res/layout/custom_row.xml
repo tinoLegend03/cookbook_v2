@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <!-- Immagine della ricetta -->
+        <ImageView
+            android:id="@+id/recipe_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_food"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Informazioni della ricetta -->
+        <LinearLayout
+            android:id="@+id/infoLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/recipe_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- Nome Ricetta -->
+            <TextView
+                android:id="@+id/recipe_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nome Ricetta"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Tempo e Difficoltà -->
+            <TextView
+                android:id="@+id/recipe_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tempo • Difficoltà"
+                android:textSize="12sp" />
+
+            <!-- Ultima volta -->
+            <TextView
+                android:id="@+id/recipe_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ultima volta: 1 giorno fa"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Icône Modifica ed Elimina + Nuova Icona -->
+        <LinearLayout
+            android:id="@+id/iconsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.5">
+
+            <!-- Nuova Icona -->
+            <ImageButton
+                android:id="@+id/new_icon_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_button_background"
+                android:src="@drawable/ic_start"
+            android:contentDescription="Nuova azione"
+            app:tint="@android:color/darker_gray"
+            android:layout_marginEnd="8dp" />
+
+            <!-- Icona Modifica -->
+            <ImageButton
+                android:id="@+id/update_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_button_background"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="Modifica"
+                app:tint="@android:color/darker_gray"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Icona Elimina -->
+            <ImageButton
+                android:id="@+id/delete_btn_row"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_button_background"
+                android:src="@drawable/ic_delete"
+                android:contentDescription="Elimina"
+                app:tint="@android:color/darker_gray" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

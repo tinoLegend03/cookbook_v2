@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <EditText
+        android:id="@+id/nomeIngrediente"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="no"
+        android:inputType="text"
+        android:text="@string/nome_ingrediente"
+        app:layout_constraintEnd_toStartOf="@+id/quantitaIngrediente"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/deleteButton_ingr"
+        android:hint="@string/nome_ingrediente"/>
+
+    <EditText
+        android:id="@+id/quantitaIngrediente"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="username"
+        android:inputType="text"
+        android:text="@string/quantita_ingrediente"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton_ingr"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/nomeIngrediente"
+        tools:layout_editor_absoluteY="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/deleteButton_ingr"
+        android:hint="@string/quantita_ingrediente" />
+
+    <ImageButton
+        android:id="@+id/deleteButton_ingr"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/quantitaIngrediente"
+        app:srcCompat="@drawable/ic_delete"
+        android:contentDescription="@string/delete_button"
+        app:layout_constraintTop_toTopOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
