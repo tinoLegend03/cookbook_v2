@@ -53,7 +53,7 @@ class AddFragment : Fragment() {
                 setTitle("Stai uscendo senza salvare")
                 setMessage("Salva per non perdere le modifiche")
                 setPositiveButton("Save") { _, _ ->
-                    //saveData()
+                    insertDataToDatabase()
                     Toast.makeText(requireContext(), "clicked save", Toast.LENGTH_SHORT).show()
                 }
                 setNegativeButton("Delete") { _, _ ->

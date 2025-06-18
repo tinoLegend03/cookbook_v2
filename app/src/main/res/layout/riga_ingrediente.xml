@@ -41,7 +41,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/quantitaIngrediente"
-        app:srcCompat="@drawable/ic_delete"
+        android:background="@drawable/round_button_background"
+        android:src="@drawable/ic_delete"
         android:contentDescription="@string/delete_button"
         app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
