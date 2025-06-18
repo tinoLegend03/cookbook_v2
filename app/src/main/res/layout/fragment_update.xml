@@ -39,26 +39,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/updateRecipeName_et" />
 
-        <EditText
+        <Spinner
             android:id="@+id/updateRecipeLevel_et"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="Livello"
+            android:text="@string/livello"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/updateRecipeDescription_et" />
 
-        <EditText
+        <Spinner
             android:id="@+id/updateRecipeCategory_et"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="Categoria"
+            android:text="@string/categoria"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

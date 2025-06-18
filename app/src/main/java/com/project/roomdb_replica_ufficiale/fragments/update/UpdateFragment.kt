@@ -56,9 +56,32 @@ class UpdateFragment : Fragment() {
 
         binding.updateRecipeNameEt.setText(args.currentRecipe.nomeRicetta)
         binding.updateDurationEt.setText(args.currentRecipe.durata.toString())
-        binding.updateRecipeLevelEt.setText(args.currentRecipe.livello)
-        binding.updateRecipeCategoryEt.setText(args.currentRecipe.categoria)
         binding.updateRecipeDescriptionEt.setText(args.currentRecipe.descrizione)
+
+        ArrayAdapter.createFromResource(requireContext(), R.array.level_array,
+                android.R.layout.simple_spinner_item).also { spinnerAdapter ->
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.updateRecipeLevelEt.adapter = spinnerAdapter
+        }
+        ArrayAdapter.createFromResource(requireContext(), R.array.category_array,
+            android.R.layout.simple_spinner_item).also { spinnerAdapter ->
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.updateRecipeCategoryEt.adapter = spinnerAdapter
+        }
+
+        for(i in 0 until binding.updateRecipeLevelEt.count){
+            val toSelect = binding.updateRecipeLevelEt.getItemAtPosition(i)
+            if (toSelect == args.currentRecipe.livello){
+                binding.updateRecipeLevelEt.setSelection(i)
+            }
+        }
+        for(i in 0 until binding.updateRecipeCategoryEt.count){
+            val toSelect = binding.updateRecipeCategoryEt.getItemAtPosition(i)
+
+            if (toSelect == args.currentRecipe.categoria){
+                binding.updateRecipeCategoryEt.setSelection(i)
+            }
+        }
 
         val nomeRicetta = args.currentRecipe.nomeRicetta
 
@@ -197,12 +220,21 @@ class UpdateFragment : Fragment() {
     private fun updateItem(){
         val nomeRicetta = binding.updateRecipeNameEt.text.toString()
         val durata = Integer.parseInt(binding.updateDurationEt.text.toString())
-        val livello = binding.updateRecipeLevelEt.text.toString()
-        val categoria = binding.updateRecipeCategoryEt.text.toString()
         val descrizione = binding.updateRecipeDescriptionEt.text.toString()
         val ultimaModifica = System.currentTimeMillis()
         val ultimaEsecuzione = System.currentTimeMillis()
         val count = args.currentRecipe.count
+
+        val posLivello = binding.updateRecipeLevelEt.lastVisiblePosition
+        val posCategoria = binding.updateRecipeCategoryEt.lastVisiblePosition
+
+        if(posLivello == 0 || posCategoria == 0) {
+            Toast.makeText(requireContext(), "Please fill put all fields.", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val livello = binding.updateRecipeLevelEt.selectedItem.toString()
+        val categoria = binding.updateRecipeCategoryEt.selectedItem.toString()
 
         val istruzioni = mutableListOf<Istruzione>()
         istruzioni.clear()
@@ -270,68 +302,68 @@ class UpdateFragment : Fragment() {
     }
 
 
-    private fun insertDataToDatabase() {
-        val nomeRicetta = binding.updateRecipeNameEt.text.toString()
-        val durata = binding.updateDurationEt.text
-        val livello = binding.updateRecipeLevelEt.text.toString()
-        val categoria = binding.updateRecipeCategoryEt.text.toString()
-        val descrizione = binding.updateRecipeDescriptionEt.text.toString()
-        val ultimaModifica = System.currentTimeMillis()
-        val ultimaEsecuzione = System.currentTimeMillis()
-        val count = args.currentRecipe.count
-
-        val istruzioni = mutableListOf<Istruzione>()
-        for (i in 0 until binding.updateStepContainer.childCount) {
-            val view = binding.updateStepContainer.getChildAt(i)
-            if (view is EditText) {
-                val testo = view.text.toString().trim()
-                if (testo.isNotEmpty()) {
-                    istruzioni.add(Istruzione(0, nomeRicetta, i + 1, testo))
-                }
-            }
-        }
-
-
-        val ingredientiList = mutableListOf<RicettaIngrediente>()
-
-        for (i in 0 until binding.updateIngredientContainer.childCount) {
-            val row = binding.updateIngredientContainer.getChildAt(i)
-            if (row is LinearLayout && row.childCount == 2) {
-                val nomeEt = row.getChildAt(0) as? EditText
-                val quantitaEt = row.getChildAt(1) as? EditText
-
-                val nome = nomeEt?.text.toString().trim()
-                val quantita = quantitaEt?.text.toString().trim()
-
-                if (nome.isNotEmpty() && quantita.isNotEmpty()) {
-                    ingredientiList.add(RicettaIngrediente(nomeRicetta, nome, quantita))
-                }
-            }
-        }
-
-        val allergeniSelezionati = mutableListOf<String>()
-        /*for (i in 0 until binding.chipGroupAllergeniUpdate.childCount) {
-            val chip = binding.chipGroupAllergeniUpdate.getChildAt(i) as Chip
-            if (chip.isChecked) {
-                allergeniSelezionati.add(chip.text.toString())
-            }
-        }*/
-
-
-        if(inputCheck(nomeRicetta, durata, livello, categoria, descrizione)){
-            //Create Recipe Object
-            val ricetta = Ricetta(nomeRicetta, Integer.parseInt(durata.toString()), livello, categoria, descrizione, ultimaModifica, ultimaEsecuzione, count, allergeniSelezionati)
-            //Add Data to Database
-            mRecipeViewModel.inserisciRicettaCompleta(ricetta, istruzioni, ingredientiList)
-            //mRecipeViewModel.nuovaRicetta(ricetta)
-            Toast.makeText(requireContext(), "Succesfully added!", Toast.LENGTH_LONG).show()
-            //Navigate Back
-            findNavController().navigate(R.id.action_addFragment_to_listFragment)
-
-        }else{
-            Toast.makeText(requireContext(), "Please fill put all fields.", Toast.LENGTH_LONG).show()
-        }
-    }
+//    private fun insertDataToDatabase() {
+//        val nomeRicetta = binding.updateRecipeNameEt.text.toString()
+//        val durata = binding.updateDurationEt.text
+////        val livello = binding.updateRecipeLevelEt.text.toString()
+////        val categoria = binding.updateRecipeCategoryEt.text.toString()
+//        val descrizione = binding.updateRecipeDescriptionEt.text.toString()
+//        val ultimaModifica = System.currentTimeMillis()
+//        val ultimaEsecuzione = System.currentTimeMillis()
+//        val count = args.currentRecipe.count
+//
+//        val istruzioni = mutableListOf<Istruzione>()
+//        for (i in 0 until binding.updateStepContainer.childCount) {
+//            val view = binding.updateStepContainer.getChildAt(i)
+//            if (view is EditText) {
+//                val testo = view.text.toString().trim()
+//                if (testo.isNotEmpty()) {
+//                    istruzioni.add(Istruzione(0, nomeRicetta, i + 1, testo))
+//                }
+//            }
+//        }
+//
+//
+//        val ingredientiList = mutableListOf<RicettaIngrediente>()
+//
+//        for (i in 0 until binding.updateIngredientContainer.childCount) {
+//            val row = binding.updateIngredientContainer.getChildAt(i)
+//            if (row is LinearLayout && row.childCount == 2) {
+//                val nomeEt = row.getChildAt(0) as? EditText
+//                val quantitaEt = row.getChildAt(1) as? EditText
+//
+//                val nome = nomeEt?.text.toString().trim()
+//                val quantita = quantitaEt?.text.toString().trim()
+//
+//                if (nome.isNotEmpty() && quantita.isNotEmpty()) {
+//                    ingredientiList.add(RicettaIngrediente(nomeRicetta, nome, quantita))
+//                }
+//            }
+//        }
+//
+//        val allergeniSelezionati = mutableListOf<String>()
+//        /*for (i in 0 until binding.chipGroupAllergeniUpdate.childCount) {
+//            val chip = binding.chipGroupAllergeniUpdate.getChildAt(i) as Chip
+//            if (chip.isChecked) {
+//                allergeniSelezionati.add(chip.text.toString())
+//            }
+//        }*/
+//
+//
+//        if(inputCheck(nomeRicetta, durata, livello, categoria, descrizione)){
+//            //Create Recipe Object
+//            val ricetta = Ricetta(nomeRicetta, Integer.parseInt(durata.toString()), livello, categoria, descrizione, ultimaModifica, ultimaEsecuzione, count, allergeniSelezionati)
+//            //Add Data to Database
+//            mRecipeViewModel.inserisciRicettaCompleta(ricetta, istruzioni, ingredientiList)
+//            //mRecipeViewModel.nuovaRicetta(ricetta)
+//            Toast.makeText(requireContext(), "Succesfully added!", Toast.LENGTH_LONG).show()
+//            //Navigate Back
+//            findNavController().navigate(R.id.action_addFragment_to_listFragment)
+//
+//        }else{
+//            Toast.makeText(requireContext(), "Please fill put all fields.", Toast.LENGTH_LONG).show()
+//        }
+//    }
 
 
     private fun inputCheck(nomeRicetta: String, durata: Editable, livello: String, categoria: String, descrizione: String): Boolean{
