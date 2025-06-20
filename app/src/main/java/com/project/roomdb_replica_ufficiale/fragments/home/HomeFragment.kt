@@ -77,6 +77,10 @@ class HomeFragment : Fragment() {
             Toast.makeText(context, "No need permission", Toast.LENGTH_SHORT).show()
         }
 
+        binding.btnSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
+        }
+
         return binding.root
     }
     override fun onDestroyView() {

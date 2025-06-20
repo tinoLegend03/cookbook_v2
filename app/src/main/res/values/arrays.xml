@@ -14,4 +14,10 @@
         <item>Contorno</item>
         <item>Dessert</item>
     </string-array>
+
+    <string-array name="choose_theme">
+        <item>Light mode</item>
+        <item>Dark mode</item>
+        <item>System</item>
+    </string-array>
 </resources>

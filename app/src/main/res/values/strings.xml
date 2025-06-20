@@ -15,7 +15,7 @@
     <string name="descrizione">Descrizione</string>
     <string name="livello">Livello</string>
     <string name="categoria">Categoria</string>
-    <string name="durata">Durata</string>
+    <string name="durata">Durata in minuti</string>
     <string name="ingredienti">Ingredienti</string>
     <string name="aggiungi_ingrediente">Aggiungi Ingrediente</string>
     <string name="steps">Steps</string>
