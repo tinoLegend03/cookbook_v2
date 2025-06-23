@@ -9,6 +9,7 @@
         app:useSimpleSummaryProvider="true"
         android:entries="@array/choose_theme"
         android:entryValues="@array/choose_theme"
+        app:defaultValue="System"
         android:dialogTitle="Scegli tema"/>
 
 </PreferenceScreen>

@@ -1,21 +1,12 @@
 package com.project.roomdb_replica_ufficiale
 
+import android.os.Build
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.navigation.NavigationView
-import com.project.roomdb_replica_ufficiale.fragments.detail.DetailFragment
-
 
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
@@ -23,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.project.roomdb_replica_ufficiale.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -35,6 +27,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //GESTIONE TEMA SCUSO
+        //non so se contesto corretto
+        val preference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        var theme: String
+        if(Build.VERSION.SDK_INT < 29){
+            theme = preference.getString("theme", "Light mode") ?: "Light mode"
+
+        } else {
+            theme = preference.getString("theme", "System") ?: "System"
+        }
+        Log.d("THEME VALUE", theme)
+        if(theme == "Dark mode"){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else if (theme == "Light mode") {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+        //FINE GESTIONE TEMA SCURO
+
 
         // Trova la Toolbar e il DrawerLayout dal layout
         val toolbar: Toolbar = binding.toolbar

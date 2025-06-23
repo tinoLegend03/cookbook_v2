@@ -20,4 +20,8 @@
         <item>Dark mode</item>
         <item>System</item>
     </string-array>
+    <string-array name="choose_themev28">
+        <item>Light mode</item>
+        <item>Dark mode</item>
+    </string-array>
 </resources>

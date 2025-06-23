@@ -12,20 +12,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.navigation.NavigationView
 import com.project.roomdb_replica_ufficiale.R
 import com.project.roomdb_replica_ufficiale.data.ricetta.RicettaViewModel
 import com.project.roomdb_replica_ufficiale.databinding.FragmentHomeBinding
-import com.project.roomdb_replica_ufficiale.databinding.FragmentListBinding
-import com.project.roomdb_replica_ufficiale.fragments.list.ListAdapter
 import androidx.lifecycle.Observer
 import com.project.roomdb_replica_ufficiale.adapter.RecentRecipesAdapter
 
@@ -40,7 +32,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
