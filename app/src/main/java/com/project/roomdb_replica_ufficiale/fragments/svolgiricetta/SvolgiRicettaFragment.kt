@@ -36,6 +36,7 @@ class SvolgiRicettaFragment: Fragment() {
     companion object {
         //Add key Strings for use with the Bundle
         const val MBOUND_KEY = "mbound"
+        const val CURRENT_STEP = "current_step"
 
         const val NAME_RICETTA = "name_ricetta"
 
@@ -158,9 +159,12 @@ class SvolgiRicettaFragment: Fragment() {
         _binding = FragmentSvolgiRicettaBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        //istanzo la gestione della ricetta da cui prendo gli step
         mRicettaViewModel = ViewModelProvider(this)[RicettaViewModel::class.java]
 
+        //args per accedere al parametro passato
         val args = SvolgiRicettaFragmentArgs.fromBundle(requireArguments())
+
         if (args.currentRecipe == null) { //accedo dalla notifica, non ho NavArgs
             val preferences = requireActivity().getPreferences(MODE_PRIVATE)
 
@@ -172,7 +176,24 @@ class SvolgiRicettaFragment: Fragment() {
             nameRecipe = args.currentRecipe.nomeRicetta
         }
 
+        //GESTIONE TIMER
+        if(savedInstanceState != null){
+            mBound = savedInstanceState.getBoolean(MBOUND_KEY)
+
+            if(mBound) {
+                val action = TimerService.ACTION_RESUME
+
+                val intent = Intent(ctx, TimerService::class.java).apply {
+                    this.action = action
+                    putExtra(EXTRA_START_TIMER, pendingTimeLeft)
+                }
+
+                ctx.startForegroundService(intent)
+                ctx.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+            }
+        }
         binding.seekBar.isEnabled = true
+        binding.seekBar.setOnClickListener{ }
         binding.nameRecipe.text = nameRecipe
 
         mRicettaViewModel.getRicettaConIstruzioni(nameRecipe).observe(viewLifecycleOwner) { dati ->
@@ -182,7 +203,12 @@ class SvolgiRicettaFragment: Fragment() {
                 binding.stepText.text = getString(R.string.step_message, binding.stepText.text, it.descrizione)
             }
             totalStep = steps.size
-            currentStep = 0
+
+            if(savedInstanceState != null) {
+                currentStep = savedInstanceState.getInt(CURRENT_STEP)
+            } else {
+                currentStep = 0
+            }
 
             updateButtons()
             if (totalStep > 1){
@@ -194,8 +220,8 @@ class SvolgiRicettaFragment: Fragment() {
             } else {
                 binding.seekBar.progress = binding.seekBar.max
                 seekBarFinished(ctx)
-
             }
+
             if(totalStep == 0){
                 Toast.makeText(ctx, "Non presenta step", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_svolgiRicettaFragment_to_listFragment)
@@ -236,28 +262,14 @@ class SvolgiRicettaFragment: Fragment() {
         binding.stepBack.setOnClickListener {
             if(currentStep > 0){
                 currentStep--
+                seekBarNotFinishedYed(ctx)
                 updateText()
                 binding.seekBar.progress -= valueBar
             }
             updateButtons()
         }
 
-        //GESTIONE TIMER
-        if(savedInstanceState != null){
-            mBound = savedInstanceState.getBoolean(MBOUND_KEY)
 
-            if(mBound) {
-                val action = TimerService.ACTION_RESUME
-
-                val intent = Intent(ctx, TimerService::class.java).apply {
-                    this.action = action
-                    putExtra(EXTRA_START_TIMER, pendingTimeLeft)
-                }
-
-                ctx.startForegroundService(intent)
-                ctx.bindService(intent, connection, Context.BIND_AUTO_CREATE)
-            }
-        }
 
         //listener per risultato TIMEPICKER
         setFragmentResultListener(TimePickerFragment.REQUEST_KEY) { requestKey, bundle -> //se arriva la richiesta da TIMEPICKER
@@ -362,21 +374,30 @@ class SvolgiRicettaFragment: Fragment() {
         val tint = ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.green))
         binding.seekBar.progressTintList = tint
     }
-    private fun finishButton(ctx: Context) {
-        val tint = ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.green))
+    private fun seekBarNotFinishedYed(ctx: Context) {
+        val tint = ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.red))
+        binding.seekBar.progressTintList = tint
     }
 
-        private fun updateButtons() {
-        if(currentStep == totalStep-1){
-            binding.stepForward.text = "Done"
-        } else {
-            binding.stepForward.isEnabled = true
-        }
-        if(currentStep < 1){
-            binding.stepBack.isEnabled = false
-        } else {
-            binding.stepBack.isEnabled = true
-        }
+    private fun finishButton(ctx: Context) {
+        val tint = ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.green))
+        // funziona da API 21 in su con MaterialButton
+        binding.stepForward.backgroundTintList =
+            ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.green))
+    }
+
+    private fun updateButtons() {
+    if(currentStep == totalStep-1){
+        binding.stepForward.text = "Done"
+        finishButton(requireContext())
+    } else {
+        binding.stepForward.isEnabled = true
+    }
+    if(currentStep < 1){
+        binding.stepBack.isEnabled = false
+    } else {
+        binding.stepBack.isEnabled = true
+    }
 
 
     }
@@ -442,6 +463,7 @@ class SvolgiRicettaFragment: Fragment() {
         editor.putString(NAME_RICETTA, nameRecipe)
         editor.apply()
     }
+
     override fun onStop() {
         super.onStop()
         if (mBound) {
@@ -449,6 +471,12 @@ class SvolgiRicettaFragment: Fragment() {
             mBound = false        // **solo** unbind, NON stopSelf()
         }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(CURRENT_STEP, currentStep)
+
+        super.onSaveInstanceState(outState)
     }
 
 }
