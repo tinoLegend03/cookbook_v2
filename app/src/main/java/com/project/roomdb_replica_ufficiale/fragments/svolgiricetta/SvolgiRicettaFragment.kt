@@ -166,7 +166,6 @@ class SvolgiRicettaFragment: Fragment() {
 
             nameRecipe = preferences.getString(NAME_RICETTA, "value").toString() //prendo valore salvato
 
-
             pendingTimeLeft = mService?.timeLeft ?: 0
             pendingState = mService?.currentState ?: TimerState.IDLE
         } else {

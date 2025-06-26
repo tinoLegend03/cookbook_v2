@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
             if (ContextCompat.checkSelfPermission (requireContext(),
-                    Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestNotificationPermission()
             } else {
                 Toast.makeText(context, "Permission already granted", Toast.LENGTH_SHORT).show()

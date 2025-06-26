@@ -16,11 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomDB_Replica_Ufficiale"
         tools:targetApi="31"
-        android:enableOnBackInvokedCallback="true">
-
+        >
         <activity
+            android:enableOnBackInvokedCallback="true"
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

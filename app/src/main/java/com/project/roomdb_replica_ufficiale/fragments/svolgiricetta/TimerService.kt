@@ -145,6 +145,7 @@ class TimerService : Service() {
             .setComponentName(MainActivity::class.java)
             .createPendingIntent()
 
+
         builder = NotificationCompat.Builder(ctx, CHANNEL_ID)
             .setSmallIcon(R.drawable.icona_notifica)
             .setContentTitle("Timer")

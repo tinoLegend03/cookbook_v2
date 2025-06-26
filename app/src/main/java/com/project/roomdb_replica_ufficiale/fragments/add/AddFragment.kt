@@ -54,7 +54,6 @@ class AddFragment : Fragment() {
                 setMessage("Salva per non perdere le modifiche")
                 setPositiveButton("Save") { _, _ ->
                     insertDataToDatabase()
-                    Toast.makeText(requireContext(), "clicked save", Toast.LENGTH_SHORT).show()
                 }
                 setNegativeButton("Delete") { _, _ ->
                     Toast.makeText(requireContext(), "Ricetta non salvata", Toast.LENGTH_SHORT).show()
