@@ -296,8 +296,4 @@ class AddFragment : Fragment() {
 //        return !(TextUtils.isEmpty(nomeRicetta) && durata.isEmpty() && TextUtils.isEmpty(livello) && TextUtils.isEmpty(categoria) && TextUtils.isEmpty(descrizione))
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-
-        super.onSaveInstanceState(outState)
-    }
 }

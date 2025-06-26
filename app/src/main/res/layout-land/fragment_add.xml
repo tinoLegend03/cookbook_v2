@@ -95,11 +95,11 @@
             app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
             app:layout_constraintBaseline_toBaselineOf="@id/addIngredientBtn"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/addIngredientBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/aggiungi_ingrediente"
+            android:contentDescription="@string/aggiungi_ingrediente"
             app:layout_constraintTop_toBottomOf="@id/addDuration_et"
             app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical" />
 
@@ -122,11 +122,11 @@
             app:layout_constraintTop_toBottomOf="@id/ingredientContainer"
             app:layout_constraintStart_toStartOf="@id/guideline_start_vertical" />
 
-        <Button
+        <ImageButton
             android:id="@+id/addStepBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/aggiungi_step"
+            android:contentDescription="@string/aggiungi_step"
             app:layout_constraintTop_toBottomOf="@id/ingredientContainer"
             app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical" />
 
