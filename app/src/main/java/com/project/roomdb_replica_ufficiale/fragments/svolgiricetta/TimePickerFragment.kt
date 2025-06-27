@@ -16,6 +16,11 @@ import com.project.roomdb_replica_ufficiale.databinding.FragmentTimePickerBindin
 
 class TimePickerFragment : DialogFragment(){
 
+    companion object {
+        const val REQUEST_KEY = "TimePickerDurationRequest"
+        const val BUNDLE_KEY = "duration_ms"
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = requireActivity().layoutInflater
             .inflate(R.layout.fragment_time_picker, null)
@@ -23,13 +28,13 @@ class TimePickerFragment : DialogFragment(){
         val minPicker = view.findViewById<NumberPicker>(R.id.picker_minuti)
         val secPicker = view.findViewById<NumberPicker>(R.id.picker_secondi)
 
-        val valori = Array(61) { i -> "%02d".format(i) }  // ["00", "01", ..., "60"]
+        val valori = Array(60) { i -> "%02d".format(i) }  // ["00", "01", ..., "60"]
         minPicker.minValue = 0
-        minPicker.maxValue = 60
+        minPicker.maxValue = 59
         minPicker.displayedValues = valori
 
         secPicker.minValue = 0
-        secPicker.maxValue = 60
+        secPicker.maxValue = 59
         secPicker.displayedValues = valori
 
         minPicker.setOnValueChangedListener { picker, oldVal, newVal ->
@@ -52,13 +57,6 @@ class TimePickerFragment : DialogFragment(){
             }
             .setNegativeButton("Annulla", null)
             .create()                     // <<–– questo è il Dialog da restituire
-    }
-
-    companion object {
-        /** Identifica la “conversazione” fra dialogo e fragment padre */
-        const val REQUEST_KEY = "TimePickerDurationRequest"
-        /** Nome del valore dentro al Bundle che veicola la durata in ms */
-        const val BUNDLE_KEY = "duration_ms"
     }
 
 }

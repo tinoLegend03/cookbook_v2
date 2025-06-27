@@ -58,12 +58,6 @@ class AdapterStep(var stepList: MutableList<String>)
             removeButton.setOnClickListener {
                 listener.onItemClick(bindingAdapterPosition)
             }
-//            description.doAfterTextChanged { text ->
-//                val pos = bindingAdapterPosition
-//                if (pos != RecyclerView.NO_POSITION) {
-//                    //stepList[pos] = text.toString()
-//                }
-//            }
         }
     }
 

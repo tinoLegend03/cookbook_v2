@@ -17,7 +17,7 @@ import com.project.roomdb_replica_ufficiale.data.ingrediente.IngredienteQuantifi
 import kotlin.collections.get
 
 class AdapterIngrediente(var ingrList: MutableList<IngredienteQuantificato>)
-    : RecyclerView.Adapter<AdapterIngrediente.MyViewHolder>() {
+    : Adapter<AdapterIngrediente.MyViewHolder>() {
 
     interface OnItemClickListener { fun onItemClick(pos: Int) }
 
