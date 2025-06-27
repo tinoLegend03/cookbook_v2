@@ -76,4 +76,14 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
     ) {
         ricettaDao.aggiornaRicettaCompleta(ricetta, istruzioni, ingredientiConQuantita)
     }
+
+    fun cercaEFiltraRicette(
+        ricetta: String,
+        categoria: String?,
+        difficolta: String?,
+        durataMin: Int?,
+        durataMax: Int?
+    ): Flow<List<Ricetta>> {
+        return ricettaDao.cercaEFiltraRicette(ricetta, categoria, difficolta, durataMin, durataMax)
+    }
 }

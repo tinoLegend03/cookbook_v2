@@ -98,5 +98,23 @@ interface RicettaDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun inserisciIngredienteSeNonEsiste(ingrediente: Ingrediente)
+
+
+    @Query("""
+    SELECT * FROM tab_ricette 
+    WHERE (:categoria IS NULL OR categoria = :categoria)
+      AND (:difficolta IS NULL OR livello = :difficolta)
+      AND (:durataMin IS NULL OR durata >= :durataMin)
+      AND (:durataMax IS NULL OR durata <= :durataMax)
+      AND nomeRicetta LIKE :searchQuery
+    ORDER BY nomeRicetta ASC
+""")
+    fun cercaEFiltraRicette(
+        searchQuery: String,
+        categoria: String?,
+        difficolta: String?,
+        durataMin: Int?,
+        durataMax: Int?
+    ): Flow<List<Ricetta>>
 }
 

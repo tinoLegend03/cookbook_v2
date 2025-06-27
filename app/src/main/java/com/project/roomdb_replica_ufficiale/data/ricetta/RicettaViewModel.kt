@@ -88,4 +88,14 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
     ) = viewModelScope.launch {
         repository.aggiornaRicettaCompleta(ricetta, istruzioni, ingredientiConQuantita)
     }
+
+    fun cercaEFiltraRicette(
+        ricetta: String,
+        categoria: String?,
+        difficolta: String?,
+        durataMin: Int?,
+        durataMax: Int?
+    ): LiveData<List<Ricetta>> {
+        return repository.cercaEFiltraRicette(ricetta, categoria, difficolta, durataMin, durataMax).asLiveData()
+    }
 }
