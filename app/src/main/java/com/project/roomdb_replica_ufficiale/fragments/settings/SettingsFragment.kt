@@ -24,6 +24,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val themePreference = findPreference<ListPreference>("theme")
         themePreference?.onPreferenceChangeListener = listener
 
+        //Non ha senso porre l'opzione settings nei dispositivi che non hanno la dark mode
+        //come impostazione di sistema
         if(Build.VERSION.SDK_INT < 29){
             themePreference?.entries = resources.getStringArray(R.array.choose_themev28)
             themePreference?.entryValues = resources.getStringArray(R.array.choose_themev28)

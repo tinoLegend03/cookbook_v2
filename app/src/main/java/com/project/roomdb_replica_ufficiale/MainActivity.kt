@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 
 import androidx.appcompat.widget.Toolbar
@@ -72,28 +71,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.detailFragment,
             )
         ).setOpenableLayout(drawerLayout).build()
-
-
-        // Gestione selezione menu navigation drawer
-        binding.navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_home -> {
-                    navController.navigate(R.id.homeFragment)
-                }
-                R.id.nav_my_recipes -> {
-                    navController.navigate(R.id.listFragment)
-                }
-                R.id.nav_settings -> {
-                    // Apri impostazioni
-                }
-                R.id.nav_profile -> {
-                    // Apri profilo
-                }
-            }
-
-            drawerLayout.closeDrawer(GravityCompat.START)
-            true
-        }
 
 
         // Collega ActionBar al NavController

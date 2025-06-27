@@ -1,6 +1,5 @@
 package com.project.roomdb_replica_ufficiale.fragments.home
 
-import android.Manifest
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.content.pm.PackageManager
 import android.os.Build
@@ -66,10 +65,6 @@ class HomeFragment : Fragment() {
             }
         } else {
             Toast.makeText(context, "No need permission", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.btnSettings.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
         }
 
         return binding.root
