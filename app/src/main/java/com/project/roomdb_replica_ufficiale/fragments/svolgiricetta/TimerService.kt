@@ -160,7 +160,9 @@ class TimerService : Service() {
             .setContentTitle("Timer")
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setOnlyAlertOnce(true)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setOngoing(true)
             .setAutoCancel(false)
 
@@ -212,7 +214,7 @@ class TimerService : Service() {
         val totalSeconds = time / 1000
         val minutes = totalSeconds / 60
         val seconds = totalSeconds % 60
-        return String.format(Locale.US, "%02d:%02d", minutes, seconds)
+        return String.format(Locale.ITALY, "%02d:%02d", minutes, seconds)
     }
 
     /*
