@@ -24,4 +24,23 @@
         <item>Light mode</item>
         <item>Dark mode</item>
     </string-array>
+
+    <string-array name="categorie_array">
+        <item>Tutte</item>
+        <item>Antipasto</item>
+        <item>Primo</item>
+        <item>Secondo</item>
+        <item>Dolce</item>
+    </string-array>
+
+    <string-array name="difficolta_array">
+        <item>Tutte</item>
+        <item>Facile</item>
+        <item>Media</item>
+        <item>Difficile</item>
+    </string-array>
+
+    <array name="slider_init">
+        <item>60</item>  <!-- parte da 60 minuti -->
+    </array>
 </resources>

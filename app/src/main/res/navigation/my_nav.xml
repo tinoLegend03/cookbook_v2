@@ -53,9 +53,13 @@
         tools:layout="@layout/fragment_add" >
         <action
             android:id="@+id/action_addFragment_to_listFragment"
+            app:popUpTo="@id/listFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/listFragment" />
         <action
             android:id="@+id/action_addFragment_to_homeFragment"
+            app:popUpTo="@id/addFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment

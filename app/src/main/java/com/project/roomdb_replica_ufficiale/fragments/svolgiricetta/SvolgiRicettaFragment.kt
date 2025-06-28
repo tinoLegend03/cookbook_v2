@@ -11,13 +11,13 @@ import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
@@ -48,6 +48,7 @@ class SvolgiRicettaFragment: Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var mRicettaViewModel: RicettaViewModel
+    private lateinit var  ricetta: Ricetta
 
     private var totalStep: Int = 0
     private var currentStep: Int = 0
@@ -62,6 +63,14 @@ class SvolgiRicettaFragment: Fragment() {
     //valori per indipendenza da connessione
     private var pendingTimeLeft: Long = 0L
     private var pendingState: TimerState = TimerState.IDLE
+
+    /* Back-press handling */
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            dialogQuitFragment()
+        }
+    }
+
 
     //CONNESSIONE AL SERVIZIO DEFINITA
     private val connection = object : ServiceConnection {
@@ -83,9 +92,6 @@ class SvolgiRicettaFragment: Fragment() {
 
                 updateChronometer(pendingTimeLeft)
             }
-
-            //è connesso: setto l'UI
-            // binding.timer.start()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -119,7 +125,6 @@ class SvolgiRicettaFragment: Fragment() {
                     pendingState = TimerState.valueOf(state)
                     resume() }
                 TimerService.ACTION_TICK -> {
-                    Log.d("RICEVO TICK", "action tick")
                     updateChronometer(pendingTimeLeft)
                 }
             }
@@ -197,6 +202,7 @@ class SvolgiRicettaFragment: Fragment() {
         binding.nameRecipe.text = nameRecipe
 
         mRicettaViewModel.getRicettaConIstruzioni(nameRecipe).observe(viewLifecycleOwner) { dati ->
+            ricetta = dati.ricetta
             steps = dati.istruzioni.sortedBy { it.numero }.toMutableList()
 
             steps.forEach {
@@ -240,21 +246,13 @@ class SvolgiRicettaFragment: Fragment() {
                     seekBarFinished(ctx)
                 }
             } else if (currentStep == totalStep - 1) {
-                //aggiungi 1 al completamento ricetta
 
-                val updateRicetta = Ricetta(
-                    args.currentRecipe!!.nomeRicetta,
-                    args.currentRecipe.durata,
-                    args.currentRecipe.livello,
-                    args.currentRecipe.categoria,
-                    args.currentRecipe.descrizione,
-                    args.currentRecipe.ultimaModifica,
-                    System.currentTimeMillis(),
-                    args.currentRecipe.count+1,
-                    args.currentRecipe.allergeni
-                )
-                mRicettaViewModel.aggiornaRicetta(updateRicetta)
-                findNavController().navigate(R.id.action_svolgiRicettaFragment_to_listFragment)
+                if(pendingState != TimerState.IDLE){
+                    dialogStopTimer()
+                } else {
+                    updateCompletamentoRicetta()
+                }
+
             }
 
             updateButtons()
@@ -357,7 +355,6 @@ class SvolgiRicettaFragment: Fragment() {
 
                     else -> { //se era PAUSE o IDLE, allora  resetto in IDLE
                         stopService()
-
                         reset()
                     }
                 }
@@ -367,7 +364,54 @@ class SvolgiRicettaFragment: Fragment() {
 
         }
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         return view
+    }
+
+    private fun dialogStopTimer() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle("Vuoi cancellare il timer?")
+            setMessage("")
+            setPositiveButton("Si") { _, _ ->
+                //cancello timer
+                stopService()
+                updateCompletamentoRicetta()
+            }
+            setNeutralButton("Cancel") { _, _ ->
+            }
+            setCancelable(false)
+        }.show()
+    }
+    private fun dialogQuitFragment() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle("La ricetta non è completata")
+            setMessage("Se esci non completerai la ricetta e si azzererà il timer")
+            setPositiveButton("Si") { _, _ ->
+                //cancello timer
+                stopService()
+                updateCompletamentoRicetta()
+            }
+            setNeutralButton("Cancel") { _, _ ->
+            }
+            setCancelable(false)
+        }.show()
+    }
+
+    private fun updateCompletamentoRicetta() {
+        var updateRicetta = Ricetta(
+            ricetta.nomeRicetta,
+            ricetta.durata,
+            ricetta.livello,
+            ricetta.categoria,
+            ricetta.descrizione,
+            ricetta.ultimaModifica,
+            System.currentTimeMillis(),
+            ricetta.count + 1,
+            ricetta.allergeni
+        )
+
+        mRicettaViewModel.aggiornaRicetta(updateRicetta)
+        findNavController().navigate(R.id.action_svolgiRicettaFragment_to_listFragment)
     }
 
     private fun seekBarFinished(ctx: Context) {
@@ -380,7 +424,6 @@ class SvolgiRicettaFragment: Fragment() {
     }
 
     private fun finishButton(ctx: Context) {
-        val tint = ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.green))
         // funziona da API 21 in su con MaterialButton
         binding.stepForward.backgroundTintList =
             ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.green))
@@ -421,11 +464,9 @@ class SvolgiRicettaFragment: Fragment() {
     private fun resume(){
         updateButtonsTimer(pendingState)
         updateChronometer(pendingTimeLeft)
-
-
     }
 
-    private fun updateChronometer(timeMs: kotlin.Long) {
+    private fun updateChronometer(timeMs: Long) {
         val totalSec = (timeMs / 1000).toInt()
         val mm = totalSec / 60
         val ss = totalSec % 60
