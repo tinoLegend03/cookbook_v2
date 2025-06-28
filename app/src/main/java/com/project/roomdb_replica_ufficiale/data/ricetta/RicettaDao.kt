@@ -116,5 +116,8 @@ interface RicettaDao {
         durataMin: Int?,
         durataMax: Int?
     ): Flow<List<Ricetta>>
+
+    @Query("SELECT MAX(durata) FROM tab_ricette")
+    fun getDurataMassima(): LiveData<Int?>
 }
 

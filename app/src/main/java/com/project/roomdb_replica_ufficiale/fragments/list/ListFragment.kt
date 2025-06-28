@@ -59,6 +59,41 @@ class ListFragment : Fragment() {
 
         //UserViewModel
         mRecipeViewModel = ViewModelProvider(this).get(RicettaViewModel::class.java)
+
+        var maxTimeSeek = 0
+        // 1) Osserva la durata massima
+        mRecipeViewModel.durataMassima.observe(viewLifecycleOwner) { maxDurata ->
+            // Se il DB è vuoto assegna un default di 300 minuti
+            maxTimeSeek = (maxDurata ?: 300).coerceAtLeast(1)
+            val seekBar  = binding.seekBarDurata
+
+            // Imposta il nuovo massimo
+            seekBar.max = maxTimeSeek
+
+            // Imposta la posizione iniziale (= “nessun limite”)
+            currentDurataMin = 0
+            currentDurataMax = null          // null = nessun filtro
+            seekBar.progress = maxTimeSeek           // cursore in fondo
+            binding.txtDurataSelezionata.text = "${maxTimeSeek} min"
+        }
+
+        // 2) Listener della SeekBar
+        binding.seekBarDurata.setOnSeekBarChangeListener(
+            object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(sb: SeekBar?, value: Int, fromUser: Boolean) {
+                    // se utente porta il cursore al valore di max → “nessun filtro”
+                    currentDurataMax =
+                        if (value == sb?.max) null else value
+                    binding.txtDurataSelezionata.text =
+                        if (currentDurataMax == null) "${maxTimeSeek} min" else "$value min"
+                }
+
+                override fun onStartTrackingTouch(sb: SeekBar?) {}
+                override fun onStopTrackingTouch(sb: SeekBar?) {
+                    applySearchAndFilters()      // aggiorna la lista
+                }
+            }
+        )
         /*mRecipeViewModel.leggiRicette.observe(viewLifecycleOwner, Observer { ricetta ->
             //adapter.setData(ricetta)
             listaRicette = ricetta
@@ -131,18 +166,16 @@ class ListFragment : Fragment() {
         }
 
         // DURATA  – SeekBar che imposta SOLO il valore massimo
-        binding.seekBarDurata.apply {
-            progress = 180                          // posizione iniziale = “nessun limite”
+        /*binding.seekBarDurata.apply {
+            progress = 300                          // posizione iniziale = “nessun limite”
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekBar: SeekBar?, value: Int, fromUser: Boolean
                 ) {
-                    // se vuoi mostrare il numero in un TextView:
-                    // binding.txtDurataSelezionata.text = "$value min"
-                    currentDurataMin = 0           // manteniamo min fisso
+                    currentDurataMin = 0
                     currentDurataMax = if (value == max) null else value
                     binding.txtDurataSelezionata.text =
-                        if (value == max) "∞ min" else "$value min"
+                        if (value == max) "300 min" else "$value min"
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) { }
@@ -150,7 +183,7 @@ class ListFragment : Fragment() {
                     applySearchAndFilters()        // aggiorna la lista SOLO quando l’utente rilascia
                 }
             })
-        }
+        }*/
 
 
 
@@ -199,6 +232,8 @@ class ListFragment : Fragment() {
 
         return binding.root
     }
+
+
 
     private fun showDeleteDialog(recipe: Ricetta) {
         val builder = AlertDialog.Builder(requireContext())
