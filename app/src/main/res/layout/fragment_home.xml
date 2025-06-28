@@ -1,172 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    app:defaultNavHost="true"
-    app:navGraph="@navigation/my_nav">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
-    <!-- FrameLayout per ospitare i Fragment -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <!--CARD CONTAINER -->
+    <LinearLayout
+        android:id="@+id/card_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:weightSum="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- ConstraintLayout con tutti gli elementi UI (Toolbar, Card, ecc.) -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <!-- Card: Add Recipe  -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_add_recipe"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/purple_700">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_add"
+                    android:contentDescription="@string/descr_add_recipe"
+                    app:tint="@android:color/white" />
 
-        <!-- Card Container -->
-        <LinearLayout
-            android:id="@+id/card_container"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/add_recipe"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/create_new_recipe"
+                    android:textColor="#B3FFFFFF"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--  Card: My Recipes  -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_my_recipes"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/purple_200">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_book"
+                    android:contentDescription="@string/descr_my_recipes"
+                    app:tint="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/my_recipes"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/view_all_recipes"
+                    android:textColor="#B3FFFFFF"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!--  RECENTLY MADE TITLE -->
+    <LinearLayout
+        android:id="@+id/recent_section"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_container">
+
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:weightSum="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_weight="1"
+            android:text="@string/recently_made"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <!-- Add Recipe Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_add_recipe"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/purple_700"
-                app:cardCornerRadius="16dp">
+    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
+    <!-- RECYCLERVIEW  -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_recently_made"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recent_section"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_add"
-                        app:tint="@android:color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Add Recipe"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="Create a new recipe"
-                        android:textColor="#B3FFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- My Recipes Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_my_recipes"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/purple_200"
-                app:cardCornerRadius="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_book"
-                        app:tint="@android:color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="My Recipes"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="View all recipes"
-                        android:textColor="#B3FFFFFF"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-
-        <!-- Section Title for Recently Made -->
-        <LinearLayout
-            android:id="@+id/recent_section"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_container">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Recently Made"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/text_view_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View All >"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- RecyclerView -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_recently_made"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recent_section" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Navigation View -->
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_drawer_menu" />
-
-</androidx.drawerlayout.widget.DrawerLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>
