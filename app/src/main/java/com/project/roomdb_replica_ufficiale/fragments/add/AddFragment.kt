@@ -282,7 +282,6 @@ class AddFragment : Fragment() {
             return true
         }
 
-//        return !(TextUtils.isEmpty(nomeRicetta) && durata.isEmpty() && TextUtils.isEmpty(livello) && TextUtils.isEmpty(categoria) && TextUtils.isEmpty(descrizione))
     }
 
 }

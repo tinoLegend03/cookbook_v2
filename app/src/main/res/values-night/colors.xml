@@ -11,5 +11,5 @@
     <color name="blu">#3340ff</color>
     <color name="red">#ff0000</color>
     <color name="yellow">#ffff00</color>
-    <color name="btn_color_tint">#FF000000</color>
+    <color name="btn_color_tint">#FFFFFFFF</color>
 </resources>
