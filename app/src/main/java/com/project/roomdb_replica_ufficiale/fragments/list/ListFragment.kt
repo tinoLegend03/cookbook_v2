@@ -36,6 +36,7 @@ class ListFragment : Fragment() {
     private val binding get() = _binding!!
     private val adapter = ListAdapter()
     private var listaRicette: List<Ricetta> = emptyList()
+
     // Stato attuale della ricerca e dei filtri
     private var currentQuery = ""
     private var currentCategoria: String? = null
@@ -94,11 +95,8 @@ class ListFragment : Fragment() {
                 }
             }
         )
-        /*mRecipeViewModel.leggiRicette.observe(viewLifecycleOwner, Observer { ricetta ->
-            //adapter.setData(ricetta)
-            listaRicette = ricetta
-            aggiornaListaFiltrata()
-        })*/
+
+
         applySearchAndFilters()
 
         binding.floatingActionButton.setOnClickListener {
@@ -117,33 +115,6 @@ class ListFragment : Fragment() {
             }
         })
 
-        /*binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (!query.isNullOrEmpty()) {
-                    //cercaRicetta(query)
-                    aggiornaListaFiltrata()
-                    return true
-                }
-                return true
-            }
-
-            /*override fun onQueryTextChange(newText: String?): Boolean {
-                if (!newText.isNullOrEmpty()) {
-                    cercaRicetta(newText)
-                } else {
-                    // Se il campo è vuoto, mostra tutte le ricette
-                    mRecipeViewModel.leggiRicette.observe(viewLifecycleOwner) { ricette ->
-                        adapter.setData(ricette)
-                    }
-                }
-                return true
-            }*/
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                aggiornaListaFiltrata()
-                return true
-            }
-        })*/
 
         // categoria
         binding.spinnerCategoria.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -165,63 +136,7 @@ class ListFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        // DURATA  – SeekBar che imposta SOLO il valore massimo
-        /*binding.seekBarDurata.apply {
-            progress = 300                          // posizione iniziale = “nessun limite”
-            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(
-                    seekBar: SeekBar?, value: Int, fromUser: Boolean
-                ) {
-                    currentDurataMin = 0
-                    currentDurataMax = if (value == max) null else value
-                    binding.txtDurataSelezionata.text =
-                        if (value == max) "300 min" else "$value min"
-                }
 
-                override fun onStartTrackingTouch(seekBar: SeekBar?) { }
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                    applySearchAndFilters()        // aggiorna la lista SOLO quando l’utente rilascia
-                }
-            })
-        }*/
-
-
-
-        /*
-        val filtroListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                aggiornaListaFiltrata()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        binding.spinnerDurata.onItemSelectedListener = filtroListener
-        binding.spinnerCategoria.onItemSelectedListener = filtroListener
-        binding.spinnerDifficolta.onItemSelectedListener = filtroListener
-
-        binding.searchView.queryHint = "Cerca ricetta..."
-
-        val durataOptions = listOf("Tutte", "< 30 min", "30 - 60 min", "> 60 min")
-        val categoriaOptions = listOf("Tutte", "Antipasto", "Primo", "Secondo", "Dolce") // modifica secondo il tuo schema
-        val difficoltaOptions = listOf("Tutte", "Facile", "Media", "Difficile")
-
-        val durataAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, durataOptions)
-        binding.spinnerDurata.adapter = durataAdapter
-
-        val categoriaAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categoriaOptions)
-        binding.spinnerCategoria.adapter = categoriaAdapter
-
-        val difficoltaAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, difficoltaOptions)
-        binding.spinnerDifficolta.adapter = difficoltaAdapter*/
-
-
-        //binding.searchView.onActionViewExpanded()
-
-        /*binding.searchView.requestFocus()
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(binding.searchView.findFocus(), InputMethodManager.SHOW_IMPLICIT)
-        */
 
         // Listener per eliminazione
         adapter.setOnItemActionListener(object : ListAdapter.OnItemActionListener {
@@ -274,66 +189,4 @@ class ListFragment : Fragment() {
             adapter.setData(ricette)
         }
     }
-
-    /*private fun aggiornaListaFiltrata() {
-        val query = binding.searchView.query?.toString()?.trim() ?: ""
-        val durataFiltro = binding.spinnerDurata.selectedItem.toString()
-        val categoriaFiltro = binding.spinnerCategoria.selectedItem.toString()
-        val difficoltaFiltro = binding.spinnerDifficolta.selectedItem.toString()
-
-        val filtrate = listaRicette.filter { ricetta ->
-            val corrispondeNome = query.isEmpty() || ricetta.nomeRicetta.contains(query, ignoreCase = true)
-
-            val corrispondeDurata = when (durataFiltro) {
-                "< 30 min" -> ricetta.durata < 30
-                "30 - 60 min" -> ricetta.durata in 30..60
-                "> 60 min" -> ricetta.durata > 60
-                else -> true
-            }
-
-            val corrispondeCategoria = categoriaFiltro == "Tutte" || ricetta.categoria == categoriaFiltro
-            val corrispondeDifficolta = difficoltaFiltro == "Tutte" || ricetta.livello == difficoltaFiltro
-
-            corrispondeNome && corrispondeDurata && corrispondeCategoria && corrispondeDifficolta
-        }
-
-        adapter.setData(filtrate)
-    }*/
-
-
-
-
-    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
-
-        val search = menu?.findItem(R.id.menu_search)
-        val searchView = search?.actionView as? SearchView
-        searchView?.isSubmitButtonEnabled = true
-        searchView?.setOnQueryTextListener(this)
-
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        /*if(query != null){
-            cercaRicetta(query)
-        }*/
-        return true
-    }
-
-    override fun onQueryTextChange(query: String?): Boolean {
-        if(query != null){
-            cercaRicetta(query)
-        }
-        return true
-    }
-
-    private fun cercaRicetta(query: String){
-        val searchQuery = "%$query%"
-
-        mRecipeViewModel.cercaRicetta(searchQuery).observe(this, { list ->
-            list.let{
-                adapter.setData(it)
-            }
-        })
-    }*/
 }
