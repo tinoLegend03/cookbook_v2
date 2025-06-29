@@ -292,7 +292,8 @@ class UpdateFragment : Fragment() {
             mRecipeViewModel.aggiornaRicettaCompleta(updatedRecipe, istruzioni, ingredientiList)
             Toast.makeText(requireContext(), "Updated Successfully!", Toast.LENGTH_SHORT).show()
             //Navigate Back
-            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            //findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            findNavController().popBackStack()   // rimuove l’Update/Add e ri-mostra il vecchio List
         }else{
             Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT).show()
         }
