@@ -33,6 +33,7 @@ class DetailFragment : Fragment() {
         val nomeRicetta = args.currentRecipe.nomeRicetta
 
         mRicettaViewModel.getRicettaConIstruzioni(nomeRicetta).observe(viewLifecycleOwner) { dati ->
+            binding.numeroCompletamenti.text= "${dati.ricetta.count} volte"
             binding.nomeTextView.text = dati.ricetta.nomeRicetta
             binding.descrizioneContentTextView.text = dati.ricetta.descrizione
             binding.durataContentTextView.text = "${dati.ricetta.durata} min"
