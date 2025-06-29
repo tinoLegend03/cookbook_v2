@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
@@ -257,7 +258,15 @@ class AddFragment : Fragment() {
             Toast.makeText(requireContext(), "Succesfully added!", Toast.LENGTH_LONG).show()
             //Navigate Back
             findNavController().navigate(R.id.action_addFragment_to_listFragment)
-
+            //Svuota lo stack finche trova Home in modo tale che da List ritorni a Home
+            val navOptions = navOptions {
+                popUpTo(R.id.homeFragment) { inclusive = false }
+            }
+            findNavController().navigate(
+                R.id.listFragment,
+                null,
+                navOptions
+            )
         }else{
             Toast.makeText(requireContext(), "Please fill put all fields.", Toast.LENGTH_LONG).show()
         }

@@ -33,7 +33,7 @@
             android:id="@+id/action_listFragment_to_addFragment"
             app:destination="@id/addFragment" />
         <action
-            android:id="@+id/action_listFragment_to_homeFragment2"
+            android:id="@+id/action_listFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_listFragment_to_updateFragment"

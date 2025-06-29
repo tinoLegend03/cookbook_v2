@@ -61,8 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         //Top-Level: fragment con icono hamburger
         val topLevel= setOf(
-            R.id.homeFragment,
-            R.id.listFragment
+            R.id.homeFragment
         )
 
         // AppBarConfiguration
