@@ -2,14 +2,21 @@ package com.project.roomdb_replica_ufficiale.data.ricetta
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = "tab_ricette")
+@Entity(
+    tableName = "tab_ricette",
+    indices = [Index(value = ["nomeRicetta"], unique = true)]   // unicità sul nome
+)
 data class Ricetta (
 
-    @PrimaryKey(autoGenerate = false)
+    // ---------- nuova PK ----------
+    @PrimaryKey(autoGenerate = true)
+    val idRicetta: Long = 0L,
+
     //Nome ricetta
     val nomeRicetta: String,
 

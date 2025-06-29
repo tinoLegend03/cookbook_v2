@@ -51,8 +51,8 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
         }
     }
 
-    fun getIngredientiConQuantitaPerRicetta(nomeRicetta: String): LiveData<List<IngredienteQuantificato>> {
-        return repository.getIngredientiConQuantitaPerRicetta(nomeRicetta)
+    fun getIngredientiConQuantitaPerRicetta(idRicetta: Long): LiveData<List<IngredienteQuantificato>> {
+        return repository.getIngredientiConQuantitaPerRicetta(idRicetta)
     }
 
     fun inserisciRicettaConIstruzioni(ricetta: Ricetta, istruzioni: List<Istruzione>) {
@@ -61,8 +61,8 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
         }
     }
 
-    fun getRicettaConIstruzioni(nomeRicetta: String): LiveData<RicettaConIstruzioni> {
-        return repository.getRicettaConIstruzioni(nomeRicetta)
+    fun getRicettaConIstruzioni(idRicetta: Long): LiveData<RicettaConIstruzioni> {
+        return repository.getRicettaConIstruzioni(idRicetta)
     }
 
     fun inserisciRicettaCompleta(

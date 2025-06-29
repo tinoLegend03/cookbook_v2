@@ -9,11 +9,11 @@ import com.project.roomdb_replica_ufficiale.data.ricetta.Ricetta
 data class RicettaConIngredientiConQuantita (
     @Embedded val ricetta: Ricetta,
     @Relation(
-        parentColumn = "nomeRicetta",
+        parentColumn = "idRicetta",
         entityColumn = "nomeIngrediente",
         associateBy = Junction(
             value = RicettaIngrediente::class,
-            parentColumn = "nomeRicetta",
+            parentColumn = "idRicetta",
             entityColumn = "nomeIngrediente"
         )
     )

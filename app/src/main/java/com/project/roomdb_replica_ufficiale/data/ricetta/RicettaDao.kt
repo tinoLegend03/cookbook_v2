@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.Flow
 interface RicettaDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun nuovaRicetta(ricetta: Ricetta)
+    suspend fun nuovaRicetta(ricetta: Ricetta): Long
 
     @Update
     suspend fun aggiornaRicetta(ricetta: Ricetta)
@@ -31,15 +31,15 @@ interface RicettaDao {
     @Query("SELECT * FROM tab_ricette ORDER BY nomeRicetta ASC")
     fun leggiRicette(): LiveData<List<Ricetta>>
 
-    @Query("SELECT i.nomeIngrediente, ri.quantita FROM tab_ricetta_ingrediente AS ri INNER JOIN tab_ingredienti AS i ON ri.nomeIngrediente = i.nomeIngrediente WHERE ri.nomeRicetta = :nomeRicetta")
-    fun getIngredientiConQuantitaPerRicetta(nomeRicetta: String): LiveData<List<IngredienteQuantificato>>
+    @Query("SELECT i.nomeIngrediente, ri.quantita FROM tab_ricetta_ingrediente AS ri INNER JOIN tab_ingredienti AS i ON ri.nomeIngrediente = i.nomeIngrediente WHERE ri.idRicetta = :idRicetta")
+    fun getIngredientiConQuantitaPerRicetta(idRicetta: Long): LiveData<List<IngredienteQuantificato>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun inserisciIstruzione(istruzione: Istruzione)
 
     @Transaction
-    @Query("SELECT * FROM tab_ricette WHERE nomeRicetta = :nome")
-    fun getRicettaConIstruzioni(nome: String): LiveData<RicettaConIstruzioni>
+    @Query("SELECT * FROM tab_ricette WHERE idRicetta = :id")
+    fun getRicettaConIstruzioni(id: Long): LiveData<RicettaConIstruzioni>
 
     @Transaction
     suspend fun inserisciRicettaCompleta(
@@ -48,10 +48,14 @@ interface RicettaDao {
         //ingredienti: List<RicettaIngrediente>
         ingredientiConQuantita: List<RicettaIngrediente>
     ) {
-        nuovaRicetta(ricetta)
-        istruzioni.forEach { nuovaIstruzione(it) }
-        ingredientiConQuantita.forEach { inserisciRicettaIngrediente(it) }
+        val id = nuovaRicetta(ricetta)
+        val idRicetta = if (id != -1L) id else getIdByNome(ricetta.nomeRicetta)
+        istruzioni.forEach { nuovaIstruzione(it.copy(idRicetta = idRicetta)) }
+        ingredientiConQuantita.forEach { inserisciRicettaIngrediente(it.copy(idRicetta = idRicetta)) }
     }
+
+    @Query("SELECT idRicetta FROM tab_ricette WHERE nomeRicetta = :nome LIMIT 1")
+    suspend fun getIdByNome(nome: String): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun nuovaIstruzione(istruzione: Istruzione)
@@ -76,8 +80,8 @@ interface RicettaDao {
         aggiornaRicetta(ricetta)
 
         // Elimina istruzioni e ingredienti esistenti
-        eliminaIstruzioniPerRicetta(ricetta.nomeRicetta)
-        eliminaIngredientiPerRicetta(ricetta.nomeRicetta)
+        eliminaIstruzioniPerRicetta(ricetta.idRicetta)
+        eliminaIngredientiPerRicetta(ricetta.idRicetta)
 
 
         nuoveIstruzioni.forEach { nuovaIstruzione(it) }
@@ -90,11 +94,11 @@ interface RicettaDao {
         }
     }
 
-    @Query("DELETE FROM tab_istruzioni WHERE ricetta = :nomeRicetta")
-    suspend fun eliminaIstruzioniPerRicetta(nomeRicetta: String)
+    @Query("DELETE FROM tab_istruzioni WHERE idRicetta = :idRicetta")
+    suspend fun eliminaIstruzioniPerRicetta(idRicetta: Long)
 
-    @Query("DELETE FROM tab_ricetta_ingrediente WHERE nomeRicetta = :nomeRicetta")
-    suspend fun eliminaIngredientiPerRicetta(nomeRicetta: String)
+    @Query("DELETE FROM tab_ricetta_ingrediente WHERE idRicetta = :idRicetta")
+    suspend fun eliminaIngredientiPerRicetta(idRicetta: Long)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun inserisciIngredienteSeNonEsiste(ingrediente: Ingrediente)

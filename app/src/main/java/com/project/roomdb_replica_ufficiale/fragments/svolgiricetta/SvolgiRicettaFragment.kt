@@ -183,7 +183,7 @@ class SvolgiRicettaFragment: Fragment() {
             pendingTimeLeft = mService?.timeLeft ?: 0
             pendingState = mService?.currentState ?: TimerState.IDLE
         } else {
-            nameRecipe = args.currentRecipe.nomeRicetta
+            nameRecipe = args.currentRecipe!!.nomeRicetta
         }
 
         //GESTIONE TIMER
@@ -206,38 +206,42 @@ class SvolgiRicettaFragment: Fragment() {
         binding.seekBar.setOnClickListener{ }
         binding.nameRecipe.text = nameRecipe
 
-        mRicettaViewModel.getRicettaConIstruzioni(nameRecipe).observe(viewLifecycleOwner) { dati ->
-            ricetta = dati.ricetta
-            steps = dati.istruzioni.sortedBy { it.numero }.toMutableList()
+        val idRicetta = args.currentRecipe?.idRicetta
 
-            steps.forEach {
-                binding.stepText.text = getString(R.string.step_message, binding.stepText.text, it.descrizione)
-            }
-            totalStep = steps.size
+        if (idRicetta != null) {
+            mRicettaViewModel.getRicettaConIstruzioni(idRicetta).observe(viewLifecycleOwner) { dati ->
+                ricetta = dati.ricetta
+                steps = dati.istruzioni.sortedBy { it.numero }.toMutableList()
 
-            if(savedInstanceState != null) {
-                currentStep = savedInstanceState.getInt(CURRENT_STEP)
-            } else {
-                currentStep = 0
-            }
-
-            updateButtons()
-            if (totalStep > 1){
-                valueBar = binding.seekBar.max / (totalStep-1)
-                if(binding.seekBar.progress == binding.seekBar.max){
-                    seekBarFinished(ctx)
-                    finishButton(ctx)
+                steps.forEach {
+                    binding.stepText.text = getString(R.string.step_message, binding.stepText.text, it.descrizione)
                 }
-            } else {
-                binding.seekBar.progress = binding.seekBar.max
-                seekBarFinished(ctx)
-            }
+                totalStep = steps.size
 
-            if(totalStep == 0){
-                Toast.makeText(ctx, "Non presenta step", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_svolgiRicettaFragment_to_listFragment)
-            } else {
-                updateText()
+                if(savedInstanceState != null) {
+                    currentStep = savedInstanceState.getInt(CURRENT_STEP)
+                } else {
+                    currentStep = 0
+                }
+
+                updateButtons()
+                if (totalStep > 1){
+                    valueBar = binding.seekBar.max / (totalStep-1)
+                    if(binding.seekBar.progress == binding.seekBar.max){
+                        seekBarFinished(ctx)
+                        finishButton(ctx)
+                    }
+                } else {
+                    binding.seekBar.progress = binding.seekBar.max
+                    seekBarFinished(ctx)
+                }
+
+                if(totalStep == 0){
+                    Toast.makeText(ctx, "Non presenta step", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_svolgiRicettaFragment_to_listFragment)
+                } else {
+                    updateText()
+                }
             }
         }
 
@@ -417,6 +421,7 @@ class SvolgiRicettaFragment: Fragment() {
 
     private fun updateCompletamentoRicetta() {
         var updateRicetta = Ricetta(
+            ricetta.idRicetta,
             ricetta.nomeRicetta,
             ricetta.durata,
             ricetta.livello,

@@ -27,8 +27,8 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
         ricettaDao.eliminaRicetta(ricetta)
     }
 
-    fun getIngredientiConQuantitaPerRicetta(nomeRicetta: String): LiveData<List<IngredienteQuantificato>> {
-        return ricettaDao.getIngredientiConQuantitaPerRicetta(nomeRicetta)
+    fun getIngredientiConQuantitaPerRicetta(idRicetta: Long): LiveData<List<IngredienteQuantificato>> {
+        return ricettaDao.getIngredientiConQuantitaPerRicetta(idRicetta)
     }
 
     suspend fun inserisciRicettaConIstruzioni(ricetta: Ricetta, istruzioni: List<Istruzione>) {
@@ -38,8 +38,8 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
         }
     }
 
-    fun getRicettaConIstruzioni(nomeRicetta: String): LiveData<RicettaConIstruzioni> {
-        return ricettaDao.getRicettaConIstruzioni(nomeRicetta)
+    fun getRicettaConIstruzioni(idRicetta: Long): LiveData<RicettaConIstruzioni> {
+        return ricettaDao.getRicettaConIstruzioni(idRicetta)
     }
 
     suspend fun inserisciRicettaCompleta(

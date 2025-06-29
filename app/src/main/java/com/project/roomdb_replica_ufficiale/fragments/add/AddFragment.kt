@@ -225,7 +225,7 @@ class AddFragment : Fragment() {
         for (i in 0 until binding.stepContainer.childCount) {
             val textStep = ingrStep[i].toString().trim()
             if(textStep.isNotEmpty()){
-                val istr = Istruzione(0, nomeRicetta, i+1, textStep)
+                val istr = Istruzione(0, 0, i+1, textStep)
                 istruzioni.add(istr)
             }
         }
@@ -234,7 +234,7 @@ class AddFragment : Fragment() {
         val ingredientiList = mutableListOf<RicettaIngrediente>()
         for(ingrediente in ingrList) {
             if(ingrediente.nomeIngrediente.isNotEmpty() && ingrediente.quantita.isNotEmpty()){
-                val ric = RicettaIngrediente(nomeRicetta, ingrediente.nomeIngrediente, ingrediente.quantita)
+                val ric = RicettaIngrediente(0, ingrediente.nomeIngrediente, ingrediente.quantita)
                 Log.d("RicettaIngrediente", ingrediente.nomeIngrediente)
                 ingredientiList.add(ric)
             }
@@ -251,7 +251,7 @@ class AddFragment : Fragment() {
 
         if(inputCheck(nomeRicetta, durata, livello, categoria, descrizione)){
             //Create Recipe Object
-            val ricetta = Ricetta(nomeRicetta, Integer.parseInt(durata.toString()), livello, categoria, descrizione, ultimaModifica, ultimaEsecuzione, count, allergeniSelezionati)
+            val ricetta = Ricetta(0L, nomeRicetta, Integer.parseInt(durata.toString()), livello, categoria, descrizione, ultimaModifica, ultimaEsecuzione, count, allergeniSelezionati)
             //Add Data to Database
             mRecipeViewModel.inserisciRicettaCompleta(ricetta, istruzioni, ingredientiList)
             //mRecipeViewModel.nuovaRicetta(ricetta)

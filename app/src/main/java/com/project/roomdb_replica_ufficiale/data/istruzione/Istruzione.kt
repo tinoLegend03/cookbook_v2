@@ -9,11 +9,11 @@ import com.project.roomdb_replica_ufficiale.data.ricetta.Ricetta
 @Entity(
     foreignKeys = [ForeignKey(
         entity = Ricetta::class,
-        parentColumns = ["nomeRicetta"],
-        childColumns = ["ricetta"],
+        parentColumns = ["idRicetta"],
+        childColumns = ["idRicetta"],
         onDelete = ForeignKey.CASCADE
     )],
-    indices = [Index("ricetta")],
+    indices = [Index("idRicetta")],
     tableName = "tab_istruzioni"
 )
 data class Istruzione (
@@ -21,8 +21,8 @@ data class Istruzione (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
 
-    //Riferisce alla ricetta a cui questa istruzione appartiene (foreign key)
-    val ricetta: String,
+    /** FK verso tab_ricette */
+    val idRicetta: Long,
 
     //Ordine dello step nella ricetta
     val numero: Int,

@@ -31,8 +31,9 @@ class DetailFragment : Fragment() {
 
         val args = DetailFragmentArgs.fromBundle(requireArguments())
         val nomeRicetta = args.currentRecipe.nomeRicetta
+        val idRicetta = args.currentRecipe.idRicetta
 
-        mRicettaViewModel.getRicettaConIstruzioni(nomeRicetta).observe(viewLifecycleOwner) { dati ->
+        mRicettaViewModel.getRicettaConIstruzioni(idRicetta).observe(viewLifecycleOwner) { dati ->
             binding.numeroCompletamenti.text= "${dati.ricetta.count} volte"
             binding.nomeTextView.text = dati.ricetta.nomeRicetta
             binding.descrizioneContentTextView.text = dati.ricetta.descrizione
@@ -73,7 +74,7 @@ class DetailFragment : Fragment() {
             }
         }
 
-        mRicettaViewModel.getIngredientiConQuantitaPerRicetta(nomeRicetta).observe(viewLifecycleOwner) { ingredienti ->
+        mRicettaViewModel.getIngredientiConQuantitaPerRicetta(idRicetta).observe(viewLifecycleOwner) { ingredienti ->
             binding.ingredientListLayout.removeAllViews() // Assicurati che il layout esista nel tuo XML
 
             ingredienti.forEach {

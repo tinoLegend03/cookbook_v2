@@ -8,12 +8,12 @@ import com.project.roomdb_replica_ufficiale.data.ricetta.Ricetta
 
 @Entity(
     tableName = "tab_ricetta_ingrediente",
-    primaryKeys = ["nomeRicetta", "nomeIngrediente"],
+    primaryKeys = ["idRicetta", "nomeIngrediente"],
     foreignKeys = [
         ForeignKey(
             entity = Ricetta::class,
-            parentColumns = ["nomeRicetta"],
-            childColumns = ["nomeRicetta"],
+            parentColumns = ["idRicetta"],
+            childColumns = ["idRicetta"],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
@@ -23,10 +23,10 @@ import com.project.roomdb_replica_ufficiale.data.ricetta.Ricetta
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("nomeRicetta"), Index("nomeIngrediente")]
+    indices = [Index("idRicetta"), Index("nomeIngrediente")]
 )
 data class RicettaIngrediente(
-    val nomeRicetta: String,
+    val idRicetta: Long,
     val nomeIngrediente: String,
     val quantita: String                // es. "200 g", "3 cucchiai"
 ) {}

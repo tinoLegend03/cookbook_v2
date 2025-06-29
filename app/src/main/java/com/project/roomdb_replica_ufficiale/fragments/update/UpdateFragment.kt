@@ -80,12 +80,13 @@ class UpdateFragment : Fragment() {
         }
 
         val nomeRicetta = args.currentRecipe.nomeRicetta
+        val idRicetta = args.currentRecipe.idRicetta
 
         //////////// START SEZIONE INSTRUZIONI ////////////////////
 
         var numeroStep = 0
 
-        mRecipeViewModel.getRicettaConIstruzioni(nomeRicetta).observe(viewLifecycleOwner) { dati ->
+        mRecipeViewModel.getRicettaConIstruzioni(idRicetta).observe(viewLifecycleOwner) { dati ->
 
             val steps = dati.istruzioni.sortedBy { it.numero }
             binding.updateStepContainer.removeAllViews()
@@ -135,7 +136,7 @@ class UpdateFragment : Fragment() {
 
         //////////// START SEZIONE INGREDIENTI ////////////////////
 
-        mRecipeViewModel.getIngredientiConQuantitaPerRicetta(nomeRicetta).observe(viewLifecycleOwner) { ingredienti ->
+        mRecipeViewModel.getIngredientiConQuantitaPerRicetta(idRicetta).observe(viewLifecycleOwner) { ingredienti ->
             binding.updateIngredientContainer.removeAllViews()
 
 
@@ -241,7 +242,7 @@ class UpdateFragment : Fragment() {
                 val stepEt = row.getChildAt(0) as? EditText
                 val testo = stepEt?.text.toString().trim()
                 if (testo.isNotEmpty()) {
-                    istruzioni.add(Istruzione(0, nomeRicetta, stepNumber++, testo))
+                    istruzioni.add(Istruzione(0, args.currentRecipe.idRicetta, stepNumber++, testo))
                 }
             }
         }
@@ -268,7 +269,7 @@ class UpdateFragment : Fragment() {
                 val quantita = quantitaEt?.text.toString().trim()
 
                 if (nome.isNotEmpty() && quantita.isNotEmpty()) {
-                    ingredientiList.add(RicettaIngrediente(nomeRicetta, nome, quantita))
+                    ingredientiList.add(RicettaIngrediente(args.currentRecipe.idRicetta, nome, quantita))
                 }
             }
             Log.d("TAG", "OCCHIOOOOOOOOO:: ${binding.updateIngredientContainer.childCount}")
@@ -286,7 +287,7 @@ class UpdateFragment : Fragment() {
             //Create recipe Object
             val testList = listOf("test1", "test2")
             //val updatedRecipe = Ricetta(args.currentRecipe.nomeRicetta, durata, livello, categoria, descrizione, System.currentTimeMillis(), args.currentRecipe.ultimaEsecuzione, args.currentRecipe.count, testList)
-            val updatedRecipe = Ricetta(nomeRicetta, Integer.parseInt(durata.toString()), livello, categoria, descrizione, ultimaModifica, ultimaEsecuzione, count, allergeniSelezionati)
+            val updatedRecipe = Ricetta(args.currentRecipe.idRicetta, nomeRicetta, Integer.parseInt(durata.toString()), livello, categoria, descrizione, ultimaModifica, ultimaEsecuzione, count, allergeniSelezionati)
             //Update Current Recipe
             mRecipeViewModel.aggiornaRicettaCompleta(updatedRecipe, istruzioni, ingredientiList)
             Toast.makeText(requireContext(), "Updated Successfully!", Toast.LENGTH_SHORT).show()

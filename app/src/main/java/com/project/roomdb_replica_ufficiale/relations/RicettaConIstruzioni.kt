@@ -8,8 +8,8 @@ import com.project.roomdb_replica_ufficiale.data.ricetta.Ricetta
 class RicettaConIstruzioni (
     @Embedded val ricetta: Ricetta,
     @Relation(
-        parentColumn = "nomeRicetta",
-        entityColumn = "ricetta"
+        parentColumn = "idRicetta",
+        entityColumn = "idRicetta"
     )
     val istruzioni: List<Istruzione>
 )
