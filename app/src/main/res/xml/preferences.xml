@@ -4,12 +4,18 @@
 
     <ListPreference
         android:key="theme"
-        android:title="Scegli il tema"
-        android:summary="Scegli se passare a modalità notte o no"
+        android:title="Choose the theme"
+        android:summary="Choose to pass in dark mode or not"
         app:useSimpleSummaryProvider="true"
         android:entries="@array/choose_theme"
         android:entryValues="@array/choose_theme"
         app:defaultValue="System"
-        android:dialogTitle="Scegli tema"/>
+        android:dialogTitle="Choose theme"/>
+
+    <Preference
+        android:key="pref_system_notification"
+        android:title="Settings Notification"
+        android:orderInCategory="2">
+    </Preference>
 
 </PreferenceScreen>

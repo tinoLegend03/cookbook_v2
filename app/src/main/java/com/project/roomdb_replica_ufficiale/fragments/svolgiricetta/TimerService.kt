@@ -43,8 +43,8 @@ class TimerService : Service() {
         const val NOTIFY_RESUME = "com.project.roomdb_replica_ufficiale.timer.NOTIFY_RESUME"
         const val NOTIFY_RESET = "com.project.roomdb_replica_ufficiale.timer.NOTIFY_RESET"
 
-        private const val CHANNEL_ID = "canale_timer"
-        private const val NOTIFICATION_ID = 100
+        const val CHANNEL_ID = "canale_timer"
+        const val NOTIFICATION_ID = 100
     }
 
     var timeLeft: Long = 0
@@ -274,7 +274,7 @@ class TimerService : Service() {
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setOnlyAlertOnce(false)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setAutoCancel(false)
+            .setAutoCancel(true)
 
         /*
         i bottoni devono apparire nel momento giusto nel modo corretto in base allo stato del timer
