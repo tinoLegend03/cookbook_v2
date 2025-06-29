@@ -4,29 +4,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp">
+    android:padding="16dp">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_35"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        app:layout_constraintGuide_percent="0.35" />
     <!--CARD CONTAINER -->
     <LinearLayout
         android:id="@+id/card_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="16dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="top|center_horizontal"
         android:weightSum="2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toStartOf="@id/guideline_35"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <!-- Card: Add Recipe  -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_add_recipe"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
+            android:layout_marginBottom="12dp"
             app:cardCornerRadius="16dp"
             app:cardBackgroundColor="@color/purple_700">
 
@@ -64,9 +69,8 @@
         <!--  Card: My Recipes  -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_my_recipes"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             app:cardCornerRadius="16dp"
             app:cardBackgroundColor="@color/purple_200">
@@ -109,20 +113,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="@id/guideline_35"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_container">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
             android:text="@string/recently_made"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
-
     </LinearLayout>
 
     <!-- RECYCLERVIEW  -->
@@ -131,7 +132,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_35"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recent_section"
         app:layout_constraintBottom_toBottomOf="parent" />
