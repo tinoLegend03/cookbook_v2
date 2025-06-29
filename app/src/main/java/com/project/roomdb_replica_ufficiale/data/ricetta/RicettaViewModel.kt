@@ -98,4 +98,6 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
     ): LiveData<List<Ricetta>> {
         return repository.cercaEFiltraRicette(ricetta, categoria, difficolta, durataMin, durataMax).asLiveData()
     }
+
+    val durataMassima: LiveData<Int?> = repository.getDurataMassima()
 }

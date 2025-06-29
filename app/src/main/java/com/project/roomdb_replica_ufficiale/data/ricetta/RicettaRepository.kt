@@ -86,4 +86,6 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
     ): Flow<List<Ricetta>> {
         return ricettaDao.cercaEFiltraRicette(ricetta, categoria, difficolta, durataMin, durataMax)
     }
+
+    fun getDurataMassima() = ricettaDao.getDurataMassima()
 }

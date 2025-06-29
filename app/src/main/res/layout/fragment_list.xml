@@ -22,9 +22,15 @@
         android:id="@+id/filterContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/searchView"
-        android:padding="8dp">
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Spinner
             android:id="@+id/spinnerCategoria"
@@ -37,19 +43,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/difficolta_array" />
-
-        <SeekBar
-            android:id="@+id/seekBarDurata"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:max="180" />
-
-        <TextView
-            android:id="@+id/txtDurataSelezionata"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="∞ min" />
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <SeekBar
+                android:id="@+id/seekBarDurata"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/txtDurataSelezionata"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:paddingStart="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
 
 
     <androidx.recyclerview.widget.RecyclerView
