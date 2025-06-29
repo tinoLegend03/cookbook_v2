@@ -3,12 +3,12 @@ package com.project.roomdb_replica_ufficiale
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -22,11 +22,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -51,38 +50,40 @@ class MainActivity : AppCompatActivity() {
         //FINE GESTIONE TEMA SCURO
 
 
-        // Trova la Toolbar e il DrawerLayout dal layout
+        // Toolbar + Drawer
         val toolbar: Toolbar = binding.toolbar
         drawerLayout = findViewById(R.id.drawer_layout)
-//        val navigationView: NavigationView = findViewById(R.id.navigation_view)
-
         // Imposta la Toolbar come ActionBar
         setSupportActionBar(toolbar)
 
         // Configura NavController
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
 
-        // Configura AppBarConfiguration per il drawer
-        appBarConfiguration = AppBarConfiguration.Builder(
-            setOf(
-                R.id.homeFragment,
-                R.id.listFragment,
-                R.id.addFragment,
-                R.id.detailFragment,
-            )
-        ).setOpenableLayout(drawerLayout).build()
+        //Top-Level: fragment con icono hamburger
+        val topLevel= setOf(
+            R.id.homeFragment,
+            R.id.listFragment
+        )
 
+        // AppBarConfiguration
+        appBarConfiguration = AppBarConfiguration(topLevel, drawerLayout)
 
-        // Collega ActionBar al NavController
+        //  Toolbar + NavigationView
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        // Collega NavigationView al NavController
         binding.navView.setupWithNavController(navController)
+
+        // 2. Listener per bloccare il drawer nei secondari
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id in topLevel) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            } else {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
+        }
     }
 
     // Gestisce il click sull'icona hamburger o il tasto back
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
