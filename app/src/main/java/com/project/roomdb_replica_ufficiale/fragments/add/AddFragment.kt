@@ -257,7 +257,7 @@ class AddFragment : Fragment() {
             //mRecipeViewModel.nuovaRicetta(ricetta)
             Toast.makeText(requireContext(), "Succesfully added!", Toast.LENGTH_LONG).show()
             //Navigate Back
-            findNavController().navigate(R.id.action_addFragment_to_listFragment)
+            findNavController().popBackStack()
             //Svuota lo stack finche trova Home in modo tale che da List ritorni a Home
             val navOptions = navOptions {
                 popUpTo(R.id.homeFragment) { inclusive = false }

@@ -60,8 +60,6 @@ class HomeFragment : Fragment() {
             if (ContextCompat.checkSelfPermission (requireContext(),
                     POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestNotificationPermission()
-            } else {
-                Toast.makeText(context, "Permission already granted", Toast.LENGTH_SHORT).show()
             }
         } else {
             Toast.makeText(context, "No need permission", Toast.LENGTH_SHORT).show()
