@@ -61,8 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         //Top-Level: fragment con icono hamburger
         val topLevel= setOf(
-            R.id.homeFragment,
-            R.id.listFragment
+            R.id.homeFragment
         )
 
         // AppBarConfiguration
@@ -74,6 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         // 2. Listener per bloccare il drawer nei secondari
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            Log.d("NAV", "dest = ${destination.label} (${destination.id})")
             if (destination.id in topLevel) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             } else {

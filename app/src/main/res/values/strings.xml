@@ -41,7 +41,17 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_profile">Profile</string>
     <string name="profile_image">prof_im</string>
+    <string name="complete">Completato:</string>
+    <string name="description">Desctizione:</string>
+    <string name="prep_time">Tempo di preparazione:</string>
+    <string name="difficult">Difficoltà:</string>
+    <string name="category">Categoria di appartenenza:</string>
+    <string name="instruction">Istruzioni:</string>
+    <string name="ingredient">Ingredienti:</string>
+    <string name="allerg">Allergeni:</string>
     <string name="my_profile">My profile</string>
+
+
 
 
 

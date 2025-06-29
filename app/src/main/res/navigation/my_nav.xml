@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.project.roomdb_replica_ufficiale.fragments.home.HomeFragment"
-        android:label="fragment_home"
+        android:label="Home"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_listFragment"
@@ -27,13 +27,13 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.project.roomdb_replica_ufficiale.fragments.list.ListFragment"
-        android:label="fragment_list"
+        android:label="List of Recipes"
         tools:layout="@layout/fragment_list" >
         <action
             android:id="@+id/action_listFragment_to_addFragment"
             app:destination="@id/addFragment" />
         <action
-            android:id="@+id/action_listFragment_to_homeFragment2"
+            android:id="@+id/action_listFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_listFragment_to_updateFragment"
@@ -49,7 +49,7 @@
     <fragment
         android:id="@+id/addFragment"
         android:name="com.project.roomdb_replica_ufficiale.fragments.add.AddFragment"
-        android:label="fragment_add"
+        android:label="Add"
         tools:layout="@layout/fragment_add" >
         <action
             android:id="@+id/action_addFragment_to_listFragment"
@@ -65,7 +65,7 @@
     <fragment
         android:id="@+id/updateFragment"
         android:name="com.project.roomdb_replica_ufficiale.fragments.update.UpdateFragment"
-        android:label="fragment_update"
+        android:label="Update"
         tools:layout="@layout/fragment_update" >
         <action
             android:id="@+id/action_updateFragment_to_listFragment"
@@ -77,7 +77,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.project.roomdb_replica_ufficiale.fragments.detail.DetailFragment"
-        android:label="fragment_detail"
+        android:label="Detail"
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="currentRecipe"
@@ -89,7 +89,7 @@
     <fragment
         android:id="@+id/svolgiRicettaFragment"
         android:name="com.project.roomdb_replica_ufficiale.fragments.svolgiricetta.SvolgiRicettaFragment"
-        android:label="fragment_svolgi_ricetta"
+        android:label="Step By Step"
         tools:layout="@layout/fragment_svolgi_ricetta" >
         <argument
             android:name="currentRecipe"

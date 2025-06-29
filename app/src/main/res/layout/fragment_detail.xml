@@ -23,7 +23,36 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+        <!-- Completamenti Ricetta -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp">
 
+            <!-- Titolo -->
+            <TextView
+                android:id="@+id/completamentiRicetta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/complete"
+                android:textStyle="bold"
+                android:paddingStart="1dp"
+                android:paddingEnd="8dp" />
+
+            <!-- Contenuto -->
+            <TextView
+                android:id="@+id/numeroCompletamenti"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000" />
         <!-- Descrizione -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,8 +66,9 @@
                 android:id="@+id/descrizioneTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Descrizione:"
+                android:text="@string/description"
                 android:textStyle="bold"
+                android:paddingStart="1dp"
                 android:paddingEnd="8dp" />
 
             <!-- Contenuto -->
@@ -46,8 +76,7 @@
                 android:id="@+id/descrizioneContentTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Contenuto della descrizione." />
+                android:layout_weight="1"/>
         </LinearLayout>
 
         <View
@@ -68,8 +97,9 @@
                 android:id="@+id/durataTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tempo di preparazione:"
+                android:text="@string/prep_time"
                 android:textStyle="bold"
+                android:paddingStart="1dp"
                 android:paddingEnd="8dp" />
 
             <!-- Contenuto -->
@@ -77,8 +107,7 @@
                 android:id="@+id/durataContentTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="30 min" />
+                android:layout_weight="1"/>
         </LinearLayout>
 
         <View
@@ -99,8 +128,9 @@
                 android:id="@+id/difficoltaTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Difficoltà:"
+                android:text="@string/difficult"
                 android:textStyle="bold"
+                android:paddingStart="1dp"
                 android:paddingEnd="8dp" />
 
             <!-- Contenuto -->
@@ -108,8 +138,7 @@
                 android:id="@+id/difficoltaContentTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Media" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <View
@@ -130,8 +159,9 @@
                 android:id="@+id/categoriaTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Categoria di appartenenza:"
+                android:text="@string/category"
                 android:textStyle="bold"
+                android:paddingStart="1dp"
                 android:paddingEnd="8dp" />
 
             <!-- Contenuto -->
@@ -139,8 +169,7 @@
                 android:id="@+id/categoriaContentTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Dolci" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <View
@@ -150,7 +179,7 @@
 
         <!-- Istruzioni -->
         <TextView
-            android:text="Istruzioni:"
+            android:text="@string/instruction"
             android:textSize="17sp"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -173,7 +202,7 @@
 
         <!-- Ingredienti -->
         <TextView
-            android:text="Ingredienti:"
+            android:text="@string/ingredient"
             android:textSize="17sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -197,7 +226,7 @@
 
         <!-- Allergeni -->
         <TextView
-            android:text="Allergeni:"
+            android:text="@string/allerg"
             android:textSize="17sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
