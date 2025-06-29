@@ -12,14 +12,19 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.ricettario.fragments.TimePickerFragment
@@ -312,7 +317,6 @@ class SvolgiRicettaFragment: Fragment() {
 
                     pendingState = TimerState.RUNNING
                     updateButtonsTimer(pendingState)
-                    //binding.timer.start()
 
                 } else { //timer non connesso e senza valori
                     Toast.makeText(context, "Nessun tempo impostato", Toast.LENGTH_SHORT).show()
@@ -365,8 +369,22 @@ class SvolgiRicettaFragment: Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            }
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                if (menuItem.itemId == android.R.id.home) {
+                    dialogQuitFragment()
+                    return true
+                }
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         return view
     }
+
 
     private fun dialogStopTimer() {
         AlertDialog.Builder(requireContext()).apply {
@@ -386,7 +404,7 @@ class SvolgiRicettaFragment: Fragment() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle("La ricetta non è completata")
             setMessage("Se esci non completerai la ricetta e si azzererà il timer")
-            setPositiveButton("Si") { _, _ ->
+            setPositiveButton("Esci") { _, _ ->
                 //cancello timer
                 stopService()
                 updateCompletamentoRicetta()

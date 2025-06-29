@@ -81,7 +81,7 @@ class TimerService : Service() {
         startTimer() //creazione anche della notifica
 
         //Prima di pubblicare la notifica, controllo che il permesso sia stato accettato
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT > 33) {
             ServiceCompat.startForeground(
                 this, NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
             )
@@ -194,8 +194,7 @@ class TimerService : Service() {
     //Creazione un intent che compie un azione sul servizio
     private fun makePendingIntent(action: String, reqCode: Int) =
         if(Build.VERSION.SDK_INT >= 31){
-            PendingIntent.getService(
-                this, reqCode,
+            PendingIntent.getService(this, reqCode,
                 Intent(this, TimerService::class.java).setAction(action),
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE //API31
             )
@@ -240,8 +239,10 @@ class TimerService : Service() {
                 timeLeft = 0
                 currentState = TimerState.IDLE
                 updateNotification()
+                endTimerNotification()
                 Log.d("TIMER SERVICE", "timer ha finito")
             }
+
 
         }
     }
@@ -253,6 +254,34 @@ class TimerService : Service() {
         val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val r = RingtoneManager.getRingtone(applicationContext, notification)
         r.play()
+    }
+    private fun endTimerNotification() {
+        val ctx = this
+
+        //Intent per accedere tramite notifica
+        val pendingIntent = NavDeepLinkBuilder(ctx)
+            .setGraph(R.navigation.my_nav)
+            .addDestination(R.id.svolgiRicettaFragment)
+            .setComponentName(MainActivity::class.java)
+            .createPendingIntent()
+
+        //builder effettivo della notifica
+        builder = NotificationCompat.Builder(ctx, CHANNEL_ID)
+            .setSmallIcon(R.drawable.icona_notifica)
+            .setContentTitle("Timer Scaduto")
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setOnlyAlertOnce(false)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setAutoCancel(false)
+
+        /*
+        i bottoni devono apparire nel momento giusto nel modo corretto in base allo stato del timer
+         */
+
+        notification = builder.build()
+        notificationManager.notify(NOTIFICATION_ID, notification)
     }
 
     /*
