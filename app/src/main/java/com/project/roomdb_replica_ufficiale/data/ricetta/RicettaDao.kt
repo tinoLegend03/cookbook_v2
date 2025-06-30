@@ -187,5 +187,10 @@ interface RicettaDao {
     /** Durata massima di tutte le ricette (per disegnare slider/seekbar). */
     @Query("SELECT MAX(durata) FROM tab_ricette")
     fun getDurataMassima(): LiveData<Int?>
+
+
+
+    @Query("SELECT COUNT(*) FROM tab_ricette WHERE nomeRicetta = :nome AND idRicetta != :id")
+    suspend fun contaRicetteConNome(nome: String, id: Long): Int
 }
 

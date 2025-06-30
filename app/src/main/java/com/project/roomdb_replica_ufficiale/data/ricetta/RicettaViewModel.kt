@@ -123,4 +123,9 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
     /* ---------- Statistiche --------------------------------------------- */
 
     val durataMassima: LiveData<Int?> = repository.getDurataMassima()
+
+
+    suspend fun esisteNomeDuplicato(nome: String, idAttuale: Long): Boolean {
+        return repository.esisteNomeDuplicato(nome, idAttuale)
+    }
 }

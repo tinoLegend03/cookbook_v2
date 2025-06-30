@@ -64,7 +64,7 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
         ingredienti: List<RicettaIngrediente>
     ) {
         ingredienti.forEach {
-            ingredienteDao.inserisciIngrediente(Ingrediente(it.nomeIngrediente)) // CORRETTO QUI
+            ingredienteDao.inserisciIngrediente(Ingrediente(it.nomeIngrediente))
         }
 
         ricettaDao.inserisciRicettaCompleta(ricetta, istruzioni, ingredienti)
@@ -108,4 +108,10 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
     /* ---------- Statistica ------------------------------------------------- */
 
     fun getDurataMassima() = ricettaDao.getDurataMassima()
+
+
+
+    suspend fun esisteNomeDuplicato(nome: String, idAttuale: Long): Boolean {
+        return ricettaDao.contaRicetteConNome(nome, idAttuale) > 0
+    }
 }

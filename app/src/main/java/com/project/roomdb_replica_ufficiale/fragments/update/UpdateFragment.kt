@@ -8,14 +8,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
@@ -25,6 +29,7 @@ import com.project.roomdb_replica_ufficiale.data.ricetta.Ricetta
 import com.project.roomdb_replica_ufficiale.data.ricetta.RicettaViewModel
 import com.project.roomdb_replica_ufficiale.databinding.FragmentUpdateBinding
 import com.project.roomdb_replica_ufficiale.relations.ricettaIngredienteRelation.RicettaIngrediente
+import kotlinx.coroutines.launch
 
 /**
  * Fragment di modifica ricetta.
@@ -229,6 +234,59 @@ class UpdateFragment : Fragment() {
             deleteRecipe()
         }
 
+
+
+        /* ----------- Controlla quando mostrare l'AlertDialog in caso di uscita senza salvataggio -----*/
+
+        binding.updateRecipeNameEt.doAfterTextChanged { backCallback.isEnabled = true }
+        binding.updateRecipeDescriptionEt.doAfterTextChanged { backCallback.isEnabled = true }
+        binding.updateDurationEt.doAfterTextChanged { backCallback.isEnabled = true }
+
+        // Spinner Livello
+        binding.updateRecipeLevelEt.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                private var first = true
+                override fun onItemSelected(
+                    parent: AdapterView<*>, v: View?, pos: Int, id: Long
+                ) {
+                    if (!first) backCallback.isEnabled = true
+                    first = false
+                }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
+
+        //Spinner categoria
+        binding.updateRecipeCategoryEt.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                private var first = true
+                override fun onItemSelected(
+                    parent: AdapterView<*>, v: View?, pos: Int, id: Long
+                ) {
+                    if (!first) backCallback.isEnabled = true
+                    first = false
+                }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
+
+
+        // Check su aggiunta ingredienti per l'AlertDialog
+        binding.addIngredientUpdateBtn.setOnClickListener {
+            aggiungiCampoIngrediente()
+            backCallback.isEnabled = true
+        }
+
+        // Check su aggiunta step per l'AlertDialog
+        binding.addStepUpdateBtn.setOnClickListener {
+            aggiungiCampoStep(numeroStep)
+            numeroStep++
+            backCallback.isEnabled = true
+        }
+
+
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, backCallback)
+
         return view
 
 
@@ -302,15 +360,41 @@ class UpdateFragment : Fragment() {
         }
 
         // Controllo campi obbligatori
-        if(inputCheck(nomeRicetta, binding.updateDurationEt.text, livello, categoria, descrizione)){
-            //Crea la ricetta con le informazioni aggiornate
-            val updatedRecipe = Ricetta(args.currentRecipe.idRicetta, nomeRicetta, Integer.parseInt(durata.toString()), livello, categoria, descrizione, ultimaModifica, ultimaEsecuzione, count, allergeniSelezionati)
-            //Aggiorna la nuova ricetta
-            mRecipeViewModel.aggiornaRicettaCompleta(updatedRecipe, istruzioni, ingredientiList)
-            Toast.makeText(requireContext(), "Updated Successfully!", Toast.LENGTH_SHORT).show()
-            //Naviga indietro
-            findNavController().popBackStack()   // rimuove l’Update/Add e ri-mostra il vecchio List
-        }else{
+        if(inputCheck(nomeRicetta, binding.updateDurationEt.text, livello, categoria, descrizione)) {
+
+            lifecycleScope.launch {
+                val nomeGiaUsato = mRecipeViewModel.esisteNomeDuplicato(
+                    nomeRicetta,
+                    args.currentRecipe.idRicetta
+                )
+
+                if (nomeGiaUsato) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Esiste già una ricetta con questo nome.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    val updatedRecipe = Ricetta(
+                        args.currentRecipe.idRicetta,
+                        nomeRicetta,
+                        durata,
+                        livello,
+                        categoria,
+                        descrizione,
+                        ultimaModifica,
+                        ultimaEsecuzione,
+                        count,
+                        allergeniSelezionati
+                    )
+                    mRecipeViewModel.aggiornaRicettaCompleta(updatedRecipe, istruzioni, ingredientiList)
+                    Toast.makeText(requireContext(), "Updated Successfully!", Toast.LENGTH_SHORT).show()
+                    backCallback.isEnabled = false          // evita che il dialog compaia di nuovo
+                    findNavController().popBackStack()
+                }
+            }
+
+        } else {
             Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT).show()
         }
     }
@@ -342,7 +426,7 @@ class UpdateFragment : Fragment() {
 
         /* Si crea lo spazio per il nuovo step */
         val nuovoStep = EditText(requireContext()).apply {
-            hint = "Step $numero"
+            hint = "Step"
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
 
         }
@@ -416,6 +500,7 @@ class UpdateFragment : Fragment() {
         builder.setPositiveButton("Yes"){_, _->
             mRecipeViewModel.eliminaRicetta(args.currentRecipe)
             Toast.makeText(requireContext(), "Successfully removed: ${args.currentRecipe.nomeRicetta}", Toast.LENGTH_SHORT).show()
+            backCallback.isEnabled = false          // evita che il dialog compaia di nuovo
             findNavController().navigate(R.id.action_updateFragment_to_listFragment)
         }
         builder.setNegativeButton("No"){_, _-> }
@@ -424,6 +509,30 @@ class UpdateFragment : Fragment() {
         builder.create().show()
     }
 
+
+    /**
+     * Mostra un AlertDialog se l’utente torna indietro con modifiche non salvate.
+     * Viene abilitato (= isEnabled = true) solo quando l’utente cambia qualcosa.
+     */
+    private val backCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+
+            AlertDialog.Builder(requireContext())
+                .setTitle("Modifiche non salvate")
+                .setMessage("Vuoi salvare prima di uscire?")
+                .setPositiveButton("Salva") { _, _ ->
+                    // Prova a salvare; se i dati sono validi chiude la schermata
+                    updateItem()          // già contiene tutte le validazioni
+                }
+                .setNegativeButton("Esci") { _, _ ->
+                    // Abbandona le modifiche e torna alla schermata precedente
+                    isEnabled = false     // evita loop
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
+                .setNeutralButton("Annulla", null)
+                .show()
+        }
+    }
 
 
     override fun onDestroyView() {
