@@ -184,6 +184,8 @@ class SvolgiRicettaFragment: Fragment() {
             requireContext().registerReceiver(receiver, filter,
                 Context.RECEIVER_NOT_EXPORTED)
         } else {
+            //contextCompat di androidx utilizzato per gestire il medesimo comportamento anche con le versioni
+            //più vecchie
             ContextCompat.registerReceiver(requireContext(), receiver,
                 filter, ContextCompat.RECEIVER_NOT_EXPORTED)
         }
@@ -659,7 +661,6 @@ class SvolgiRicettaFragment: Fragment() {
             requireActivity().unbindService(connection)
             mBound = false
         }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
