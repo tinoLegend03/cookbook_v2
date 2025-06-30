@@ -28,22 +28,36 @@ import com.project.roomdb_replica_ufficiale.data.ricetta.Ricetta
 import com.project.roomdb_replica_ufficiale.data.ricetta.RicettaViewModel
 import com.project.roomdb_replica_ufficiale.databinding.FragmentListBinding
 
-
+/**
+ * Fragment che mostra l’elenco delle ricette con:
+ *   - ricerca testuale
+ *   - filtri (categoria / difficoltà / durata)
+ *   - FAB per aggiungere una nuova ricetta
+ */
 class ListFragment : Fragment() {
 
+    /* --- ViewModel --- */
     private lateinit var mRecipeViewModel: RicettaViewModel
 
+    /* --- Binding & adapter --- */
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private val adapter = ListAdapter()
+
+
     private var listaRicette: List<Ricetta> = emptyList()
 
-    // Stato attuale della ricerca e dei filtri
+    /* ----- Stato attuale della ricerca e dei filtri -----*/
     private var currentQuery = ""
     private var currentCategoria: String? = null
     private var currentDifficolta: String? = null
     private var currentDurataMin: Int? = null
     private var currentDurataMax: Int? = null
+
+
+    /* LiveData dell’ultima query osservata (per rimuovere observer) */
+    private var ricetteLiveData: LiveData<List<Ricetta>>? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,19 +65,19 @@ class ListFragment : Fragment() {
     ): View? {
         _binding = FragmentListBinding.inflate(inflater, container, false)
 
-        //setHasOptionsMenu(true)
 
-        //Recyclerview
-        //val adapter = ListAdapter()
+        /* ---------- RecyclerView setup -------------------- */
         val recyclerView = _binding!!.recyclerview
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        //UserViewModel
+        /* ---------- ViewModel ----------------------------- */
         mRecipeViewModel = ViewModelProvider(this).get(RicettaViewModel::class.java)
 
+
+        /* ---------- SeekBar: imposta range max dinamico --- */
         var maxTimeSeek = 0
-        // 1) Osserva la durata massima
+        // Osserva la durata massima
         mRecipeViewModel.durataMassima.observe(viewLifecycleOwner) { maxDurata ->
             // Se il DB è vuoto assegna un default di 300 minuti
             maxTimeSeek = (maxDurata ?: 300).coerceAtLeast(1)
@@ -72,18 +86,18 @@ class ListFragment : Fragment() {
             // Imposta il nuovo massimo
             seekBar.max = maxTimeSeek
 
-            // Imposta la posizione iniziale (= “nessun limite”)
+            // Imposta la posizione iniziale
             currentDurataMin = 0
             currentDurataMax = null          // null = nessun filtro
             seekBar.progress = maxTimeSeek           // cursore in fondo
             binding.txtDurataSelezionata.text = "${maxTimeSeek} min"
         }
 
-        // 2) Listener della SeekBar
+        //Listener della SeekBar
         binding.seekBarDurata.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(sb: SeekBar?, value: Int, fromUser: Boolean) {
-                    // se utente porta il cursore al valore di max → “nessun filtro”
+                    // se utente porta il cursore al valore di max -> “nessun filtro”
                     currentDurataMax =
                         if (value == sb?.max) null else value
                     binding.txtDurataSelezionata.text =
@@ -97,16 +111,15 @@ class ListFragment : Fragment() {
             }
         )
 
-
+        /* Carica la lista iniziale */
         applySearchAndFilters()
 
-        binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_listFragment_to_addFragment)
-        }
 
 
 
 
+
+        /* ---------- Ricerca live -------------------------- */
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean = true
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -117,7 +130,7 @@ class ListFragment : Fragment() {
         })
 
 
-        // categoria
+        /* ---------- Spinner Categoria -------- */
         binding.spinnerCategoria.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected( parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
                 val sel = parent.getItemAtPosition(pos).toString()
@@ -127,7 +140,7 @@ class ListFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        // difficoltà
+        /* ---------- Spinner Difficoltà -------- */
         binding.spinnerDifficolta.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected( parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
                 val sel = parent.getItemAtPosition(pos).toString()
@@ -138,14 +151,16 @@ class ListFragment : Fragment() {
         }
 
 
+        /* ---------- Pulsante FAB “aggiungi ricetta” ------- */
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.action_listFragment_to_addFragment)
+        }
 
-        // Listener per eliminazione
-        adapter.setOnItemActionListener(object : ListAdapter.OnItemActionListener {
-            override fun onDeleteClicked(recipe: Ricetta) {
-                showDeleteDialog(recipe)
-            }
-        })
 
+
+
+
+        /* ---------- Toggle Card filtri visibile/nascosta -- */
         binding.toggleFiltersButton.setOnClickListener {
             if (binding.filterCard.visibility == View.GONE) {
                 binding.filterCard.visibility = View.VISIBLE
@@ -155,6 +170,13 @@ class ListFragment : Fragment() {
                 binding.toggleFiltersButton.setImageResource(R.drawable.ic_filter_list)
             }
         }
+
+        /*--------- Listener per eliminazione -------*/
+        adapter.setOnItemActionListener(object : ListAdapter.OnItemActionListener {
+            override fun onDeleteClicked(recipe: Ricetta) {
+                showDeleteDialog(recipe)
+            }
+        })
 
         return binding.root
     }
@@ -173,10 +195,10 @@ class ListFragment : Fragment() {
         builder.create().show()
     }
 
-    private var ricetteLiveData: LiveData<List<Ricetta>>? = null   // memorizzi l’osservato corrente
 
+    /* Esegue query filtrata e aggiorna Recycler + contatore */
     private fun applySearchAndFilters() {
-        // 1. Ottieni il nuovo LiveData dai filtri
+        // Ottieni il nuovo LiveData dai filtri
         val liveData = mRecipeViewModel
             .cercaEFiltraRicette(
                 "%${currentQuery}%",
@@ -186,11 +208,11 @@ class ListFragment : Fragment() {
                 currentDurataMax
             )
 
-        // 2. Rimuovi eventuali observer precedenti per evitare leak / callback multiple
+        // Rimuovi eventuali observer precedenti per evitare leak / callback multiple
         ricetteLiveData?.removeObservers(viewLifecycleOwner)
         ricetteLiveData = liveData
 
-        // 3. Osserva e aggiorna sia la lista che il contatore
+        // Osserva e aggiorna sia la lista che il contatore
         liveData.observe(viewLifecycleOwner) { ricette ->
 
             // aggiorna adapter
