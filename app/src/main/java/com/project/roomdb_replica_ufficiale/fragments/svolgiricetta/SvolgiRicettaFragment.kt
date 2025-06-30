@@ -169,6 +169,7 @@ class SvolgiRicettaFragment: Fragment() {
         _binding = FragmentSvolgiRicettaBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        binding.stepText.movementMethod = android.text.method.ScrollingMovementMethod()
         //istanzo la gestione della ricetta da cui prendo gli step
         mRicettaViewModel = ViewModelProvider(this)[RicettaViewModel::class.java]
 

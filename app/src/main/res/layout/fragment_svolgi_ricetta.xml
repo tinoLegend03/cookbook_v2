@@ -11,18 +11,20 @@
         android:layout_height="wrap_content"
         android:progressTint="@color/red"
         android:thumbTint="@color/btn_color_tint"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalEnd"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.078" />
+        app:layout_constraintTop_toBottomOf="@id/nameRecipe"
+        app:layout_constraintBottom_toTopOf="@id/step_card"
+        />
 
     <TextView
         android:id="@+id/nameRecipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:text="@string/textview"
         android:textSize="25sp"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalEnd"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal" />
@@ -38,13 +40,14 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/step_card"
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHeight_max="250dp"
+        android:layout_marginTop="50dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="@id/guidelineVerticalEnd"
         app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/nameRecipe">
+        app:layout_constraintTop_toBottomOf="@id/seekBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -91,17 +94,17 @@
         android:id="@+id/timer_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="@id/guidelineVerticalEnd"
-        app:layout_constraintTop_toBottomOf="@id/step_card">
+        app:layout_constraintBottom_toTopOf="@id/stepForward"
+        >
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp">
-
             <TextView
                 android:id="@+id/timer"
                 android:layout_width="wrap_content"
@@ -151,10 +154,11 @@
         android:layout_marginStart="108dp"
         android:backgroundTint="@color/blu1"
         android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalEnd"
-        app:layout_constraintStart_toEndOf="@+id/stepBack"
-        app:layout_constraintTop_toBottomOf="@+id/timer_card" />
+        app:layout_constraintEnd_toStartOf="@id/guidelineVerticalEnd"
+        app:layout_constraintStart_toEndOf="@id/stepBack"
+        app:layout_constraintTop_toBottomOf="@id/timer_card"
+        android:layout_marginTop="75dp"
+        />
 
     <Button
         android:id="@+id/stepBack"
@@ -162,11 +166,14 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/blu1"
         android:text="@string/back"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/stepForward"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/timer_card" />
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/timer_card"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="75dp"
+        android:layout_marginTop="75dp"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

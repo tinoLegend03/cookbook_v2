@@ -36,7 +36,7 @@ class ListFragment : Fragment() {
     private val adapter = ListAdapter()
 
 
-    private var listaRicette: List<Ricetta> = emptyList()
+    //private var listaRicette: List<Ricetta> = emptyList()
 
     /* ----- Stato attuale della ricerca e dei filtri -----*/
     private var currentQuery = ""
