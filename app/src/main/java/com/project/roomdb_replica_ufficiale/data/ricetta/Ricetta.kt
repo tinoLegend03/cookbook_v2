@@ -6,6 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
+/** Entità che rappresenta una ricetta */
 @Parcelize
 @Entity(
     tableName = "tab_ricette",
@@ -13,38 +14,35 @@ import kotlinx.parcelize.Parcelize
 )
 data class Ricetta (
 
-    // ---------- nuova PK ----------
+    /** PK identifica univocamente la ricetta */
     @PrimaryKey(autoGenerate = true)
     val idRicetta: Long = 0L,
 
-    //Nome ricetta
+    /** Nome ricetta (unico) */
     val nomeRicetta: String,
 
-    //Durata in minuti
+    /** Durata in minuti */
     val durata: Int,
 
-    //Difficoltà
+    /** Difficoltà */
     val livello: String,
 
-    //Categoria
+    /** Categoria */
     val categoria: String,
 
-    //Descrizione
+    /** Descrizione */
     val descrizione: String,
 
-    //Data creazione/ultima modifica
+    /** Data creazione/ultima modifica */
     val ultimaModifica: Long,
 
-    //Immagine
-    //TODO
-
-    //Ultima esecuzione
+    /** Ultima esecuzione */
     val ultimaEsecuzione: Long,
 
-    //Count
+    /** Numero di volte che è stata completata una ricetta */
     val count: Int,
 
-    //Allergeni
+    /** Allergeni */
     val allergeni: List<String>
 
 ):Parcelable{

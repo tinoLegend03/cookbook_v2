@@ -8,19 +8,25 @@ import com.project.roomdb_replica_ufficiale.data.RicettarioDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-//The ViewModel's role is to provide data to the UI and survive configuration changes.
-//A ViewModel acts as a communication center between the Repository and the UI.
+/**
+ * ViewModel per la lista degli Ingredienti.
+ * Converte le coroutine di repository in chiamate sicure per la UI.
+ */
 class IngredienteViewModel(application: Application): AndroidViewModel(application) {
 
+    /* Live stream osservato dalla UI */
     val leggiIngredienti: LiveData<List<Ingrediente>>
+
     private val repository: IngredienteRepository
 
     init {
+        // ottieni DAO dal database Singleton
         val ingredienteDao = RicettarioDatabase.getDatabase(application).ingredienteDao()
         repository = IngredienteRepository(ingredienteDao)
         leggiIngredienti = repository.leggiIngredienti
     }
 
+    /** Inserisce un nuovo ingrediente lanciando una coroutine su IO. */
     fun nuovoIngrediente(ingrediente: Ingrediente){
         viewModelScope.launch(Dispatchers.IO) {
             repository.nuovoIngrediente(ingrediente)

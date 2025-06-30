@@ -1,6 +1,6 @@
 package com.project.roomdb_replica_ufficiale.data.ricetta
 
-import androidx.core.app.Person
+
 import androidx.lifecycle.LiveData
 import com.project.roomdb_replica_ufficiale.data.ingrediente.Ingrediente
 import com.project.roomdb_replica_ufficiale.data.ingrediente.IngredienteDao
@@ -10,10 +10,18 @@ import com.project.roomdb_replica_ufficiale.relations.RicettaConIstruzioni
 import com.project.roomdb_replica_ufficiale.relations.ricettaIngredienteRelation.RicettaIngrediente
 import kotlinx.coroutines.flow.Flow
 
+
+/**
+ * Repository: astrae l’accesso ai vari DAO.
+ * Espone API sospend / LiveData / Flow usate dal ViewModel.
+ */
 class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredienteDao: IngredienteDao) {
 
+    /* Live stream di tutte le ricette */
     val leggiRicette: LiveData<List<Ricetta>> = ricettaDao.leggiRicette()
 
+
+    /* ---------- CRUD Ricetta base ----------------------------------------- */
 
     suspend fun nuovaRicetta(ricetta: Ricetta){
         ricettaDao.nuovaRicetta(ricetta)
@@ -27,9 +35,15 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
         ricettaDao.eliminaRicetta(ricetta)
     }
 
+
+    /* ---------- Join / relazioni ------------------------------------------ */
+
     fun getIngredientiConQuantitaPerRicetta(idRicetta: Long): LiveData<List<IngredienteQuantificato>> {
         return ricettaDao.getIngredientiConQuantitaPerRicetta(idRicetta)
     }
+
+
+    /* ---------- Inserimento ricetta + istruzioni (semplice) --------------- */
 
     suspend fun inserisciRicettaConIstruzioni(ricetta: Ricetta, istruzioni: List<Istruzione>) {
         ricettaDao.nuovaRicetta(ricetta)
@@ -42,24 +56,22 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
         return ricettaDao.getRicettaConIstruzioni(idRicetta)
     }
 
+    /* ---------- Inserimento completo ricetta + istr + ing ----------------- */
+
     suspend fun inserisciRicettaCompleta(
         ricetta: Ricetta,
         istruzioni: List<Istruzione>,
         ingredienti: List<RicettaIngrediente>
     ) {
-        //ricettaDao.inserisciRicettaCompleta(ricetta, istruzioni, ingredienti)
-        //ricettaDao.nuovaRicetta(ricetta)
-
-        ///////////
-        //istruzioni.forEach { ricettaDao.nuovaIstruzione(it) }
-
         ingredienti.forEach {
             ingredienteDao.inserisciIngrediente(Ingrediente(it.nomeIngrediente)) // CORRETTO QUI
-            //ricettaDao.inserisciRicettaIngrediente(it)
         }
 
         ricettaDao.inserisciRicettaCompleta(ricetta, istruzioni, ingredienti)
     }
+
+
+    /* ---------- Ricerca / feed -------------------------------------------- */
 
     fun cercaRicetta(searchQuery: String): Flow<List<Ricetta>>{
         return ricettaDao.cercaRicetta(searchQuery)
@@ -69,6 +81,9 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
         return ricettaDao.leggiUltime10Ricette()
     }
 
+
+    /* ---------- Update completo ------------------------------------------- */
+
     suspend fun aggiornaRicettaCompleta(
         ricetta: Ricetta,
         istruzioni: List<Istruzione>,
@@ -76,6 +91,9 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
     ) {
         ricettaDao.aggiornaRicettaCompleta(ricetta, istruzioni, ingredientiConQuantita)
     }
+
+
+    /* ---------- Ricerca + filtri avanzati --------------------------------- */
 
     fun cercaEFiltraRicette(
         ricetta: String,
@@ -86,6 +104,8 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
     ): Flow<List<Ricetta>> {
         return ricettaDao.cercaEFiltraRicette(ricetta, categoria, difficolta, durataMin, durataMax)
     }
+
+    /* ---------- Statistica ------------------------------------------------- */
 
     fun getDurataMassima() = ricettaDao.getDurataMassima()
 }

@@ -15,16 +15,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-//The ViewModel's role is to provide data to the UI and survive configuration changes.
-//A ViewModel acts as a communication center between the Repository and the UI.
+/**
+ * ViewModel: espone dati LiveData alla UI e lancia coroutine
+ * su Dispatchers.IO per operazioni di I/O.
+ */
 class RicettaViewModel(application: Application): AndroidViewModel(application) {
 
+    /* ---------- DAO & Repository ---------------------------------------- */
     val leggiRicette: LiveData<List<Ricetta>>
     private val repository: RicettaRepository
 
 
     init {
-        //val ricettaDao = RicettarioDatabase.getDatabase(application).ricettaDao()
+
         val db = RicettarioDatabase.getDatabase(application)
         val ricettaDao = db.ricettaDao()
         val ingredienteDao = db.ingredienteDao()
@@ -32,6 +35,8 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
         repository = RicettaRepository(ricettaDao, ingredienteDao)
         leggiRicette = repository.leggiRicette
     }
+
+    /* ---------- CRUD BASE ------------------------------------------------ */
 
     fun nuovaRicetta(ricetta: Ricetta){
         viewModelScope.launch(Dispatchers.IO) {
@@ -51,6 +56,9 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
         }
     }
 
+
+    /* ---------- Ingredienti & Istruzioni -------------------------------- */
+
     fun getIngredientiConQuantitaPerRicetta(idRicetta: Long): LiveData<List<IngredienteQuantificato>> {
         return repository.getIngredientiConQuantitaPerRicetta(idRicetta)
     }
@@ -65,6 +73,9 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
         return repository.getRicettaConIstruzioni(idRicetta)
     }
 
+
+    /* ---------- Inserimento / update completi --------------------------- */
+
     fun inserisciRicettaCompleta(
         ricetta: Ricetta,
         istruzioni: List<Istruzione>,
@@ -75,11 +86,6 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
         }
     }
 
-    fun cercaRicetta(searchQuery: String): LiveData<List<Ricetta>>{
-        return repository.cercaRicetta(searchQuery).asLiveData()
-    }
-
-    val ultime10Ricette: LiveData<List<Ricetta>> = repository.leggiUltime10Ricette()
 
     fun aggiornaRicettaCompleta(
         ricetta: Ricetta,
@@ -88,6 +94,20 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
     ) = viewModelScope.launch {
         repository.aggiornaRicettaCompleta(ricetta, istruzioni, ingredientiConQuantita)
     }
+
+
+    /* ---------- Ricerca semplice ---------------------------------------- */
+
+    fun cercaRicetta(searchQuery: String): LiveData<List<Ricetta>>{
+        return repository.cercaRicetta(searchQuery).asLiveData()
+    }
+
+    /* ---------- Feed home ----------------------------------------------- */
+
+    val ultime10Ricette: LiveData<List<Ricetta>> = repository.leggiUltime10Ricette()
+
+
+    /* ---------- Ricerca + filtri avanzati ------------------------------- */
 
     fun cercaEFiltraRicette(
         ricetta: String,
@@ -98,6 +118,9 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
     ): LiveData<List<Ricetta>> {
         return repository.cercaEFiltraRicette(ricetta, categoria, difficolta, durataMin, durataMax).asLiveData()
     }
+
+
+    /* ---------- Statistiche --------------------------------------------- */
 
     val durataMassima: LiveData<Int?> = repository.getDurataMassima()
 }

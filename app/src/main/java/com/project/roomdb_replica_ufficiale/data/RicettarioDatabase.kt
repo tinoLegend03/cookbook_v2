@@ -14,6 +14,10 @@ import com.project.roomdb_replica_ufficiale.data.ricetta.Ricetta
 import com.project.roomdb_replica_ufficiale.data.ricetta.RicettaDao
 import com.project.roomdb_replica_ufficiale.relations.ricettaIngredienteRelation.RicettaIngrediente
 
+/**
+ * Room database principale dell’app.
+ * Contiene le entità e fornisce i DAO necessari.
+ */
 @Database(entities = [
     Istruzione::class,
     Ricetta::class,
@@ -22,22 +26,34 @@ import com.project.roomdb_replica_ufficiale.relations.ricettaIngredienteRelation
     version = 4,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+@TypeConverters(Converters::class)      // converter per tipi custom
 abstract class RicettarioDatabase: RoomDatabase() {
+
+    /* --------- DAO esposti ------------------------------------------------ */
 
     abstract fun istruzioneDao(): IstruzioneDao
     abstract fun ricettaDao(): RicettaDao
     abstract fun ingredienteDao(): IngredienteDao
 
+    /* --------- Singleton thread-safe -------------------------------------- */
+
     companion object{
         @Volatile
         private var INSTANCE: RicettarioDatabase? = null
 
+
+        /**
+         * Ritorna l’istanza Singleton del DB. Se non esiste la crea.
+         * `synchronized` garantisce sicurezza in multi-thread.
+         */
         fun getDatabase(context: Context): RicettarioDatabase{
+            //ritorna subito se già inizializzato
             val tempInstance = INSTANCE
             if(tempInstance != null){
                 return tempInstance
             }
+
+            //altrimenti crea l’istanza
             synchronized(this){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
