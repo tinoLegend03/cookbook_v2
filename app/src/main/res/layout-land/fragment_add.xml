@@ -304,6 +304,7 @@
             android:id="@+id/add_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/blu1"
             android:text="@string/aggiungi"
             app:layout_constraintTop_toBottomOf="@id/allerg_card"
             app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
