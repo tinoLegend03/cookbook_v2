@@ -30,16 +30,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //GESTIONE TEMA SCUSO
-        //non so se contesto corretto
         val preference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         var theme: String
-        if(Build.VERSION.SDK_INT < 29){
+        if(Build.VERSION.SDK_INT < 29){ //differenza API
             theme = preference.getString("theme", "Light mode") ?: "Light mode"
 
         } else {
             theme = preference.getString("theme", "System") ?: "System"
         }
-        Log.d("THEME VALUE", theme)
+        //imposto tema dell'app
         if(theme == "Dark mode"){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else if (theme == "Light mode") {

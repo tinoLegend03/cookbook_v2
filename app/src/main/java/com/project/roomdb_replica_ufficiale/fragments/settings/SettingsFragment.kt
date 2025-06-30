@@ -10,15 +10,23 @@ import androidx.preference.PreferenceFragmentCompat
 import com.project.roomdb_replica_ufficiale.R
 import com.project.roomdb_replica_ufficiale.fragments.svolgiricetta.TimerService
 
-
+/*
+PreferenceFragmentCompat è un tipo specifico di fragment che salva le informazioni in DefaultSharedPreferences
+ */
 class SettingsFragment : PreferenceFragmentCompat() {
 
+    //listener il tema: quando viene impostato è necessario riavviare l'activity per vedere il cambio di tema
     private var listenerList: Preference.OnPreferenceChangeListener = object : Preference.OnPreferenceChangeListener {
         override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
             requireActivity().recreate()
             return true
         }
     }
+
+    /*
+    listneer che fondamentalmente crea un intent per accedere all'app impostazioni del dispositivo
+    e gestire le notifiche
+     */
 
     private var listenerPreference: Preference.OnPreferenceClickListener = object :
         Preference.OnPreferenceClickListener {
@@ -36,6 +44,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
+        //ottengo la reference a themePreference
         val themePreference = findPreference<ListPreference>("theme")
         themePreference?.onPreferenceChangeListener = listenerList
 
@@ -49,6 +58,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             themePreference?.entries = resources.getStringArray(R.array.choose_theme)
             themePreference?.entryValues = resources.getStringArray(R.array.choose_theme)
         }
+
 
         val notifyPreference = findPreference<Preference>("pref_system_notification")
         notifyPreference?.onPreferenceClickListener = listenerPreference
