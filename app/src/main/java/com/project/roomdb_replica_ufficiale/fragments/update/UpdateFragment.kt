@@ -33,12 +33,10 @@ import kotlinx.coroutines.launch
 
 /**
  * Fragment di modifica ricetta.
- * Tutti i campi possono essere cambiati, compresi
- * step dinamici, ingredienti e allergeni.
+ * Tutti i campi possono essere cambiati.
  */
 class UpdateFragment : Fragment() {
 
-    /* ----------------- Setup base & binding ------------------- */
 
     private val args by navArgs<UpdateFragmentArgs>()    // ricetta da modificare
     private lateinit var mRecipeViewModel: RicettaViewModel
@@ -53,7 +51,7 @@ class UpdateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        /* -------- Inflate & ViewModel -------------------------- */
+        /* -------- Inflate e ViewModel -------------------------- */
         _binding = FragmentUpdateBinding.inflate(inflater, container, false)
         val view = binding.root
         mRecipeViewModel = ViewModelProvider(this).get(RicettaViewModel::class.java)
@@ -74,7 +72,8 @@ class UpdateFragment : Fragment() {
 
 
 
-        /* Si creano e impostano gli Spinner */
+        /* -------- Si creano e impostano gli Spinner ----------- */
+        /* ------ Devono essere visualizzate le caratteristiche salvate alla creazione o all'ultima modifcia */
         val livelloAdapter = ArrayAdapter.createFromResource(
             requireContext(),
             R.array.level_array,
@@ -84,19 +83,11 @@ class UpdateFragment : Fragment() {
             binding.updateRecipeLevelEt.adapter = spinnerAdapter
         }
 
-        Log.d("DEBUG-LIVELLO", "valore DB = '${args.currentRecipe.livello}'")
-        for (i in 0 until livelloAdapter.count) {
-            Log.d("DEBUG-LIVELLO", "array[$i] = '${livelloAdapter.getItem(i)}'")
-        }
+
 
         binding.updateRecipeLevelEt.post {
             val pos = livelloAdapter.getPosition(args.currentRecipe.livello.trim())
             if (pos >= 0) binding.updateRecipeLevelEt.setSelection(pos, false)
-        }
-
-        Log.d("DEBUG-LIVELLO", "valore DB = '${args.currentRecipe.livello}'")
-        for (i in 0 until livelloAdapter.count) {
-            Log.d("DEBUG-LIVELLO", "array[$i] = '${livelloAdapter.getItem(i)}'")
         }
 
         val categoriaAdapter = ArrayAdapter.createFromResource(
@@ -113,22 +104,7 @@ class UpdateFragment : Fragment() {
             if (pos >= 0) binding.updateRecipeCategoryEt.setSelection(pos, false)
         }
 
-        //val posCategoria = categoriaAdapter.getPosition(args.currentRecipe.categoria)
-        //if (posCategoria >= 0) binding.updateRecipeCategoryEt.setSelection(posCategoria)
 
-        /*for(i in 0 until binding.updateRecipeLevelEt.count){
-            val toSelect = binding.updateRecipeLevelEt.getItemAtPosition(i)
-            if (toSelect == args.currentRecipe.livello){
-                binding.updateRecipeLevelEt.setSelection(i)
-            }
-        }*/
-        /*for(i in 0 until binding.updateRecipeCategoryEt.count){
-            val toSelect = binding.updateRecipeCategoryEt.getItemAtPosition(i)
-
-            if (toSelect == args.currentRecipe.categoria){
-                binding.updateRecipeCategoryEt.setSelection(i)
-            }
-        }*/
 
         val nomeRicetta = args.currentRecipe.nomeRicetta
 
@@ -179,12 +155,12 @@ class UpdateFragment : Fragment() {
             numeroStep = dati.istruzioni.size+1
         }
 
-        // Aggiunge un campo “Step X” vuoto in fondo
+        // Aggiunge un campo Step vuoto in fondo
         binding.addStepUpdateBtn.setOnClickListener{
             aggiungiCampoStep(numeroStep)
             numeroStep++
         }
-        //////////// END SEZIONE INSTRUZIONI ////////////////////
+
 
 
 
@@ -195,7 +171,7 @@ class UpdateFragment : Fragment() {
             binding.updateIngredientContainer.removeAllViews()
 
 
-            /** Ricostruisce i campi ingredienti: nome + quantità + delete */
+            /** Ricostruisce i campi ingredienti: nome, quantità, delete */
             ingredienti.forEach {
                 val layout = LinearLayout(requireContext()).apply {
                     orientation = LinearLayout.HORIZONTAL
@@ -237,13 +213,13 @@ class UpdateFragment : Fragment() {
             aggiungiCampoIngrediente()
         }
 
-        //////////// END SEZIONE INGREDIENTI ////////////////////
 
 
-        /* -------- Allergeni (chip) ---------------------------- */
+
+        /* -------- Chip Allergeni ---------------------------- */
         val allergeniRicetta = args.currentRecipe.allergeni ?: emptyList()
 
-        /** Popola la ChipGroup degli allergeni con selezione multipla. */
+        /* ------- Popola la ChipGroup degli allergeni con selezione multipla. ------- */
         allergeniEuropei.forEach { allergene ->
             val chip = Chip(requireContext()).apply {
                 text = allergene
@@ -252,7 +228,7 @@ class UpdateFragment : Fragment() {
             }
             binding.chipGroupAllergeniUpdate.addView(chip)
         }
-        //////////// END SEZIONE ALLERGENI ////////////////////
+
 
 
 
@@ -324,7 +300,7 @@ class UpdateFragment : Fragment() {
 
     }
 
-    /* ---------------- Helpers UI  ----------------------- */
+
 
 
     /* ---------- updateItem(): valida input e salva ----------------------- */
@@ -347,7 +323,7 @@ class UpdateFragment : Fragment() {
         val livello = binding.updateRecipeLevelEt.selectedItem.toString()
         val categoria = binding.updateRecipeCategoryEt.selectedItem.toString()
 
-        /* Si aggiungono tutte le istruzioni (nuove comprese) ad una lista */
+        /* ---------- Si aggiungono tutte le istruzioni (nuove comprese) ad una lista ----- */
         val istruzioni = mutableListOf<Istruzione>()
         istruzioni.clear()
         var stepNumber = 1
@@ -456,14 +432,14 @@ class UpdateFragment : Fragment() {
             ).apply { setMargins(0, 8, 0, 8) }
         }
 
-        /* Si crea lo spazio per il nuovo step */
+        /* ------ Si crea lo spazio per il nuovo step ---------- */
         val nuovoStep = EditText(requireContext()).apply {
             hint = "Step"
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
 
         }
 
-        /* Si aggiunge il botton eper eliminare lo step */
+        /* ------- Si aggiunge il botton eper eliminare lo step ------------ */
         val deleteBtn = ImageButton(requireContext()).apply {
             setImageResource(android.R.drawable.ic_menu_delete)
             setBackgroundResource(0)
@@ -473,7 +449,7 @@ class UpdateFragment : Fragment() {
             }
         }
 
-        /* Elementi aggiunti alla View */
+        /* ------ Elementi aggiunti alla View --------- */
         layout.addView(nuovoStep)
         layout.addView(deleteBtn)
         binding.updateStepContainer.addView(layout)
@@ -544,7 +520,7 @@ class UpdateFragment : Fragment() {
 
     /**
      * Mostra un AlertDialog se l’utente torna indietro con modifiche non salvate.
-     * Viene abilitato (= isEnabled = true) solo quando l’utente cambia qualcosa.
+     * Viene abilitato (isEnabled = true) solo quando l’utente cambia qualcosa.
      */
     private val backCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
@@ -553,8 +529,7 @@ class UpdateFragment : Fragment() {
                 .setTitle("Unsaved changes")
                 .setMessage("Do you want to save before exiting?")
                 .setPositiveButton("Save") { _, _ ->
-                    // Prova a salvare; se i dati sono validi chiude la schermata
-                    updateItem()          // già contiene tutte le validazioni
+                    // Prova a salvare e se i dati sono validi chiude la schermata
                 }
                 .setNegativeButton("Exit") { _, _ ->
                     // Abbandona le modifiche e torna alla schermata precedente

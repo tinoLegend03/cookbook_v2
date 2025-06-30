@@ -30,13 +30,13 @@ class ListFragment : Fragment() {
     /* --- ViewModel --- */
     private lateinit var mRecipeViewModel: RicettaViewModel
 
-    /* --- Binding & adapter --- */
+    /* --- Binding e adapter --- */
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private val adapter = ListAdapter()
 
 
-    //private var listaRicette: List<Ricetta> = emptyList()
+
 
     /* ----- Stato attuale della ricerca e dei filtri -----*/
     private var currentQuery = ""
@@ -46,7 +46,7 @@ class ListFragment : Fragment() {
     private var currentDurataMax: Int? = null
 
 
-    /* LiveData dell’ultima query osservata (per rimuovere observer) */
+    /* LiveData dell’ultima query  */
     private var ricetteLiveData: LiveData<List<Ricetta>>? = null
 
 
@@ -57,7 +57,7 @@ class ListFragment : Fragment() {
         _binding = FragmentListBinding.inflate(inflater, container, false)
 
 
-        /* ---------- RecyclerView setup -------------------- */
+        /* ---------- Settaggio RecyclerView -------------------- */
         val recyclerView = _binding!!.recyclerview
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -66,7 +66,7 @@ class ListFragment : Fragment() {
         mRecipeViewModel = ViewModelProvider(this).get(RicettaViewModel::class.java)
 
 
-        /* ---------- SeekBar: imposta range max dinamico --- */
+        /* ---------- SeekBar che imposta il range max dinamicamente --- */
         var maxTimeSeek = 0
         // Osserva la durata massima
         mRecipeViewModel.durataMassima.observe(viewLifecycleOwner) { maxDurata ->
@@ -79,7 +79,7 @@ class ListFragment : Fragment() {
 
             // Imposta la posizione iniziale
             currentDurataMin = 0
-            currentDurataMax = null          // null = nessun filtro
+            currentDurataMax = null                  // null = nessun filtro
             seekBar.progress = maxTimeSeek           // cursore in fondo
             binding.txtDurataSelezionata.text = "${maxTimeSeek} min"
         }
@@ -142,7 +142,7 @@ class ListFragment : Fragment() {
         }
 
 
-        /* ---------- Pulsante FAB “aggiungi ricetta” ------- */
+        /* ---------- Pulsante FAB per aggiungere una nuova ricetta ------- */
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
         }
@@ -151,7 +151,7 @@ class ListFragment : Fragment() {
 
 
 
-        /* ---------- Toggle Card filtri visibile/nascosta -- */
+        /* ---------- Gestione della toggle Card dei filtri su visibile/nascosta -- */
         binding.toggleFiltersButton.setOnClickListener {
             if (binding.filterCard.visibility == View.GONE) {
                 binding.filterCard.visibility = View.VISIBLE
@@ -187,7 +187,7 @@ class ListFragment : Fragment() {
     }
 
 
-    /* Esegue query filtrata e aggiorna Recycler + contatore */
+    /* ------- Esegue query filtrata e aggiorna Recycler e il contatore -----*/
     private fun applySearchAndFilters() {
         // Ottieni il nuovo LiveData dai filtri
         val liveData = mRecipeViewModel
@@ -199,7 +199,7 @@ class ListFragment : Fragment() {
                 currentDurataMax
             )
 
-        // Rimuovi eventuali observer precedenti per evitare leak / callback multiple
+        // Rimuovi eventuali observer precedenti per evitare ripetizioni
         ricetteLiveData?.removeObservers(viewLifecycleOwner)
         ricetteLiveData = liveData
 

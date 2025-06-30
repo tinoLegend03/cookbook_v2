@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * Repository: astrae l’accesso ai vari DAO.
- * Espone API sospend / LiveData / Flow usate dal ViewModel.
  */
 class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredienteDao: IngredienteDao) {
 
@@ -43,7 +42,7 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
     }
 
 
-    /* ---------- Inserimento ricetta + istruzioni (semplice) --------------- */
+    /* ---------- Inserimento ricetta + istruzioni --------------- */
 
     suspend fun inserisciRicettaConIstruzioni(ricetta: Ricetta, istruzioni: List<Istruzione>) {
         ricettaDao.nuovaRicetta(ricetta)
@@ -71,7 +70,7 @@ class RicettaRepository(private val ricettaDao: RicettaDao, private val ingredie
     }
 
 
-    /* ---------- Ricerca / feed -------------------------------------------- */
+    /* ---------- Ricerca -------------------------------------------- */
 
     fun cercaRicetta(searchQuery: String): Flow<List<Ricetta>>{
         return ricettaDao.cercaRicetta(searchQuery)

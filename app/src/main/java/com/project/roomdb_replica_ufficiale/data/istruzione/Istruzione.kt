@@ -22,7 +22,7 @@ import com.project.roomdb_replica_ufficiale.data.ricetta.Ricetta
 )
 data class Istruzione (
 
-    // PK autonumerata
+    /** PK autonumerata */
     @PrimaryKey(autoGenerate = true)
     val id: Int,
 
@@ -32,6 +32,6 @@ data class Istruzione (
     /** Numero di ordine dello step */
     val numero: Int,
 
-    //Testo dell'istruzione
+    /** Testo dell'istruzione */
     val descrizione: String
 )

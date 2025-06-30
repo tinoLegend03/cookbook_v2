@@ -38,9 +38,9 @@ class AddFragment : Fragment() {
     var ingrStep: MutableList<String> = mutableListOf()
 
     val allergeniEuropei = listOf(
-        "Glutine", "Crostacei", "Uova", "Pesce", "Arachidi",
-        "Soia", "Latte", "Frutta a guscio", "Sedano", "Senape",
-        "Sesamo", "Anidride solforosa", "Lupini", "Molluschi"
+        "Gluten", "Crustaceans", "Eggs", "Fish", "Peanuts",
+        "Soya", "Milk", "Tree nuts", "Celery", "Mustard",
+        "Sesame", "Sulphites", "Lupin", "Molluscs"
     )
 
     private lateinit var mRecipeViewModel: RicettaViewModel //per gestione inserimento in db

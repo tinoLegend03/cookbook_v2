@@ -7,7 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 /**
- * DAO per gestire le istruzioni di preparazione.
+ * DAO per l’entità Istruzione.
+ * Espone operazioni CRUD basilari.
  */
 @Dao
 interface IstruzioneDao {

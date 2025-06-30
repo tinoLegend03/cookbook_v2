@@ -17,6 +17,7 @@ import com.project.roomdb_replica_ufficiale.relations.ricettaIngredienteRelation
 /**
  * Room database principale dell’app.
  * Contiene le entità e fornisce i DAO necessari.
+ * Getsisce la ccreazione e le relative versioni.
  */
 @Database(entities = [
     Istruzione::class,
@@ -26,6 +27,7 @@ import com.project.roomdb_replica_ufficiale.relations.ricettaIngredienteRelation
     version = 4,
     exportSchema = false
 )
+// converter per tipi custom
 @TypeConverters(Converters::class)      // converter per tipi custom
 abstract class RicettarioDatabase: RoomDatabase() {
 
@@ -44,7 +46,7 @@ abstract class RicettarioDatabase: RoomDatabase() {
 
         /**
          * Ritorna l’istanza Singleton del DB. Se non esiste la crea.
-         * `synchronized` garantisce sicurezza in multi-thread.
+         * "synchronized" garantisce sicurezza in multi-thread.
          */
         fun getDatabase(context: Context): RicettarioDatabase{
             //ritorna subito se già inizializzato

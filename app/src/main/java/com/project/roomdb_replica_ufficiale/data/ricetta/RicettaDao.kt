@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * DAO principale per tutte le operazioni su Ricette, Istruzioni e tabelle ponte.
- * Contiene anche metodi di utilità in @Transaction per operazioni “atomiche”.
+ * Contiene anche metodi @Transaction per operazioni “atomiche”.
  */
 @Dao
 interface RicettaDao {
@@ -28,11 +28,13 @@ interface RicettaDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun nuovaRicetta(ricetta: Ricetta): Long
 
-    /** Aggiorna la ricetta (match su PK idRicetta). */
+    /** Aggiorna la ricetta */
     @Update
     suspend fun aggiornaRicetta(ricetta: Ricetta)
 
-    /** Elimina la ricetta: cascata su istruzioni/ingredienti è garantita dai FK. */
+    /** Elimina la ricetta
+     * L'eliminazione a cascata su istruzioni/ingredienti è garantita dai FK.
+     */
     @Delete
     suspend fun eliminaRicetta(ricetta: Ricetta)
 
@@ -47,7 +49,7 @@ interface RicettaDao {
 
     /**
      * Restituisce gli ingredienti di una ricetta con la relativa quantità
-     * usando una INNER JOIN tra la tabella ponte e tab_ingredienti.
+     * usando una INNER JOIN tra tab_ricetta_ingrediente e tab_ingredienti.
      */
     @Query("SELECT i.nomeIngrediente, ri.quantita FROM tab_ricetta_ingrediente AS ri INNER JOIN tab_ingredienti AS i ON ri.nomeIngrediente = i.nomeIngrediente WHERE ri.idRicetta = :idRicetta")
     fun getIngredientiConQuantitaPerRicetta(idRicetta: Long): LiveData<List<IngredienteQuantificato>>
@@ -59,7 +61,7 @@ interface RicettaDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun inserisciIstruzione(istruzione: Istruzione)
 
-    /** Ricetta + istruzioni (relazione 1-N) in un’unica chiamata. */
+    /** Ricava la ricetta e relative istruzioni. */
     @Transaction
     @Query("SELECT * FROM tab_ricette WHERE idRicetta = :id")
     fun getRicettaConIstruzioni(id: Long): LiveData<RicettaConIstruzioni>
@@ -69,7 +71,7 @@ interface RicettaDao {
     /* ---------- Inserimento completo (Ricetta + istr + ing) ------------------ */
 
     /**
-     * Inserisce ricetta, istruzioni e ingredienti in un’unica transazione.
+     * Inserisce la ricetta, le istruzioni e gli ingredienti in un’unica transazione.
      * Se la ricetta esiste già (id = -1) recupera l’id dal nome.
      */
     @Transaction
@@ -106,14 +108,13 @@ interface RicettaDao {
     @Query("SELECT * FROM tab_ricette WHERE nomeRicetta LIKE :searchQuery")
     fun cercaRicetta(searchQuery: String): Flow<List<Ricetta>>
 
-    /** Ultime 10 modificate per “home screen”. */
+    /** Ultime 10 ricette modificate. */
     @Query("SELECT * FROM tab_ricette ORDER BY ultimaModifica DESC LIMIT 10")
     fun leggiUltime10Ricette(): LiveData<List<Ricetta>>
 
 
 
     /* ---------- Update completo (ricetta + tutte le relazioni) -------------- */
-
 
     @Transaction
     suspend fun aggiornaRicettaCompleta(
@@ -140,7 +141,7 @@ interface RicettaDao {
 
 
 
-    /* ---------- Helper per delete bulk -------------------------------------- */
+    /* ---------- Helper per delete -------------------------------------- */
 
 
     @Query("DELETE FROM tab_istruzioni WHERE idRicetta = :idRicetta")
@@ -162,7 +163,7 @@ interface RicettaDao {
 
     /**
      * Ricerca testuale + filtro su categoria, difficoltà e range di durata.
-     * Passare null a un parametro → ignora quel filtro.
+     * Se si passa null a un parametro si ignora quel filtro.
      */
     @Query("""
     SELECT * FROM tab_ricette 
@@ -184,7 +185,7 @@ interface RicettaDao {
 
     /* ---------- Statistiche ------------------------------------------------- */
 
-    /** Durata massima di tutte le ricette (per disegnare slider/seekbar). */
+    /** Durata massima di tutte le ricette per lo slider. */
     @Query("SELECT MAX(durata) FROM tab_ricette")
     fun getDurataMassima(): LiveData<Int?>
 

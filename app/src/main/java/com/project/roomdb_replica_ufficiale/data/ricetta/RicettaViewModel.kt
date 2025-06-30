@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 
 
 /**
- * ViewModel: espone dati LiveData alla UI e lancia coroutine
- * su Dispatchers.IO per operazioni di I/O.
+ * ViewModel per l'entità Ricetta.
+ * Converte le coroutine di repository in chiamate sicure per la UI.
  */
 class RicettaViewModel(application: Application): AndroidViewModel(application) {
 
@@ -74,7 +74,7 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
     }
 
 
-    /* ---------- Inserimento / update completi --------------------------- */
+    /* ---------- Inserimento completo --------------------------- */
 
     fun inserisciRicettaCompleta(
         ricetta: Ricetta,
@@ -86,6 +86,7 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
         }
     }
 
+    /* ---------- Aggiornamento completo --------------------------- */
 
     fun aggiornaRicettaCompleta(
         ricetta: Ricetta,
@@ -102,7 +103,7 @@ class RicettaViewModel(application: Application): AndroidViewModel(application) 
         return repository.cercaRicetta(searchQuery).asLiveData()
     }
 
-    /* ---------- Feed home ----------------------------------------------- */
+
 
     val ultime10Ricette: LiveData<List<Ricetta>> = repository.leggiUltime10Ricette()
 
