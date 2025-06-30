@@ -57,6 +57,8 @@
     <string name="_1">1.</string>
     <string name="informazioni_base">Informazioni base</string>
     <string name="detail">Details</string>
+    <string name="update">update</string>
+    <string name="delete">delete</string>
 
     <plurals name="numero_ricette">
         <item quantity="one">%d ricetta</item>
