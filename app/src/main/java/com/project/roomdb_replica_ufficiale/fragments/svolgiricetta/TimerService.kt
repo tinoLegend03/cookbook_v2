@@ -23,11 +23,16 @@ import java.util.Locale
 
 class TimerService : Service() {
 
+    //Binder locale che espone un riferimento al servizio stesso.
     inner class TimerBinder : Binder() {
+
+        //Restituisce l'istanza attuale di TimerService
         fun getService(): TimerService = this@TimerService
     }
+
     private val binder = TimerBinder()
 
+    //COSTANTI
     companion object {
         const val ACTION_START = "com.project.roomdb_replica_ufficiale.timer.START"
         const val ACTION_PAUSE = "com.project.roomdb_replica_ufficiale.timer.PAUSE"
@@ -47,6 +52,7 @@ class TimerService : Service() {
         const val NOTIFICATION_ID = 100
     }
 
+    //PROPRIETA
     var timeLeft: Long = 0
     var timer: CountDownTimer? = null
     lateinit var notification: Notification
@@ -56,13 +62,15 @@ class TimerService : Service() {
     enum class TimerState {RUNNING, PAUSED, IDLE}
     var currentState: TimerState = TimerState.IDLE
 
+    /*
+    Restituisce il local binder che consente a svolgiRicetta di interagire
+    direttamente con il servizio
+     */
     override fun onBind(intent: Intent?): IBinder {
-        Log.d("DEBUG", "onBind chiamato")
         return binder
     }
 
     override fun onCreate() {
-        Log.d("ONCREATE", "creato")
         super.onCreate()
         //crea il canale di notifica alla creazione del servizio
         createNotificationChannel()
@@ -97,6 +105,13 @@ class TimerService : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val action = intent.action
 
+        /*
+        start: prende il valore passato per il timer e inizia il servizio
+        disconnetti: termina il servizio
+        pause: mette in pausa il timer
+        azzera: effettua il rest
+        resume: riprende dal valore che il service aveva
+         */
         when(action){
             ACTION_START -> {
                 timeLeft = intent.getLongExtra(SvolgiRicettaFragment.EXTRA_START_TIMER, 0L)
@@ -111,8 +126,6 @@ class TimerService : Service() {
             }
             else -> Log.d("ACTION DEFAULT", "nothing")
         }
-
-        Log.d("SERVIZIO", "startato")
 
         return START_NOT_STICKY
     }
