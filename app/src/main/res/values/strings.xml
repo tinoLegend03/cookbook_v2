@@ -47,14 +47,15 @@
     <string name="difficult">Difficulty:</string>
     <string name="category">Category:</string>
     <string name="instruction">Steps:</string>
-    <string name="ingredient">Ingredients:</string>
-    <string name="allerg">Allergens:</string>
+    <string name="ingredient">Ingredient:</string>
+    <string name="allerg">Allergen:</string>
     <string name="my_profile">My profile</string>
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="istruzione">step</string>
     <string name="textview">TextView</string>
     <string name="_1">1.</string>
+
     <plurals name="numero_ricette">
         <item quantity="one">%d ricetta</item>
         <item quantity="other">%d ricette</item>

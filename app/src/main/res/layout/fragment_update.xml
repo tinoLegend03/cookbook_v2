@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Informazioni base"
+                    android:text="@string/informazioni_base"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
@@ -41,13 +41,17 @@
 
                 <EditText
                     android:id="@+id/updateRecipeName_et"
-                    android:hint="Nome Ricetta"
+                    android:hint="@string/nome_ricetta"
+                    android:inputType="text"
+                    android:autofillHints="name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
                 <EditText
                     android:id="@+id/updateRecipeDescription_et"
-                    android:hint="Descrizione"
+                    android:hint="@string/description"
+                    android:inputType="text"
+                    android:autofillHints="name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -71,9 +75,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
                 <TextView
-                    android:text="Dettagli ricetta"
+                    android:text="@string/detail"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
@@ -105,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="Durata"
+                    android:hint="@string/durata"
                     android:inputType="number" />
 
             </LinearLayout>
@@ -133,7 +136,7 @@
 
 
                 <TextView
-                    android:text="Ingredienti"
+                    android:text="@string/ingredient"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
@@ -181,7 +184,7 @@
 
 
                 <TextView
-                    android:text="Istruzioni"
+                    android:text="@string/steps"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
@@ -231,7 +234,7 @@
 
 
                 <TextView
-                    android:text="Allergeni"
+                    android:text="@string/allerg"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
@@ -268,7 +271,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Aggiorna"
+            android:text="@string/update"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -279,7 +282,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Elimina"
+            android:text="@string/delete"
             app:layout_constraintTop_toBottomOf="@+id/update_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
