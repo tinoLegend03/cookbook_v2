@@ -14,6 +14,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -118,6 +119,7 @@ class UpdateFragment : Fragment() {
                 val deleteBtn = ImageButton(requireContext()).apply {
                     setImageResource(android.R.drawable.ic_menu_delete)
                     setBackgroundResource(0)
+                    imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.btn_color_tint)
                     setOnClickListener {
                         binding.updateStepContainer.removeView(layout)
                     }
