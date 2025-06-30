@@ -44,7 +44,7 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = recipeList[position]
         holder.binding.recipeName.text = currentItem.nomeRicetta
-        holder.binding.recipeDetails.text = currentItem.durata.toString()
+        holder.binding.recipeDetails.text = "${currentItem.durata} min • ${currentItem.livello}"
         holder.binding.recipeDate.text = formattaData(currentItem.ultimaEsecuzione)
 
         holder.binding.cardView.setOnClickListener{
@@ -74,7 +74,7 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     }
 
     fun formattaData(timestamp: Long): String {
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'alle' HH:mm")
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm")
         val zona = ZoneId.systemDefault() // oppure ZoneId.of("Europe/Rome")
         val data = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), zona)
         return data.format(formatter)

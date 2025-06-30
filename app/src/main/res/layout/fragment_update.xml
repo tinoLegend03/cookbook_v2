@@ -13,132 +13,252 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/updateRecipeName_et"
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:ems="10"
-            android:hint="Nome Ricetta"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginBottom="12dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp">
 
-        <EditText
-            android:id="@+id/updateRecipeDescription_et"
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Informazioni base"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText
+                    android:id="@+id/updateRecipeName_et"
+                    android:hint="Nome Ricetta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/updateRecipeDescription_et"
+                    android:hint="Descrizione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Descrizione"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/updateRecipeName_et" />
+            android:layout_marginBottom="12dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
-        <Spinner
-            android:id="@+id/updateRecipeLevel_et"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:text="@string/livello"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/updateRecipeDescription_et" />
-
-        <Spinner
-            android:id="@+id/updateRecipeCategory_et"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:text="@string/categoria"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/updateRecipeLevel_et" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-
-        <EditText
-            android:id="@+id/updateDuration_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Durata"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/updateRecipeCategory_et" />
+                <TextView
+                    android:text="Dettagli ricetta"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
-        <!-- Ingredienti dinamici -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ingredienti"
-            android:textStyle="bold"
-            android:paddingTop="12dp" />
+                <Spinner
+                    android:id="@+id/updateRecipeLevel_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:ems="10"
+                    android:text="@string/livello"
+                    android:inputType="text" />
 
-        <LinearLayout
-            android:id="@+id/updateIngredientContainer"
+                <Spinner
+                    android:id="@+id/updateRecipeCategory_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:ems="10"
+                    android:text="@string/categoria"
+                    android:inputType="text"
+                    />
+
+
+
+                <EditText
+                    android:id="@+id/updateDuration_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Durata"
+                    android:inputType="number" />
+
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <!-- Esempio: verranno aggiunti dinamicamente -->
-        </LinearLayout>
+            android:layout_marginBottom="12dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
-        <Button
-            android:id="@+id/addIngredientUpdateBtn"
-            android:text="Aggiungi Ingrediente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-        <!-- Istruzioni dinamiche -->
-        <TextView
+                <TextView
+                    android:text="Ingredienti"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <!-- Ingredienti dinamici -->
+                <LinearLayout
+                    android:id="@+id/updateIngredientContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/addIngredientUpdateBtn"
+                    android:text="Aggiungi Ingrediente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Istruzioni"
-            android:textStyle="bold"
-            android:paddingTop="12dp" />
+            android:layout_marginBottom="12dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
-        <LinearLayout
-            android:id="@+id/updateStepContainer"
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:text="Istruzioni"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <!-- Istruzioni dinamiche -->
+                <LinearLayout
+                    android:id="@+id/updateStepContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!-- Esempio: verranno aggiunti dinamicamente -->
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/addStepUpdateBtn"
+                    android:text="Aggiungi Step"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <!-- Esempio: verranno aggiunti dinamicamente -->
-        </LinearLayout>
+            android:layout_marginBottom="12dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
-        <Button
-            android:id="@+id/addStepUpdateBtn"
-            android:text="Aggiungi Step"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:text="Allergeni"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <!-- Allergenici dinamici -->
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupAllergeniUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="false"
+                    app:chipSpacing="8dp"/>
+
+
+            </LinearLayout>
 
 
 
-        <!-- Allergenici dinamici -->
-        <TextView android:text="Allergeni"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupAllergeniUpdate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:singleSelection="false"
-            app:chipSpacing="8dp"/>
+
+
+
+
+
 
 
 

@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -145,6 +146,16 @@ class ListFragment : Fragment() {
             }
         })
 
+        binding.toggleFiltersButton.setOnClickListener {
+            if (binding.filterCard.visibility == View.GONE) {
+                binding.filterCard.visibility = View.VISIBLE
+                binding.toggleFiltersButton.setImageResource(R.drawable.ic_close) // ad esempio una X
+            } else {
+                binding.filterCard.visibility = View.GONE
+                binding.toggleFiltersButton.setImageResource(R.drawable.ic_filter_list)
+            }
+        }
+
         return binding.root
     }
 
@@ -162,8 +173,11 @@ class ListFragment : Fragment() {
         builder.create().show()
     }
 
+    private var ricetteLiveData: LiveData<List<Ricetta>>? = null   // memorizzi l’osservato corrente
+
     private fun applySearchAndFilters() {
-        mRecipeViewModel
+        // 1. Ottieni il nuovo LiveData dai filtri
+        val liveData = mRecipeViewModel
             .cercaEFiltraRicette(
                 "%${currentQuery}%",
                 currentCategoria,
@@ -171,10 +185,28 @@ class ListFragment : Fragment() {
                 currentDurataMin,
                 currentDurataMax
             )
-            .observe(viewLifecycleOwner) { ricette ->
-                adapter.setData(ricette)
-            }
+
+        // 2. Rimuovi eventuali observer precedenti per evitare leak / callback multiple
+        ricetteLiveData?.removeObservers(viewLifecycleOwner)
+        ricetteLiveData = liveData
+
+        // 3. Osserva e aggiorna sia la lista che il contatore
+        liveData.observe(viewLifecycleOwner) { ricette ->
+
+            // aggiorna adapter
+            adapter.setData(ricette)
+
+            // aggiorna TextView con plurale corretto
+            val txt = resources.getQuantityString(
+                R.plurals.numero_ricette,
+                ricette.size,
+                ricette.size
+            )
+            binding.resultsNumber.text = txt
+        }
     }
+
+
 
 
     override fun onDestroyView() {
