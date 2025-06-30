@@ -59,6 +59,10 @@
     <string name="detail">Details</string>
     <string name="update">Update</string>
     <string name="delete">Delete</string>
+    <string name="filtri">Filtri</string>
+    <string name="zero_ricette">0 ricette</string>
+    <string name="filtra_per_durata_massima">Filtra per durata massima:</string>
+    <string name="min">-- min</string>
 
     <plurals name="numero_ricette">
         <item quantity="one">%d ricetta</item>

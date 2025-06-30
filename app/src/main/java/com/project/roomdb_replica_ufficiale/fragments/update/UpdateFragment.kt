@@ -182,6 +182,7 @@ class UpdateFragment : Fragment() {
                 val deleteBtn = ImageButton(requireContext()).apply {
                     setImageResource(android.R.drawable.ic_menu_delete)
                     setBackgroundResource(0)
+                    imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.btn_color_tint)
                     setOnClickListener {
                         binding.updateIngredientContainer.removeView(layout)
                     }
@@ -350,6 +351,7 @@ class UpdateFragment : Fragment() {
         val deleteBtn = ImageButton(requireContext()).apply {
             setImageResource(android.R.drawable.ic_menu_delete)
             setBackgroundResource(0)
+            imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.btn_color_tint)
             setOnClickListener {
                 binding.updateStepContainer.removeView(layout)
             }
@@ -393,6 +395,7 @@ class UpdateFragment : Fragment() {
         val deleteBtn = ImageButton(requireContext()).apply {
             setImageResource(android.R.drawable.ic_menu_delete)
             setBackgroundResource(0)
+            imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.btn_color_tint)
             setOnClickListener {
                 binding.updateIngredientContainer.removeView(layout)
             }

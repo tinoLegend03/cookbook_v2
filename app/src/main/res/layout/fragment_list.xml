@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_food"
-        android:contentDescription="Filtri"
+        android:contentDescription="@string/filtri"
         app:tint="?attr/colorPrimary"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/searchView"
@@ -35,7 +35,7 @@
         android:id="@+id/resultsNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0 ricette"
+        android:text="@string/zero_ricette"
         android:textColor="?android:textColorPrimary"
         app:layout_constraintTop_toBottomOf="@id/searchView"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +94,7 @@
                 android:id="@+id/txtDurataLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtra per durata massima:"
+                android:text="@string/filtra_per_durata_massima"
                 android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
                 android:layout_marginBottom="4dp"/>
@@ -115,7 +115,7 @@
                     android:id="@+id/txtDurataSelezionata"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="-- min"
+                    android:text="@string/min"
                     android:paddingStart="8dp" />
             </LinearLayout>
 
@@ -142,6 +142,7 @@
         android:layout_marginBottom="24dp"
         android:clickable="true"
         android:focusable="true"
+        android:contentDescription="@string/aggiungi"
         android:src="@drawable/ic_filter_list"
         android:tint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
