@@ -55,6 +55,8 @@
     <string name="istruzione">step</string>
     <string name="textview">TextView</string>
     <string name="_1">1.</string>
+    <string name="informazioni_base">Informazioni base</string>
+    <string name="detail">Details</string>
 
     <plurals name="numero_ricette">
         <item quantity="one">%d ricetta</item>
