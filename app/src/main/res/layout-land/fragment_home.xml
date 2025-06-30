@@ -46,14 +46,14 @@
                     android:layout_height="48dp"
                     android:src="@drawable/ic_add"
                     android:contentDescription="@string/descr_add_recipe"
-                    app:tint="@android:color/black" />
+                    app:tint="@color/filter"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/add_recipe"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/filter"
                     android:textSize="16sp" />
 
                 <TextView
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="@string/create_new_recipe"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/filter"
                     android:textSize="12sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -86,14 +86,14 @@
                     android:layout_height="48dp"
                     android:src="@drawable/ic_book"
                     android:contentDescription="@string/descr_my_recipes"
-                    app:tint="@android:color/black" />
+                    app:tint="@color/filter" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/my_recipes"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/filter"
                     android:textSize="16sp" />
 
                 <TextView
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="@string/view_all_recipes"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/filter"
                     android:textSize="12sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

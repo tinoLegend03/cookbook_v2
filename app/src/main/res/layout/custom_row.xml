@@ -91,7 +91,7 @@
                 android:background="@drawable/round_button_background"
                 android:src="@drawable/ic_start"
                 android:contentDescription="Nuova azione"
-                app:tint="@android:color/black"
+                app:tint="@color/filter"
                 android:layout_marginEnd="8dp" />
 
             <!-- Icona Modifica -->
@@ -102,7 +102,7 @@
                 android:background="@drawable/round_button_background"
                 android:src="@drawable/ic_edit"
                 android:contentDescription="Modifica"
-                app:tint="@android:color/black"
+                app:tint="@color/filter"
                 android:layout_marginEnd="8dp" />
 
             <!-- Icona Elimina -->
@@ -113,7 +113,7 @@
                 android:background="@drawable/round_button_background"
                 android:src="@drawable/ic_delete"
                 android:contentDescription="Elimina"
-                app:tint="@android:color/black" />
+                app:tint="@color/filter" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
