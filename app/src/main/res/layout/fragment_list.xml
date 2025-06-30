@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_filter_list"
         android:contentDescription="@string/filtri"
-        app:tint="?attr/colorPrimary"
+        app:tint="@color/black"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/searchView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -145,6 +145,7 @@
         android:contentDescription="@string/aggiungi"
         android:src="@drawable/ic_add"
         android:tint="@android:color/white"
+        app:backgroundTint="@color/blu1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -100,7 +100,7 @@
     <fragment
         android:name="com.project.roomdb_replica_ufficiale.fragments.settings.SettingsFragment"
         android:id="@+id/settingsFragment"
-        android:label="fragment_settings"
+        android:label="Settings"
         />
 
 </navigation>
