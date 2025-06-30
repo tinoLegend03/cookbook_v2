@@ -155,10 +155,10 @@ class ListFragment : Fragment() {
         binding.toggleFiltersButton.setOnClickListener {
             if (binding.filterCard.visibility == View.GONE) {
                 binding.filterCard.visibility = View.VISIBLE
-                binding.toggleFiltersButton.setImageResource(R.drawable.ic_close1) // ad esempio una X
+                binding.toggleFiltersButton.setImageResource(R.drawable.ic_close) // ad esempio una X
             } else {
                 binding.filterCard.visibility = View.GONE
-                binding.toggleFiltersButton.setImageResource(R.drawable.ic_filter_list1)
+                binding.toggleFiltersButton.setImageResource(R.drawable.ic_filter_list)
             }
         }
 

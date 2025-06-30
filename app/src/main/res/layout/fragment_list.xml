@@ -22,7 +22,7 @@
         android:id="@+id/toggleFiltersButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_filter_list1"
+        android:src="@drawable/ic_food"
         android:contentDescription="Filtri"
         app:tint="?attr/colorPrimary"
         android:background="@android:color/transparent"
@@ -142,7 +142,7 @@
         android:layout_marginBottom="24dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_add"
+        android:src="@drawable/ic_filter_list"
         android:tint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
