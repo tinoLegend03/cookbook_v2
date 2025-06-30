@@ -1,9 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.RoomDB_Replica_Ufficiale" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+    <style name="Base.Theme.RoomDB_Replica_Ufficiale"
+        parent="Theme.Material3.DayNight.NoActionBar">
 
-    <style name="Theme.RoomDB_Replica_Ufficiale" parent="Base.Theme.RoomDB_Replica_Ufficiale" />
+        <!-- Colore della status-bar (API 21+) -->
+        <item name="android:statusBarColor">@color/blu1</item>
+
+        <!-- Fallback per librerie che usano ancora colorPrimaryDark -->
+        <item name="colorPrimaryDark">@color/blu1</item>
+
+        <!-- Icône di sistema scure su sfondo chiaro -->
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>
