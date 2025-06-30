@@ -4,7 +4,7 @@
         <item>Difficulty</item>
         <item>Easy</item>
         <item>Medium</item>
-        <item>Difficult</item>
+        <item>Hard</item>
     </string-array>
     <string-array name="category_array">
         <item>Type of Dish</item>
