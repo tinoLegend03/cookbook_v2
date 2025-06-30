@@ -125,7 +125,7 @@ class ListFragment : Fragment() {
         binding.spinnerCategoria.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected( parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
                 val sel = parent.getItemAtPosition(pos).toString()
-                currentCategoria = if (sel == "Tutte") null else sel
+                currentCategoria = if (sel == "All") null else sel
                 applySearchAndFilters()
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -135,7 +135,7 @@ class ListFragment : Fragment() {
         binding.spinnerDifficolta.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected( parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
                 val sel = parent.getItemAtPosition(pos).toString()
-                currentDifficolta = if (sel == "Tutte") null else sel
+                currentDifficolta = if (sel == "All") null else sel
                 applySearchAndFilters()
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}

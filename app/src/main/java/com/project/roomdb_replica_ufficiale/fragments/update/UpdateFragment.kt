@@ -66,9 +66,9 @@ class UpdateFragment : Fragment() {
 
         /* Lista allergeni a livello europeo */
         val allergeniEuropei = listOf(
-            "Glutine", "Crostacei", "Uova", "Pesce", "Arachidi",
-            "Soia", "Latte", "Frutta a guscio", "Sedano", "Senape",
-            "Sesamo", "Anidride solforosa", "Lupini", "Molluschi"
+            "Gluten", "Crustaceans", "Eggs", "Fish", "Peanuts",
+            "Soya", "Milk", "Tree nuts", "Celery", "Mustard",
+            "Sesame", "Sulphites", "Lupin", "Molluscs"
         )
 
 
@@ -176,12 +176,12 @@ class UpdateFragment : Fragment() {
                 }
                 val ingredienteView = EditText(requireContext()).apply {
                     setText("${it.nomeIngrediente}")
-                    hint = "Ingrediente"
+                    hint = "Ingredient"
                     layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 }
                 val quantitaView = EditText(requireContext()).apply {
                     setText("${it.quantita}")
-                    hint = "Quantità"
+                    hint = "Quantity"
                     layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 }
                 val deleteBtn = ImageButton(requireContext()).apply {
@@ -371,7 +371,7 @@ class UpdateFragment : Fragment() {
                 if (nomeGiaUsato) {
                     Toast.makeText(
                         requireContext(),
-                        "Esiste già una ricetta con questo nome.",
+                        "There is already a recipe with this name.",
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
@@ -465,13 +465,13 @@ class UpdateFragment : Fragment() {
 
         //Nome del nuovo ingrediente
         val nomeIngredienteEt = EditText(requireContext()).apply {
-            hint = "Ingrediente"
+            hint = "Ingredient"
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
         // Quantità per il nuovo ingrediente
         val quantitaEt = EditText(requireContext()).apply {
-            hint = "Quantità"
+            hint = "Quantity"
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
@@ -518,18 +518,18 @@ class UpdateFragment : Fragment() {
         override fun handleOnBackPressed() {
 
             AlertDialog.Builder(requireContext())
-                .setTitle("Modifiche non salvate")
-                .setMessage("Vuoi salvare prima di uscire?")
-                .setPositiveButton("Salva") { _, _ ->
+                .setTitle("Unsaved changes")
+                .setMessage("Do you want to save before exiting?")
+                .setPositiveButton("Save") { _, _ ->
                     // Prova a salvare; se i dati sono validi chiude la schermata
                     updateItem()          // già contiene tutte le validazioni
                 }
-                .setNegativeButton("Esci") { _, _ ->
+                .setNegativeButton("Exit") { _, _ ->
                     // Abbandona le modifiche e torna alla schermata precedente
                     isEnabled = false     // evita loop
                     requireActivity().onBackPressedDispatcher.onBackPressed()
                 }
-                .setNeutralButton("Annulla", null)
+                .setNeutralButton("Cancel", null)
                 .show()
         }
     }
