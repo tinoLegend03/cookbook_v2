@@ -1,138 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:fillViewport="true">
 
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="455dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalEnd"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.206"
-        android:thumbTint="@color/black"
-        android:progressTint="@color/red" />
+        android:padding="8dp">
 
-    <TextView
-        android:id="@+id/nameRecipe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textview"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalEnd"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal" />
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="272dp"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/red"
+            android:thumbTint="@color/btn_color_tint"
+            app:layout_constraintBottom_toTopOf="@+id/step_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameRecipe"
+            app:layout_constraintVertical_bias="0.213" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="10dp" />
+        <TextView
+            android:id="@+id/nameRecipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textview"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalEnd"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal" />
 
-    <Button
-        android:id="@+id/stepForward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next"
-        app:layout_constraintBaseline_toBaselineOf="@+id/stepBack"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalEnd"
-        app:layout_constraintStart_toEndOf="@id/stepBack" />
-
-    <Button
-        android:id="@+id/stepBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/stepForward"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal"
-        app:layout_constraintVertical_bias="0.807" />
-
-    <TextView
-        android:id="@+id/stepNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="88dp"
-        android:text="@string/_1"
-        android:textSize="19sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/nameRecipe" />
-
-    <TextView
-        android:id="@+id/stepText"
-        android:layout_width="626dp"
-        android:layout_height="wrap_content"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:text="@string/istruzione"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/stepNumber"
-        app:layout_constraintStart_toEndOf="@+id/stepNumber"
-        app:layout_constraintTop_toTopOf="@+id/stepNumber" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="10dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineVerticalEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="10dp" />
-
-    <TextView
-        android:id="@+id/timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:text="@string/time_timer"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/start_button"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/start_button"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/start_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:text="@string/start_button"
-        android:textColor="@color/btn_color_tint"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/stepForward"
-        app:layout_constraintEnd_toStartOf="@+id/stop_button"
-        app:layout_constraintHorizontal_bias="0.84"
-        app:layout_constraintStart_toEndOf="@id/timer"
-        app:layout_constraintTop_toBottomOf="@+id/stepText" />
-
-    <Button
-        android:id="@+id/stop_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:text="@string/stop_button"
-        android:textColor="@color/btn_color_tint"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/start_button"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalEnd"
-        app:layout_constraintTop_toTopOf="@+id/start_button"
-        app:layout_constraintVertical_bias="1.0" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="10dp" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/step_card"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="40dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="@id/guidelineVerticalEnd"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/nameRecipe">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/stepNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/_1"
+                    android:textSize="19sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/stepText"
+                    android:layout_width="305dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="2dp"
+                    android:text="@string/istruzione"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/stepNumber"
+                    app:layout_constraintTop_toTopOf="@+id/stepNumber" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="10dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVerticalEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="10dp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/timer_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="@id/guidelineVerticalEnd"
+            app:layout_constraintTop_toBottomOf="@id/step_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/time_timer"
+                    android:textSize="30sp"
+                    app:layout_constraintEnd_toStartOf="@id/start_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/start_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:text="@string/start_button"
+                    android:textColor="@color/btn_color_tint"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@id/stop_button"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toEndOf="@id/timer"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stop_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:text="@string/stop_button"
+                    android:textColor="@color/btn_color_tint"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/start_button"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/stepForward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="108dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/blu1"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalEnd"
+            app:layout_constraintStart_toEndOf="@+id/stepBack"
+            app:layout_constraintTop_toBottomOf="@+id/timer_card" />
+
+        <Button
+            android:id="@+id/stepBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blu1"
+            android:layout_marginTop="10dp"
+            android:text="@string/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/stepForward"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/timer_card" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
