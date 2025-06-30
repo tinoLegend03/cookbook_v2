@@ -13,4 +13,6 @@
     <color name="yellow">#ffff00</color>
     <color name="btn_color_tint">#FFFFFFFF</color>
     <color name="divider">#FFFFFFFF</color>
+    <color name="blu1">#00ACC1</color>
+    <color name="green1">#7CB342</color>
 </resources>
