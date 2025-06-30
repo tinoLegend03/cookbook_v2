@@ -266,6 +266,11 @@ class AddFragment : Fragment() {
         //dalla recyclerView ottengo tutti i valori degli Ingredienti
         val ingredientiList = mutableListOf<RicettaIngrediente>()
         for(ingrediente in ingrList) {
+            if(ingrediente.nomeIngrediente.isNotEmpty() && ingrediente.quantita.isEmpty()){
+                Toast.makeText(requireContext(), "Quantity is not inserted", Toast.LENGTH_SHORT).show()
+                return
+            }
+
             if(ingrediente.nomeIngrediente.isNotEmpty() && ingrediente.quantita.isNotEmpty()){
                 val ric = RicettaIngrediente(0, ingrediente.nomeIngrediente, ingrediente.quantita)
                 Log.d("RicettaIngrediente", ingrediente.nomeIngrediente)
@@ -288,8 +293,7 @@ class AddFragment : Fragment() {
             val ricetta = Ricetta(0L, nomeRicetta, Integer.parseInt(durata.toString()), livello, categoria, descrizione, ultimaModifica, ultimaEsecuzione, count, allergeniSelezionati)
             //Aggiungo al db
             mRecipeViewModel.inserisciRicettaCompleta(ricetta, istruzioni, ingredientiList)
-            //mRecipeViewModel.nuovaRicetta(ricetta)
-            Toast.makeText(requireContext(), "Succesfully added!", Toast.LENGTH_LONG).show()
+
             //Navigate Back
             findNavController().popBackStack()
             //Svuota lo stack finche trova Home in modo tale che da List ritorni a Home
