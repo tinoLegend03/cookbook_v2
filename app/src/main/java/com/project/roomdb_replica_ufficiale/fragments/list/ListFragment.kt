@@ -1,29 +1,20 @@
 package com.project.roomdb_replica_ufficiale.fragments.list
 
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.SearchEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.roomdb_replica_ufficiale.R
-import com.project.roomdb_replica_ufficiale.adapter.RecentRecipesAdapter
-import com.project.roomdb_replica_ufficiale.data.istruzione.IstruzioneViewModel
 import com.project.roomdb_replica_ufficiale.data.ricetta.Ricetta
 import com.project.roomdb_replica_ufficiale.data.ricetta.RicettaViewModel
 import com.project.roomdb_replica_ufficiale.databinding.FragmentListBinding
@@ -164,10 +155,10 @@ class ListFragment : Fragment() {
         binding.toggleFiltersButton.setOnClickListener {
             if (binding.filterCard.visibility == View.GONE) {
                 binding.filterCard.visibility = View.VISIBLE
-                binding.toggleFiltersButton.setImageResource(R.drawable.ic_close) // ad esempio una X
+                binding.toggleFiltersButton.setImageResource(R.drawable.ic_close1) // ad esempio una X
             } else {
                 binding.filterCard.visibility = View.GONE
-                binding.toggleFiltersButton.setImageResource(R.drawable.ic_filter_list)
+                binding.toggleFiltersButton.setImageResource(R.drawable.ic_filter_list1)
             }
         }
 

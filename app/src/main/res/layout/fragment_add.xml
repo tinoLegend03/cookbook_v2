@@ -40,7 +40,9 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical"
             app:layout_constraintTop_toTopOf="@id/guideline_start_horizontal"
             app:cardElevation="4dp"
-            app:cardCornerRadius="12dp">
+            app:cardCornerRadius="12dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -91,7 +93,9 @@
             app:cardCornerRadius="12dp"
             app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
             app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical"
-            app:layout_constraintTop_toBottomOf="@id/information_card">
+            app:layout_constraintTop_toBottomOf="@id/information_card"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -150,7 +154,9 @@
             app:cardCornerRadius="12dp"
             app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
             app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical"
-            app:layout_constraintTop_toBottomOf="@id/details_card">
+            app:layout_constraintTop_toBottomOf="@id/details_card"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -206,7 +212,9 @@
             app:cardCornerRadius="12dp"
             app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
             app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical"
-            app:layout_constraintTop_toBottomOf="@id/ingredienti_card">
+            app:layout_constraintTop_toBottomOf="@id/ingredienti_card"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -260,7 +268,9 @@
             app:cardCornerRadius="12dp"
             app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
             app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical"
-            app:layout_constraintTop_toBottomOf="@id/step_card" >
+            app:layout_constraintTop_toBottomOf="@id/step_card"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -299,6 +309,7 @@
             app:layout_constraintTop_toBottomOf="@id/allerg_card"
             app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
             app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical"
+            android:layout_marginTop="10dp"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

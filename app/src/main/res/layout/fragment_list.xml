@@ -22,7 +22,7 @@
         android:id="@+id/toggleFiltersButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_filter_list"
+        android:src="@drawable/ic_filter_list1"
         android:contentDescription="Filtri"
         app:tint="?attr/colorPrimary"
         android:background="@android:color/transparent"
