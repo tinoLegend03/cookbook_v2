@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.project.roomdb_replica_ufficiale.Converters
-import com.project.roomdb_replica_ufficiale.data.allergene.AllergeneDao
 import com.project.roomdb_replica_ufficiale.data.ingrediente.Ingrediente
 import com.project.roomdb_replica_ufficiale.data.ingrediente.IngredienteDao
 import com.project.roomdb_replica_ufficiale.data.istruzione.Istruzione
