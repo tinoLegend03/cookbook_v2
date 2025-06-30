@@ -35,9 +35,10 @@ class UpdateFragment : Fragment() {
 
     /* ----------------- Setup base & binding ------------------- */
 
-    private val args by navArgs<UpdateFragmentArgs>()
+    private val args by navArgs<UpdateFragmentArgs>()    // ricetta da modificare
     private lateinit var mRecipeViewModel: RicettaViewModel
 
+    /* ---------- ViewBinding --------------------------------------- */
     private var _binding: FragmentUpdateBinding? = null
     private val binding get() = _binding!!
 
@@ -47,6 +48,7 @@ class UpdateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        /* -------- Inflate & ViewModel -------------------------- */
         _binding = FragmentUpdateBinding.inflate(inflater, container, false)
         val view = binding.root
         mRecipeViewModel = ViewModelProvider(this).get(RicettaViewModel::class.java)
@@ -56,6 +58,8 @@ class UpdateFragment : Fragment() {
         binding.updateDurationEt.setText(args.currentRecipe.durata.toString())
         binding.updateRecipeDescriptionEt.setText(args.currentRecipe.descrizione)
 
+
+        /* Lista allergeni a livello europeo */
         val allergeniEuropei = listOf(
             "Glutine", "Crostacei", "Uova", "Pesce", "Arachidi",
             "Soia", "Latte", "Frutta a guscio", "Sedano", "Senape",
@@ -63,7 +67,7 @@ class UpdateFragment : Fragment() {
         )
 
 
-
+        /* Si creano e impostano gli Spinner */
         ArrayAdapter.createFromResource(requireContext(), R.array.level_array,
                 android.R.layout.simple_spinner_item).also { spinnerAdapter ->
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -90,11 +94,12 @@ class UpdateFragment : Fragment() {
         }
 
         val nomeRicetta = args.currentRecipe.nomeRicetta
+
+
+        /* -------- Carica istruzioni dinamiche ---------------- */
+
         val idRicetta = args.currentRecipe.idRicetta
-
-        //////////// START SEZIONE INSTRUZIONI ////////////////////
-
-        var numeroStep = 0
+        var numeroStep = 0              // contatore per nuovo step
 
         mRecipeViewModel.getRicettaConIstruzioni(idRicetta).observe(viewLifecycleOwner) { dati ->
 
@@ -110,12 +115,14 @@ class UpdateFragment : Fragment() {
                     ).apply { setMargins(0, 8, 0, 8) }
                 }
 
+                /* EditText dove viene visualizzato lo step */
                 val stepView = EditText(requireContext()).apply {
                     setText("${it.descrizione}")
                     hint = "Step ${it.numero}"
                     layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 }
 
+                /* Bottone per eliminare uno step */
                 val deleteBtn = ImageButton(requireContext()).apply {
                     setImageResource(android.R.drawable.ic_menu_delete)
                     setBackgroundResource(0)
@@ -135,7 +142,7 @@ class UpdateFragment : Fragment() {
             numeroStep = dati.istruzioni.size+1
         }
 
-
+        // Aggiunge un campo “Step X” vuoto in fondo
         binding.addStepUpdateBtn.setOnClickListener{
             aggiungiCampoStep(numeroStep)
             numeroStep++
@@ -145,13 +152,13 @@ class UpdateFragment : Fragment() {
 
 
 
-        //////////// START SEZIONE INGREDIENTI ////////////////////
+        /* -------- Carica ingredienti dinamici ---------------- */
 
         mRecipeViewModel.getIngredientiConQuantitaPerRicetta(idRicetta).observe(viewLifecycleOwner) { ingredienti ->
             binding.updateIngredientContainer.removeAllViews()
 
 
-
+            /** Ricostruisce i campi ingredienti: nome + quantità + delete */
             ingredienti.forEach {
                 val layout = LinearLayout(requireContext()).apply {
                     orientation = LinearLayout.HORIZONTAL
@@ -195,9 +202,10 @@ class UpdateFragment : Fragment() {
         //////////// END SEZIONE INGREDIENTI ////////////////////
 
 
-        /////////// START SEZIONE ALLERGENI ////////////////////
+        /* -------- Allergeni (chip) ---------------------------- */
         val allergeniRicetta = args.currentRecipe.allergeni ?: emptyList()
 
+        /** Popola la ChipGroup degli allergeni con selezione multipla. */
         allergeniEuropei.forEach { allergene ->
             val chip = Chip(requireContext()).apply {
                 text = allergene
@@ -210,7 +218,7 @@ class UpdateFragment : Fragment() {
 
 
 
-
+        /* -------- Pulsanti update / delete ------------------- */
 
         binding.updateBtn.setOnClickListener{
             updateItem()
@@ -225,6 +233,10 @@ class UpdateFragment : Fragment() {
 
     }
 
+    /* ---------------- Helpers UI  ----------------------- */
+
+
+    /* ---------- updateItem(): valida input e salva ----------------------- */
     private fun updateItem(){
         val nomeRicetta = binding.updateRecipeNameEt.text.toString()
         val durata = Integer.parseInt(binding.updateDurationEt.text.toString())
@@ -244,6 +256,7 @@ class UpdateFragment : Fragment() {
         val livello = binding.updateRecipeLevelEt.selectedItem.toString()
         val categoria = binding.updateRecipeCategoryEt.selectedItem.toString()
 
+        /* Si aggiungono tutte le istruzioni (nuove comprese) ad una lista */
         val istruzioni = mutableListOf<Istruzione>()
         istruzioni.clear()
         var stepNumber = 1
@@ -260,6 +273,7 @@ class UpdateFragment : Fragment() {
 
 
 
+        /* Si aggiungono tutte gli ingredienti (nuovi comprese) ad un'unica lista */
         val ingredientiList = mutableListOf<RicettaIngrediente>()
 
         for (i in 0 until binding.updateIngredientContainer.childCount) {
@@ -275,9 +289,9 @@ class UpdateFragment : Fragment() {
                     ingredientiList.add(RicettaIngrediente(args.currentRecipe.idRicetta, nome, quantita))
                 }
             }
-            Log.d("TAG", "OCCHIOOOOOOOOO:: ${binding.updateIngredientContainer.childCount}")
         }
 
+        /* Si aggiungono tutte gli allergeni (nuovi compresi) ad un'unica lista */
         val allergeniSelezionati = mutableListOf<String>()
         for (i in 0 until binding.chipGroupAllergeniUpdate.childCount) {
             val chip = binding.chipGroupAllergeniUpdate.getChildAt(i) as Chip
@@ -286,16 +300,14 @@ class UpdateFragment : Fragment() {
             }
         }
 
+        // Controllo campi obbligatori
         if(inputCheck(nomeRicetta, binding.updateDurationEt.text, livello, categoria, descrizione)){
-            //Create recipe Object
-            val testList = listOf("test1", "test2")
-            //val updatedRecipe = Ricetta(args.currentRecipe.nomeRicetta, durata, livello, categoria, descrizione, System.currentTimeMillis(), args.currentRecipe.ultimaEsecuzione, args.currentRecipe.count, testList)
+            //Crea la ricetta con le informazioni aggiornate
             val updatedRecipe = Ricetta(args.currentRecipe.idRicetta, nomeRicetta, Integer.parseInt(durata.toString()), livello, categoria, descrizione, ultimaModifica, ultimaEsecuzione, count, allergeniSelezionati)
-            //Update Current Recipe
+            //Aggiorna la nuova ricetta
             mRecipeViewModel.aggiornaRicettaCompleta(updatedRecipe, istruzioni, ingredientiList)
             Toast.makeText(requireContext(), "Updated Successfully!", Toast.LENGTH_SHORT).show()
-            //Navigate Back
-            //findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            //Naviga indietro
             findNavController().popBackStack()   // rimuove l’Update/Add e ri-mostra il vecchio List
         }else{
             Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT).show()
@@ -305,25 +317,17 @@ class UpdateFragment : Fragment() {
 
 
 
-
+    /* Verifica campi principali */
     private fun inputCheck(nomeRicetta: String, durata: Editable, livello: String, categoria: String, descrizione: String): Boolean{
         return !(TextUtils.isEmpty(nomeRicetta) && durata.isEmpty() && TextUtils.isEmpty(livello) && TextUtils.isEmpty(categoria) && TextUtils.isEmpty(descrizione))
     }
 
 
-    private fun deleteRecipe() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setPositiveButton("Yes"){_, _->
-            mRecipeViewModel.eliminaRicetta(args.currentRecipe)
-            Toast.makeText(requireContext(), "Successfully removed: ${args.currentRecipe.nomeRicetta}", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
-        }
-        builder.setNegativeButton("No"){_, _-> }
-        builder.setTitle("Delete ${args.currentRecipe.nomeRicetta}?")
-        builder.setMessage("Are you sure you want to delete ${args.currentRecipe.nomeRicetta}")
-        builder.create().show()
-    }
 
+
+
+
+    /* ---------- Aggiunta dinamica campo step ------------------------------- */
 
     private fun aggiungiCampoStep(numero: Int) {
 
@@ -335,17 +339,14 @@ class UpdateFragment : Fragment() {
             ).apply { setMargins(0, 8, 0, 8) }
         }
 
+        /* Si crea lo spazio per il nuovo step */
         val nuovoStep = EditText(requireContext()).apply {
             hint = "Step $numero"
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-            /*layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                setMargins(0, 8, 0, 8)
-            }*/
+
         }
 
+        /* Si aggiunge il botton eper eliminare lo step */
         val deleteBtn = ImageButton(requireContext()).apply {
             setImageResource(android.R.drawable.ic_menu_delete)
             setBackgroundResource(0)
@@ -354,13 +355,16 @@ class UpdateFragment : Fragment() {
             }
         }
 
+        /* Elementi aggiunti alla View */
         layout.addView(nuovoStep)
         layout.addView(deleteBtn)
         binding.updateStepContainer.addView(layout)
 
-        //binding.updateStepContainer.addView(nuovoStep)
+
     }
 
+
+    /* ---------- Aggiunta dinamica campo ingredienti ------------------------------- */
 
     private fun aggiungiCampoIngrediente() {
         val layout = LinearLayout(requireContext()).apply {
@@ -373,16 +377,19 @@ class UpdateFragment : Fragment() {
             }
         }
 
+        //Nome del nuovo ingrediente
         val nomeIngredienteEt = EditText(requireContext()).apply {
             hint = "Ingrediente"
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
+        // Quantità per il nuovo ingrediente
         val quantitaEt = EditText(requireContext()).apply {
             hint = "Quantità"
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
+        // Bottone per eliminare l'ingrediente
         val deleteBtn = ImageButton(requireContext()).apply {
             setImageResource(android.R.drawable.ic_menu_delete)
             setBackgroundResource(0)
@@ -391,6 +398,7 @@ class UpdateFragment : Fragment() {
             }
         }
 
+        /* Elementi aggiunti alla View */
         layout.addView(nomeIngredienteEt)
         layout.addView(quantitaEt)
         layout.addView(deleteBtn)
@@ -399,6 +407,19 @@ class UpdateFragment : Fragment() {
     }
 
 
+    /* ---------- Delete ---------------------------------------------------- */
+    private fun deleteRecipe() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes"){_, _->
+            mRecipeViewModel.eliminaRicetta(args.currentRecipe)
+            Toast.makeText(requireContext(), "Successfully removed: ${args.currentRecipe.nomeRicetta}", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+        }
+        builder.setNegativeButton("No"){_, _-> }
+        builder.setTitle("Delete ${args.currentRecipe.nomeRicetta}?")
+        builder.setMessage("Are you sure you want to delete ${args.currentRecipe.nomeRicetta}")
+        builder.create().show()
+    }
 
 
 
