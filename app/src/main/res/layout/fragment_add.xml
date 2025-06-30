@@ -295,6 +295,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/aggiungi"
+            app:backgroundTint="@color/blu1"
             app:layout_constraintTop_toBottomOf="@id/allerg_card"
             app:layout_constraintStart_toStartOf="@id/guideline_start_vertical"
             app:layout_constraintEnd_toEndOf="@id/guideline_end_vertical"

@@ -17,7 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/purple_200"
+            android:background="@color/blu1"
             app:title="@string/app_name"
             app:titleTextColor="@android:color/black"
             app:navigationIcon="@drawable/ic_menu"
@@ -27,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <!-- NavHostFragment -->
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
