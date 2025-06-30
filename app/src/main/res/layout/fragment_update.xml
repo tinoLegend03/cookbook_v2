@@ -154,7 +154,7 @@
 
                 <Button
                     android:id="@+id/addIngredientUpdateBtn"
-                    android:text="Aggiungi Ingrediente"
+                    android:text="Add Ingredient"
                     android:backgroundTint="@color/blu1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -203,7 +203,7 @@
 
                 <Button
                     android:id="@+id/addStepUpdateBtn"
-                    android:text="Aggiungi Step"
+                    android:text="Add Step"
                     android:backgroundTint="@color/blu1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

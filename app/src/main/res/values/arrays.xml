@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="level_array">
-        <item>Difficoltà</item>
-        <item>Facile</item>
-        <item>Medio</item>
-        <item>Difficile</item>
+        <item>Difficulty</item>
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Difficult</item>
     </string-array>
     <string-array name="category_array">
-        <item>Tipo di Piatto</item>
-        <item>Antipasto</item>
-        <item>Primo</item>
-        <item>Secondo</item>
-        <item>Contorno</item>
+        <item>Type of Dish</item>
+        <item>Appetizers</item>
+        <item>First course</item>
+        <item>Second course</item>
+        <item>Side dish</item>
         <item>Dessert</item>
     </string-array>
 
@@ -26,18 +26,18 @@
     </string-array>
 
     <string-array name="categorie_array">
-        <item>Tutte</item>
-        <item>Antipasto</item>
-        <item>Primo</item>
-        <item>Secondo</item>
-        <item>Dolce</item>
+        <item>All</item>
+        <item>Appetizers</item>
+        <item>First course</item>
+        <item>Second course</item>
+        <item>Dessert</item>
     </string-array>
 
     <string-array name="difficolta_array">
-        <item>Tutte</item>
-        <item>Facile</item>
-        <item>Media</item>
-        <item>Difficile</item>
+        <item>All</item>
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Difficult</item>
     </string-array>
 
     <array name="slider_init">

@@ -72,31 +72,63 @@ class UpdateFragment : Fragment() {
         )
 
 
+
+
         /* Si creano e impostano gli Spinner */
-        ArrayAdapter.createFromResource(requireContext(), R.array.level_array,
-                android.R.layout.simple_spinner_item).also { spinnerAdapter ->
+        val livelloAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.level_array,
+            android.R.layout.simple_spinner_item
+        ).also { spinnerAdapter ->
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.updateRecipeLevelEt.adapter = spinnerAdapter
         }
-        ArrayAdapter.createFromResource(requireContext(), R.array.category_array,
-            android.R.layout.simple_spinner_item).also { spinnerAdapter ->
+
+        Log.d("DEBUG-LIVELLO", "valore DB = '${args.currentRecipe.livello}'")
+        for (i in 0 until livelloAdapter.count) {
+            Log.d("DEBUG-LIVELLO", "array[$i] = '${livelloAdapter.getItem(i)}'")
+        }
+
+        binding.updateRecipeLevelEt.post {
+            val pos = livelloAdapter.getPosition(args.currentRecipe.livello.trim())
+            if (pos >= 0) binding.updateRecipeLevelEt.setSelection(pos, false)
+        }
+
+        Log.d("DEBUG-LIVELLO", "valore DB = '${args.currentRecipe.livello}'")
+        for (i in 0 until livelloAdapter.count) {
+            Log.d("DEBUG-LIVELLO", "array[$i] = '${livelloAdapter.getItem(i)}'")
+        }
+
+        val categoriaAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.category_array,
+            android.R.layout.simple_spinner_item
+        ).also { spinnerAdapter ->
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.updateRecipeCategoryEt.adapter = spinnerAdapter
         }
 
-        for(i in 0 until binding.updateRecipeLevelEt.count){
+        binding.updateRecipeCategoryEt.post {
+            val pos = categoriaAdapter.getPosition(args.currentRecipe.categoria.trim())
+            if (pos >= 0) binding.updateRecipeCategoryEt.setSelection(pos, false)
+        }
+
+        //val posCategoria = categoriaAdapter.getPosition(args.currentRecipe.categoria)
+        //if (posCategoria >= 0) binding.updateRecipeCategoryEt.setSelection(posCategoria)
+
+        /*for(i in 0 until binding.updateRecipeLevelEt.count){
             val toSelect = binding.updateRecipeLevelEt.getItemAtPosition(i)
             if (toSelect == args.currentRecipe.livello){
                 binding.updateRecipeLevelEt.setSelection(i)
             }
-        }
-        for(i in 0 until binding.updateRecipeCategoryEt.count){
+        }*/
+        /*for(i in 0 until binding.updateRecipeCategoryEt.count){
             val toSelect = binding.updateRecipeCategoryEt.getItemAtPosition(i)
 
             if (toSelect == args.currentRecipe.categoria){
                 binding.updateRecipeCategoryEt.setSelection(i)
             }
-        }
+        }*/
 
         val nomeRicetta = args.currentRecipe.nomeRicetta
 
