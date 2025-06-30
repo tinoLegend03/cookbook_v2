@@ -5,6 +5,16 @@
     android:layout_height="match_parent"
     android:padding="20dp">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="12dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp">
+
     <LinearLayout
         android:id="@+id/detailLayout"
         android:layout_width="match_parent"
@@ -52,7 +62,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#000000" />
+            android:background="@color/divider" />
+
         <!-- Descrizione -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,7 +93,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#000000" />
+            android:background="@color/divider" />
 
         <!-- Tempo di preparazione -->
         <LinearLayout
@@ -113,7 +124,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#000000" />
+            android:background="@color/divider" />
 
         <!-- Difficoltà -->
         <LinearLayout
@@ -144,7 +155,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#000000" />
+            android:background="@color/divider" />
 
         <!-- Categoria -->
         <LinearLayout
@@ -175,7 +186,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#000000" />
+            android:background="@color/divider" />
 
         <!-- Istruzioni -->
         <TextView
@@ -198,7 +209,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#000000" />
+            android:background="@color/divider" />
 
         <!-- Ingredienti -->
         <TextView
@@ -222,7 +233,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#000000" />
+            android:background="@color/divider" />
 
         <!-- Allergeni -->
         <TextView
@@ -245,6 +256,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#000000" />
+            android:background="@color/divider" />
     </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </ScrollView>
