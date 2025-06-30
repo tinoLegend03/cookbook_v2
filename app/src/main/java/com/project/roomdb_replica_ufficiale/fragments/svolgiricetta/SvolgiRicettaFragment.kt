@@ -43,7 +43,7 @@ class SvolgiRicettaFragment: Fragment() {
         const val MBOUND_KEY = "mbound"
         const val CURRENT_STEP = "current_step"
 
-        const val NAME_RICETTA = "name_ricetta"
+        const val ID_RICETTA = "id_ricetta"
 
         const val EXTRA_START_TIMER = "extra_start_timer"
 
@@ -59,7 +59,7 @@ class SvolgiRicettaFragment: Fragment() {
     private var currentStep: Int = 0
     private var valueBar: Int = 0
     var steps = mutableListOf<Istruzione>()
-    lateinit private var nameRecipe: String
+    private var idRecipe: Long = -1
 
     // Attributi per stato e gestione del timer
     var mService : TimerService? = null
@@ -178,12 +178,12 @@ class SvolgiRicettaFragment: Fragment() {
         if (args.currentRecipe == null) { //accedo dalla notifica, non ho NavArgs
             val preferences = requireActivity().getPreferences(MODE_PRIVATE)
 
-            nameRecipe = preferences.getString(NAME_RICETTA, "value").toString() //prendo valore salvato
+            idRecipe = preferences.getLong(ID_RICETTA, -1) //prendo valore salvato
 
             pendingTimeLeft = mService?.timeLeft ?: 0
             pendingState = mService?.currentState ?: TimerState.IDLE
         } else {
-            nameRecipe = args.currentRecipe!!.nomeRicetta
+            idRecipe = args.currentRecipe!!.idRicetta
         }
 
         //GESTIONE TIMER
@@ -204,14 +204,12 @@ class SvolgiRicettaFragment: Fragment() {
         }
         binding.seekBar.isEnabled = true
         binding.seekBar.setOnClickListener{ }
-        binding.nameRecipe.text = nameRecipe
 
-        val idRicetta = args.currentRecipe?.idRicetta
-
-        if (idRicetta != null) {
-            mRicettaViewModel.getRicettaConIstruzioni(idRicetta).observe(viewLifecycleOwner) { dati ->
+        if (idRecipe != -1L) {
+            mRicettaViewModel.getRicettaConIstruzioni(idRecipe).observe(viewLifecycleOwner) { dati ->
                 ricetta = dati.ricetta
                 steps = dati.istruzioni.sortedBy { it.numero }.toMutableList()
+                binding.nameRecipe.text = ricetta.nomeRicetta
 
                 steps.forEach {
                     binding.stepText.text = getString(R.string.step_message, binding.stepText.text, it.descrizione)
@@ -408,10 +406,14 @@ class SvolgiRicettaFragment: Fragment() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle("La ricetta non è completata")
             setMessage("Se esci non completerai la ricetta e si azzererà il timer")
-            setPositiveButton("Esci") { _, _ ->
+            setPositiveButton("Completata") { _, _ ->
                 //cancello timer
                 stopService()
                 updateCompletamentoRicetta()
+            }
+            setNegativeButton ("Esci"){ _, _ ->
+                stopService()
+                findNavController().popBackStack()
             }
             setNeutralButton("Cancel") { _, _ ->
             }
@@ -524,7 +526,7 @@ class SvolgiRicettaFragment: Fragment() {
         val preferences = requireActivity().getPreferences(MODE_PRIVATE)
         val editor = preferences.edit()
 
-        editor.putString(NAME_RICETTA, nameRecipe)
+        editor.putLong(ID_RICETTA, idRecipe)
         editor.apply()
     }
 
