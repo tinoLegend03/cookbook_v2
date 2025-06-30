@@ -203,7 +203,7 @@ class SvolgiRicettaFragment: Fragment() {
             }
         }
         binding.seekBar.isEnabled = true
-        binding.seekBar.setOnClickListener{ }
+        binding.seekBar.setOnTouchListener { _, _ -> true }
 
         if (idRecipe != -1L) {
             mRicettaViewModel.getRicettaConIstruzioni(idRecipe).observe(viewLifecycleOwner) { dati ->
