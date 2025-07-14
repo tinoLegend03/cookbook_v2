@@ -73,7 +73,7 @@ class TimerService : Service() {
     override fun onCreate() {
         super.onCreate()
         //crea il canale di notifica alla creazione del servizio
-       // createNotificationChannel()
+        createNotificationChannel()
     }
 
     /*
@@ -332,7 +332,7 @@ class TimerService : Service() {
 
     //resetta a 0 il timer
     fun reset(){
-        //timer?.onFinish()
+        timer?.onFinish()
         notification = createNotification()
         timer?.cancel()
         stopSelf()

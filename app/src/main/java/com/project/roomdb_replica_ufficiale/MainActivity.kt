@@ -53,9 +53,6 @@ class MainActivity : AppCompatActivity() {
         }
         //FINE GESTIONE TEMA SCURO
 
-        //GESTIONE CONTROLLO CANALE NOTIFICA
-        createNotificationChannel()
-
 
         // Toolbar + Drawer
         val toolbar: Toolbar = binding.toolbar
@@ -92,21 +89,6 @@ class MainActivity : AppCompatActivity() {
     // Gestisce il click sull'icona hamburger o il tasto back
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-    private fun createNotificationChannel() {
-        val name = getString(R.string.timer_value)
-        val descriptionText = getString(R.string.channel_description)
-        val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-            description = descriptionText
-        }
-        // Registro il canale nel sistema
-        notificationManager = ContextCompat.getSystemService(
-            this,
-            NotificationManager::class.java
-        ) as NotificationManager
-
-        notificationManager.createNotificationChannel(channel)
     }
 
 }
