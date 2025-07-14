@@ -412,7 +412,7 @@ class UpdateFragment : Fragment() {
 
     /* Verifica campi principali */
     private fun inputCheck(nomeRicetta: String, durata: Editable, livello: String, categoria: String, descrizione: String): Boolean{
-        return !(TextUtils.isEmpty(nomeRicetta) && durata.isEmpty() && TextUtils.isEmpty(livello) && TextUtils.isEmpty(categoria) && TextUtils.isEmpty(descrizione))
+        return !(TextUtils.isEmpty(nomeRicetta) || durata.isEmpty() || TextUtils.isEmpty(livello) || TextUtils.isEmpty(categoria) || TextUtils.isEmpty(descrizione))
     }
 
 
@@ -530,6 +530,7 @@ class UpdateFragment : Fragment() {
                 .setMessage("Do you want to save before exiting?")
                 .setPositiveButton("Save") { _, _ ->
                     // Prova a salvare e se i dati sono validi chiude la schermata
+                    updateItem()
                 }
                 .setNegativeButton("Exit") { _, _ ->
                     // Abbandona le modifiche e torna alla schermata precedente
