@@ -33,7 +33,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         override fun onPreferenceClick(preference: Preference): Boolean {
             val ctx = requireContext()
             val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-                // Identifica la tua app nella schermata di sistema
                 putExtra(Settings.EXTRA_APP_PACKAGE, ctx.packageName)
             }
             startActivity(intent)
