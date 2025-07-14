@@ -73,7 +73,7 @@ class TimerService : Service() {
     override fun onCreate() {
         super.onCreate()
         //crea il canale di notifica alla creazione del servizio
-        createNotificationChannel()
+       // createNotificationChannel()
     }
 
     /*

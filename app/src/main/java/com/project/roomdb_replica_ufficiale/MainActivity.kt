@@ -1,5 +1,7 @@
 package com.project.roomdb_replica_ufficiale
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,6 +19,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.project.roomdb_replica_ufficiale.databinding.ActivityMainBinding
+import com.project.roomdb_replica_ufficiale.fragments.svolgiricetta.TimerService.Companion.CHANNEL_ID
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var notificationManager : NotificationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +52,9 @@ class MainActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
         //FINE GESTIONE TEMA SCURO
+
+        //GESTIONE CONTROLLO CANALE NOTIFICA
+        createNotificationChannel()
 
 
         // Toolbar + Drawer
@@ -84,6 +92,21 @@ class MainActivity : AppCompatActivity() {
     // Gestisce il click sull'icona hamburger o il tasto back
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+    private fun createNotificationChannel() {
+        val name = getString(R.string.timer_value)
+        val descriptionText = getString(R.string.channel_description)
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+            description = descriptionText
+        }
+        // Registro il canale nel sistema
+        notificationManager = ContextCompat.getSystemService(
+            this,
+            NotificationManager::class.java
+        ) as NotificationManager
+
+        notificationManager.createNotificationChannel(channel)
     }
 
 }
