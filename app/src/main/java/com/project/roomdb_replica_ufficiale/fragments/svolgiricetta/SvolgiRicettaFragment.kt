@@ -72,6 +72,8 @@ class SvolgiRicettaFragment: Fragment() {
     var mService : TimerService? = null
     private var mBound: Boolean = false
 
+    private var bReceiver: Boolean = false
+
     //valori per indipendenza da connessione
     private var pendingTimeLeft: Long = 0L //tempo in millisecondi
     private var pendingState: TimerState = TimerState.IDLE
@@ -183,11 +185,13 @@ class SvolgiRicettaFragment: Fragment() {
             //DA api33 fortemente è
             requireContext().registerReceiver(receiver, filter,
                 Context.RECEIVER_NOT_EXPORTED)
+            bReceiver = true
         } else {
             //contextCompat di androidx utilizzato per gestire il medesimo comportamento anche con le versioni
             //più vecchie
             ContextCompat.registerReceiver(requireContext(), receiver,
                 filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+            bReceiver = true
         }
 
 
@@ -660,6 +664,10 @@ class SvolgiRicettaFragment: Fragment() {
         if (mBound) {
             requireActivity().unbindService(connection)
             mBound = false
+        }
+        if(bReceiver){
+            requireContext().unregisterReceiver(receiver)
+            bReceiver = false
         }
     }
 
