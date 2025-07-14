@@ -32,9 +32,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         Preference.OnPreferenceClickListener {
         override fun onPreferenceClick(preference: Preference): Boolean {
             val ctx = requireContext()
-            val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+            val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                // Identifica la tua app nella schermata di sistema
                 putExtra(Settings.EXTRA_APP_PACKAGE, ctx.packageName)
-                putExtra(Settings.EXTRA_CHANNEL_ID, TimerService.CHANNEL_ID)
             }
             startActivity(intent)
             return true
